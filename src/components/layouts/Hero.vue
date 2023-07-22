@@ -1,5 +1,5 @@
 <template>
-      <div
+  <div
     class="hero"
     style="background-image: url('https://smart-edu.vn/images/slider-img5.jpg')"
   >
