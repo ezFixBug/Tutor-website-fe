@@ -1,0 +1,31 @@
+@import url(./common.css);
+
+.card-image{
+    width: 100px;
+    height: 100px;
+}
+.counter-item .counter__title {
+    font-size: 50px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #233d63;
+}
+.counter-item .counter__meta {
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.counter-item:hover .icon-element {
+    -webkit-transform: translateY(-5px);
+    -moz-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    -o-transform: translateY(-5px);
+    transform: translateY(-5px);
+}
+.img-bg{
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}

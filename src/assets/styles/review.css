@@ -1,0 +1,24 @@
+@import url(./common.css);
+.review-stars i {
+    color: #F68A03;
+    margin-left: 5px;
+}
+.btn-slide{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    top: 40%;
+    border-radius: 50%;
+    background-color: #ec5252;
+    z-index: 1;
+}
+.carousel-control-prev{
+    left: -18px;
+}
+.carousel-control-next{
+    right: -18px;
+}
+.avatar-md{
+    width: 65px !important;
+    height: 65px !important;
+}

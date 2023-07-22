@@ -1,5 +1,194 @@
+.containter{
+    max-width:  1200px;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+body{
+    font-size: 16px;
+    line-height: 28px;
+    font-family: "Inter", sans-serif;
+    color: #7f8897;
+    position: relative;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+}
 .section__title{
     font-size: 35px;
     font-weight: 700;
     line-height: 55px !important;
+}
+
+.pt-60px {
+    padding-top: 60px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #233d63;
+}
+.icon {
+    padding-left: 5px;
+    transition: all 0.3s;
+}
+.section-block {
+    height: 1px;
+    background-color: rgba(127, 136, 151, 0.1);
+}
+
+.card-title {
+    font-weight: 600;
+    color: #151515 !important;
+    line-height: 25px;
+    margin-bottom: 1px;
+}
+.card-text{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 28px;
+    font-family: "Inter", sans-serif;
+    color: #7f8897;
+    position: relative;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+}
+.bg-gray {
+    background-color: #f7f7ff !important;
+}
+.text-color-5 {
+    color: #38BB0C !important;
+}
+.text-color-2 {
+    color: #7E3CF9 !important
+}
+.text-color-3 {
+    color: #F68A03 !important;
+}
+.text-color-4 {
+    color: #358FF7 !important;
+}
+.card-image {
+    width: 100px;
+    height: 100px;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card-img-top {
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+}
+a {
+    text-decoration: none !important;
+} 
+.rounded-full {
+    border-radius: 100% !important;
+} 
+.shadow-none{
+    box-shadow: none !important;
+} 
+.card-item {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-box-shadow: 0 0 40px rgba(82, 85, 90, 0.1);
+    -moz-box-shadow: 0 0 40px rgba(82, 85, 90, 0.1);
+    box-shadow: 0 0 40px rgba(82, 85, 90, 0.1);
+    border: 0;
+    max-height: 550px;
+}
+.member-card {
+    padding-top: 40px;
+}
+.section-padding {
+    padding-top: 120px;
+    padding-bottom: 90px;
+}
+
+.theme-btn{
+    background-color: #ec5252;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.theme-btn-sm {
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.theme-btn-transparent {
+    background-color: transparent;
+    color: #233d63;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid hwb(213 50% 41% / 0.2);
+    width: 48%;
+}
+.theme-btn-transparent:hover{
+    background-color: #ec5252;
+    color: white;
+}
+
+.theme-btn:hover {
+    background-color: #ef6767;
+    color: #fff;
+}
+.theme-btn:hover .icon {
+    padding-left: 10px;
+}
+
+.icon-element{
+    color: #233d63;
+    font-size: 30px;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 40px rgba(14, 16, 48, 0.07);
+    -moz-box-shadow: 0 0 40px rgba(14, 16, 48, 0.07);
+    box-shadow: 0 0 40px rgba(14, 16, 48, 0.07);
+    text-align: center;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    display: inline-block;
+}
+.overplay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    content: "";
+    background-color: #323345;
+    opacity: .8;
+}
+.pt-90px {
+    padding-top: 90px !important;
 }
