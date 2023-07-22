@@ -1,5 +1,5 @@
 <template>
-  <section class="team-member-area section--padding">
+  <section class="team-member-area section-padding">
     <div class="containter">
       <div class="section-heading text-center">
         <h2 class="section__title">Gia sư tiêu biểu</h2>
@@ -23,13 +23,7 @@
               </h6>
               <p class="card-text">
                 {{ item.subject.name }}:
-                <span
-                  v-for="(class_tutor, index) in item.subject.classes"
-                  :key="class_tutor.id"
-                >
-                  {{ class_tutor.name }}
-                  <span v-if="index !== item.subject.classes - 1">,</span></span
-                >
+                {{ listClasses(item.subject) }}
               </p>
               <p class="card-text">
                 {{ item.address.city }} - {{ item.address.district }} -
@@ -40,16 +34,23 @@
               >
                 <a
                   href="#"
-                  class="btn theme-btn theme-btn-sm theme-btn-transparent"
+                  class="btn theme-btn-sm theme-btn-transparent"
                   >Xem hồ sơ</a
                 >
-                <a href="#" class="btn theme-btn theme-btn-sm theme-btn-white"
+                <a
+                  href="#"
+                  class="btn theme-btn-sm theme-btn-transparent"
                   >Mời dạy <i class="fa-solid fa-arrow-right"></i
                 ></a>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="view-more-box pt-4 text-center">
+        <a class="btn theme-btn" href="#"
+          >Xem tất cả gia sư giỏi<i class="fa-solid fa-arrow-right icon"></i
+        ></a>
       </div>
     </div>
   </section>
@@ -58,212 +59,28 @@
 export default {
   data() {
     return {
-      listTutors: [
-        {
-          id: 1,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 2,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 3,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 4,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 5,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 6,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 7,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-      ],
+
     };
+  },
+  props: {
+    listTutors: {
+      type: Array,
+      default: []
+    }
+  },
+  methods: {
+    listClasses(subject) {
+      const listClasses = [];
+      subject.listClasses = subject.classes.map((item, index) => {
+        if (index !== subject.classes.length - 1) {
+          listClasses.push(item.name + ", ");
+        } else {
+          listClasses.push(item.name);
+        }
+      });
+      return listClasses.join("");
+    },
   },
 };
 </script>
+<style scoped src="@/assets/styles/common.css"></style>

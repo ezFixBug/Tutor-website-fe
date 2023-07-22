@@ -1,9 +1,10 @@
 <template>
   <div
-    class="hero"
+    class="hero img-bg"
     style="background-image: url('https://smart-edu.vn/images/slider-img5.jpg')"
   >
-    <div class="hero-slider-item hero-bg-4+5"></div>
+    <div class="hero-slider-item hero-bg-4"></div>
+    <div class="overplay"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-7">
@@ -36,6 +37,8 @@
                       <Select
                         v-model="selectedValues"
                         :options="listOptionCoures"
+                        size="large"
+                        placeholder="Chọn danh mục khóa học"
                       />
                     </FormItem>
                   </div>
@@ -50,10 +53,12 @@
               <div class="category-item category-item-layout-2">
                 <a href="#" class="category-content">
                   <div
+                    style="color: #ec5252 !important"
                     class="icon-element icon-element-md shadow-sm text-color"
                   >
                     <i class="fa-solid fa-calculator"></i>
                   </div>
+                  <h3 class="cat__title fs-16">Toán</h3>
                 </a>
               </div>
             </div>
@@ -61,10 +66,12 @@
               <div class="category-item category-item-layout-2">
                 <a href="#" class="category-content">
                   <div
+                    style="color: ##233d63 !important"
                     class="icon-element icon-element-md shadow-sm text-color"
                   >
                     <i class="fa-solid fa-language"></i>
                   </div>
+                  <h3 class="cat__title fs-16">Ngoại ngữ</h3>
                 </a>
               </div>
             </div>
@@ -72,10 +79,12 @@
               <div class="category-item category-item-layout-2">
                 <a href="#" class="category-content">
                   <div
+                    style="color: #7e3cf9 !important"
                     class="icon-element icon-element-md shadow-sm text-color"
                   >
                     <i class="fa-solid fa-music"></i>
                   </div>
+                  <h3 class="cat__title fs-16">Âm nhạc</h3>
                 </a>
               </div>
             </div>
@@ -83,10 +92,12 @@
               <div class="category-item category-item-layout-2">
                 <a href="#" class="category-content">
                   <div
+                    style="color: #f68a03 !important"
                     class="icon-element icon-element-md shadow-sm text-color"
                   >
                     <i class="fa-solid fa-business-time"></i>
                   </div>
+                  <h3 class="cat__title fs-16">Kinh doanh</h3>
                 </a>
               </div>
             </div>
@@ -94,10 +105,12 @@
               <div class="category-item category-item-layout-2">
                 <a href="#" class="category-content">
                   <div
+                    style="color: #358ff7 !important"
                     class="icon-element icon-element-md shadow-sm text-color"
                   >
                     <i class="fa-solid fa-code"></i>
                   </div>
+                  <h3 class="cat__title fs-16">Lập trình</h3>
                 </a>
               </div>
             </div>
@@ -105,10 +118,12 @@
               <div class="category-item category-item-layout-2">
                 <a href="#" class="category-content">
                   <div
+                    style="color: #38bb0c !important"
                     class="icon-element icon-element-md shadow-sm text-color"
                   >
                     <i class="fa-solid fa-cookie-bite"></i>
                   </div>
+                  <h3 class="cat__title fs-16">Nấu ăn</h3>
                 </a>
               </div>
             </div>

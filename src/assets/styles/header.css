@@ -1,59 +1,4 @@
 @import url(./common.css);
-body {
-    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    background-color: #fff;
-    height: 200vh;
-    position: relative;
-}
-
-body:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    -webkit-transition: .3s all ease;
-    -o-transition: .3s all ease;
-    transition: .3s all ease;
-    opacity: 0;
-    visibility: hidden;
-    z-index: 1;
-}
-
-body.offcanvas-menu:before {
-    opacity: 1;
-    z-index: 1002;
-    visibility: visible;
-}
-
-p {
-    color: #b3b3b3;
-    font-weight: 300;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-a {
-    -webkit-transition: .3s all ease;
-    -o-transition: .3s all ease;
-    transition: .3s all ease;
-}
-
 a,
 a:hover {
     text-decoration: none !important;
@@ -67,21 +12,13 @@ a:hover {
     background-repeat: no-repeat;
 }
 
-.top-bar {
-    padding: .5rem 0;
-    background: #eee;
-}
-
-.top-bar a {
-    color: #666666;
-}
 
 .site-navbar {
     margin-bottom: 0px;
     z-index: 1999;
     position: relative;
     width: 100%;
-    padding: 1rem;
+    padding: 0.6rem;
 }
 
 @media (max-width: 991.98px) {
@@ -150,23 +87,6 @@ a:hover {
 
 .site-navbar .site-navigation .site-menu .has-children {
     position: relative;
-}
-
-.site-navbar .site-navigation .site-menu .has-children>a {
-    position: relative;
-    padding-right: 20px;
-}
-
-.site-navbar .site-navigation .site-menu .has-children>a:before {
-    position: absolute;
-    content: "\e313";
-    font-size: 16px;
-    top: 50%;
-    right: 0;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    font-family: 'icomoon';
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown {
@@ -565,29 +485,54 @@ a:hover {
 .responsive-column-half{
     padding: 0 5px;
 }
-.icon-element{
-    color: #233d63;
-    font-size: 30px;
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
-    background-color: #fff;
-    -webkit-box-shadow: 0 0 40px rgba(14, 16, 48, 0.07);
-    -moz-box-shadow: 0 0 40px rgba(14, 16, 48, 0.07);
-    box-shadow: 0 0 40px rgba(14, 16, 48, 0.07);
-    text-align: center;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
-    display: inline-block;
+.fixed_header{
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    left: 0px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0.5px 5px rgba(5, 5, 5, 0.3);
+    animation: luot 0.5s linear 1;
+}
+@keyframes luot {
+    from{
+        transform: translateY(-100%);
+    }
+    to{
+        transform: translateY(0);
+    }
 }
 .category-content{
     padding: 40px 0px;
     text-align: center;
     display: block;
+}
+.category-item-layout-2 .cat__title {
+    padding-top: 15px;
+    color: #233d63;
+    font-size: 16px;
+    transition: all 0.3s;
+    font-weight: 16px !important;
+}
+.category-item-layout-2:hover .icon-element {
+    -webkit-transform: translateY(-6px);
+    -moz-transform: translateY(-6px);
+    -ms-transform: translateY(-6px);
+    -o-transform: translateY(-6px);
+    transform: translateY(-6px);
+}
+
+.btn-login{
+    padding: 4px 6px !important;
+    border-radius: 5px;
+}
+.btn-login:hover{
+    background-color: #eaeaea !important;
+}
+.btn-register i{
+    margin-right: 5px;
+}
+.btn-register:hover{
+    background-color: #ec5252 !important;
+    color: #fff !important;
 }

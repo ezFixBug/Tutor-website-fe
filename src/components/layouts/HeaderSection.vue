@@ -1,43 +1,9 @@
 <template>
-  <div class="site-mobile-menu site-navbar-target">
-    <div class="site-mobile-menu-header">
-      <div class="site-mobile-menu-close mt-3">
-        <span class="icon-close2 js-menu-toggle"></span>
-      </div>
-    </div>
-    <div class="site-mobile-menu-body"></div>
-  </div>
-
-  <div class="top-bar">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <a href="#" class=""
-            ><span class="mr-2 icon-envelope-open-o"></span>
-            <span class="d-none d-md-inline-block">info@yourdomain.com</span></a
-          >
-          <span class="mx-md-2 d-inline-block"></span>
-          <a href="#" class=""
-            ><span class="mr-2 icon-phone"></span>
-            <span class="d-none d-md-inline-block">1+ (234) 5678 9101</span></a
-          >
-
-          <div class="float-right">
-            <a href="#" class=""
-              ><span class="mr-2 icon-twitter"></span>
-              <span class="d-none d-md-inline-block">Twitter</span></a
-            >
-            <span class="mx-md-2 d-inline-block"></span>
-            <a href="#" class=""
-              ><span class="mr-2 icon-facebook"></span>
-              <span class="d-none d-md-inline-block">Facebook</span></a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
+  <header
+    class="site-navbar js-sticky-header site-navbar-target"
+    role="banner"
+    :class="{ fixed_header: scrollY > 125 }"
+  >
     <div class="container">
       <div class="row align-items-center position-relative">
         <div class="site-logo">
@@ -54,7 +20,9 @@
               <li><a href="#services-section" class="nav-link">Khóa học</a></li>
 
               <li class="has-children">
-                <a href="#about-section" class="nav-link">Dành cho gia sư</a>
+                <a href="#about-section" class="nav-link"
+                  >Dành cho gia sư <i class="fa-solid fa-chevron-down"></i
+                ></a>
                 <ul class="dropdown arrow-top">
                   <li>
                     <a href="#team-section" class="nav-link"
@@ -69,7 +37,9 @@
                 </ul>
               </li>
               <li class="has-children">
-                <a href="#about-section" class="nav-link">Dành cho học viên</a>
+                <a href="#about-section" class="nav-link"
+                  >Dành cho học viên <i class="fa-solid fa-chevron-down"></i
+                ></a>
                 <ul class="dropdown arrow-top">
                   <li>
                     <a href="#team-section" class="nav-link">Tìm gia sư</a>
@@ -82,7 +52,9 @@
                 </ul>
               </li>
               <li class="has-children">
-                <a href="#about-section" class="nav-link">Bài viết</a>
+                <a href="#about-section" class="nav-link"
+                  >Bài viết <i class="fa-solid fa-chevron-down"></i
+                ></a>
                 <ul class="dropdown arrow-top">
                   <li>
                     <a href="#team-section" class="nav-link">Tin tức sự kiện</a>
@@ -94,14 +66,17 @@
                   </li>
                 </ul>
               </li>
+              <li>
+                <a class="btn-login" href="#">Đăng nhập</a>
+              </li>
+              <span>Or</span>
+              <li>
+                <a class="btn-login btn-register" href="#"
+                  ><i class="fa-solid fa-user-pen"></i>Đăng ký</a
+                >
+              </li>
             </ul>
           </nav>
-        </div>
-
-        <div class="toggle-button d-inline-block d-lg-none">
-          <a href="#" class="site-menu-toggle py-5 js-menu-toggle text-black"
-            ><span class="icon-menu h3"></span
-          ></a>
         </div>
       </div>
     </div>
@@ -109,7 +84,19 @@
 </template>
 <script >
 export default {
-  
+  data() {
+    return {
+      scrollY: 0,
+    };
+  },
+  methods: {
+    handleScroll() {
+      this.scrollY = window.scrollY;
+    },
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
 };
 </script>
 <style scoped src="@/assets/styles/header.css"></style>
