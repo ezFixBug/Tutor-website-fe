@@ -23,9 +23,3 @@
     -o-transform: translateY(-5px);
     transform: translateY(-5px);
 }
-.img-bg{
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    z-index: 1;
-}

@@ -16,7 +16,7 @@
             <ul
               class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block"
             >
-              <li><a href="#home-section" class="nav-link">Trang chủ</a></li>
+              <li><a href="/" class="nav-link">Trang chủ</a></li>
               <li><a href="#services-section" class="nav-link">Khóa học</a></li>
 
               <li class="has-children">
@@ -67,11 +67,11 @@
                 </ul>
               </li>
               <li>
-                <a class="btn-login" href="#">Đăng nhập</a>
+                <a class="btn-login" href="/dang-nhap">Đăng nhập</a>
               </li>
-              <span>Or</span>
+              <b class="text-muted">Or</b>
               <li>
-                <a class="btn-login btn-register" href="#"
+                <a class="btn-login btn-register" href="/dang-ky"
                   ><i class="fa-solid fa-user-pen"></i>Đăng ký</a
                 >
               </li>
