@@ -60,6 +60,9 @@ h1, h2, h3, h4, h5, h6 {
 .bg-gray {
     background-color: #f7f7ff !important;
 }
+.text-color-1 {
+    color: #ec5252 !important;
+}
 .text-color-5 {
     color: #38BB0C !important;
 }
@@ -71,6 +74,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .text-color-4 {
     color: #358FF7 !important;
+}
+.text-color-6 {
+    color: #ff0000 !important;
 }
 .card-image {
     width: 100px;
@@ -118,7 +124,10 @@ a {
     padding-top: 120px;
     padding-bottom: 90px;
 }
-
+.section_padding {
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
 .theme-btn{
     background-color: #ec5252;
     color: #fff;
@@ -186,9 +195,47 @@ a {
     height: 100%;
     width: 100%;
     content: "";
-    background-color: #323345;
+    background-color: #222222;
     opacity: .8;
 }
 .pt-90px {
     padding-top: 90px !important;
+}
+.img-bg{
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.generic-list-item-white li a {
+    color: rgba(255, 255, 255, 0.8);
+}
+.generic-list-item-white i {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 5px;
+}
+.lh-35 {
+    line-height: 35px !important;
+}
+
+.fs-24 {
+    font-size: 24px !important;
+}
+.fs-12 {
+    font-size: 12px !important;
+}
+.hover-underline:hover {
+    text-decoration: underline !important;
+}
+.btn-text{
+    color: rgba(55, 55, 55, 0.8);
+    transition: all 0.3s;
+}
+.btn-text:hover{
+    color: #ef6767;
 }

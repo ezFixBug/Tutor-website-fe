@@ -1,0 +1,42 @@
+@import url(./common.css);
+.form-group {
+    position: relative;
+}
+.form--control {
+    height: 50px;
+    padding-left: 45px;
+    font-size: 14px;
+    color: #233d63;
+    border-color: rgba(127, 136, 151, 0.2);
+    font-weight: 400;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.input-icon {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 18px;
+}
+.toggle-password{
+    padding: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 1;
+}
+.mb-3 {
+    margin-bottom: 0px !important;
+}
+.form--control:focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: #ec5252;
+}
+.custom--control-label{
+    cursor: pointer;
+}
