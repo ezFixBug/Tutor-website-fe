@@ -69,7 +69,7 @@
               <li>
                 <a class="btn-login" href="#">Đăng nhập</a>
               </li>
-              <span>Or</span>
+              <b class="text-muted">Or</b>
               <li>
                 <a class="btn-login btn-register" href="#"
                   ><i class="fa-solid fa-user-pen"></i>Đăng ký</a
