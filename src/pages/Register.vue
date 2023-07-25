@@ -1,5 +1,5 @@
 <template>
-  <BreadCrum :type="`register`" />
+  <BreadCrum :type="0" />
   <section class="contact-area section-padding position-relative">
     <div class="container">
       <div class="row">

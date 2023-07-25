@@ -1,5 +1,5 @@
 <template>
-  <BreadCrumb :type="`login`" />
+  <BreadCrumb :type="1" />
   <section class="contact-area section-padding position-relative">
     <div class="container">
       <div class="row">
