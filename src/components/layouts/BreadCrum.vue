@@ -13,7 +13,7 @@
       >
         <div class="section-heading">
           <h2 class="section__title text-white">
-            {{ type === "register" ? "Đăng ký" : "Đăng nhập" }}
+            {{ listOption[type].name }}
           </h2>
         </div>
         <ul
@@ -22,9 +22,7 @@
           <li><a href="/">Trang chủ </a></li>
           <i class="fa-solid fa-angle-right"></i>
           <li>
-            <a :href="type === 'register' ? `/dang-ky` : '/dang-nhap'">{{
-              type === "register" ? "Đăng ký" : "Đăng nhập"
-            }}</a>
+            <a :href="listOption[type].path">{{ listOption[type].name }}</a>
           </li>
         </ul>
       </div>
@@ -33,10 +31,28 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      listOption: [
+        {
+          name: "Đăng ký",
+          path: "/dang-ky",
+        },
+        {
+          name: "Đăng nhập",
+          path: "/dang-nhap",
+        },
+        {
+          name: "Gia sư",
+          path: "/gia-su",
+        },
+      ],
+    };
+  },
   props: {
     type: {
-      type: String,
-      default: "login",
+      type: Number,
+      default: 0,
     },
   },
 };

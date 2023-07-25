@@ -3,7 +3,7 @@ import Homepage from '../pages/Homepage.vue'
 import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
 import index from '../pages/index.vue'
-
+import Tutors from '../pages/Tutors.vue'
 const routes = [
     {
         path: '/',
@@ -28,6 +28,11 @@ const routes = [
                 name: 'login',
                 component: Login
             },
+            {
+                path: '/gia-su',
+                name: 'tutor',
+                component: Tutors
+            }
         ],
     },
 ];
