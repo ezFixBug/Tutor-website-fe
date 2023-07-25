@@ -45,7 +45,7 @@
                     <a href="#team-section" class="nav-link">Tìm gia sư</a>
                   </li>
                   <li>
-                    <a href="#pricing-section" class="nav-link"
+                    <a href="/gia-su" class="nav-link"
                       >Gia sư hiện có</a
                     >
                   </li>
