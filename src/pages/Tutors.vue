@@ -25,7 +25,7 @@
             </a>
           </div>
         </div>
-        <div class="pt-4 collapse show" id="collapseFilter">
+        <div class="pt-4 collapse" id="collapseFilter">
           <div class="row">
             <div class="input-box col-lg-3">
               <div class="form-group">
@@ -210,10 +210,55 @@
         </div>
       </div>
       <ListTutors :listTutors="listTutors" />
-      <div class="view-more-box pt-4 text-center">
-        <a class="btn theme-btn" href="#"
-          >Xem tất cả gia sư giỏi<i class="fa-solid fa-arrow-right icon"></i
-        ></a>
+      <div class="text-center pt-3">
+        <nav aria-label="Page navigation example" class="pagination-box">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="/gia-su?pageIndex=1"
+                aria-label="Previous"
+                ><span aria-hidden="true"
+                  ><i class="fa-solid fa-arrow-left"></i></span
+              ></a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/gia-su?pageIndex=1" aria-label="next"
+                ><span aria-hidden="true"
+                  ><i class="fa-solid fa-arrow-right"></i></span
+              ></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+  <section class="cta-area pt-60px pb-60px position-relative overflow-hidden bg-gray">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-9">
+          <div class="cta-content-wrap media py-4 align-items-center">
+            <div class="flex-shrink-0 mr-3">
+              <i class="fa-solid fa-chalkboard-user" style="font-size: 60px"></i>
+            </div>
+            <div class="media-body">
+              <h2 class="fs-25 font-weight-bold mb-1">
+                Trở thành một giáo viên, chia sẻ kiến thức của bạn
+              </h2>
+              <p class="fs-17">
+                Tạo khóa học video trực tuyến và khóa học ngoại tuyến, tiếp cận học viên trên toàn cầu và kiếm tiền
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="cta-btn-box text-right">
+            <a href="/dang-ky" class="btn theme-btn"> Đăng ký trên Smart Edu <i class="fa-solid fa-arrow-right icon"></i></a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
