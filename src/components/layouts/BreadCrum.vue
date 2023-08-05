@@ -46,6 +46,10 @@ export default {
           name: "Gia sư",
           path: "/gia-su",
         },
+        {
+          name: "Khoá Học",
+          path: "/khoa-hoc",
+        },
       ],
     };
   },
