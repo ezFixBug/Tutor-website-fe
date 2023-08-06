@@ -106,7 +106,7 @@
             </div>
             <h4>{{ course.name }}</h4>
             <p>
-              <router-link :to="{}" class="text-secondary">{{ course.instructor }}</router-link>
+              <router-link :to="{ name: 'detail-course', params: { id: 1 } }" class="text-secondary">{{ course.instructor }}</router-link>
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <p>{{ course.price }}</p>

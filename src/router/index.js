@@ -5,6 +5,7 @@ import Login from '../pages/Login.vue'
 import index from '../pages/index.vue'
 import Tutors from '../pages/Tutors.vue'
 import TutorDetails from '../pages/instructor/TutorDetails.vue'
+import DetailsCourse from '../pages/Courses/DetailsCourse.vue'
 
 import Courses from '../pages/Courses/Courses.vue'
 const routes = [
@@ -38,13 +39,19 @@ const routes = [
             },
             {
                 path: '/chi-tiet-gia-su/:id',
-                name: 'detai-tutor',
+                name: 'detail-tutor',
                 component: TutorDetails
-            },{
+            },
+            {
                 path: '/khoa-hoc',
                 name: 'courses',
                 component: Courses
-            }
+            },
+            {
+                path: '/chi-tiet-khoa-hoc/:id',
+                name: 'detail-course',
+                component: DetailsCourse
+            },
         ],
     },
 ];
