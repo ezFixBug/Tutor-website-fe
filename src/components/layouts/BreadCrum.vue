@@ -13,47 +13,39 @@
       >
         <div class="section-heading">
           <h2 class="section__title text-white">
-            {{ listOption[type].name }}
+            {{ getNameRoute }}
           </h2>
         </div>
         <ul
           class="generic-list-item generic-list-item-white generic-list-item-arrow d-flex flex-wrap align-items-center"
         >
-          <li><a href="/">Trang chủ </a></li>
-          <i class="fa-solid fa-angle-right"></i>
-          <li>
-            <a :href="listOption[type].path">{{ listOption[type].name }}</a>
-          </li>
+          <li><a href="/">Trang chủ</a></li>
+          <li> {{ getNameRoute }} </li>
         </ul>
       </div>
     </div>
   </section>
 </template>
 <script>
+import { ROUTERS } from '../../Constants'
+
 export default {
-  data() {
-    return {
-      listOption: [
-        {
-          name: "Đăng ký",
-          path: "/dang-ky",
-        },
-        {
-          name: "Đăng nhập",
-          path: "/dang-nhap",
-        },
-        {
-          name: "Gia sư",
-          path: "/gia-su",
-        },
-      ],
-    };
-  },
   props: {
     type: {
       type: Number,
       default: 0,
     },
   },
+  data() {
+    return {
+    };
+  },
+  computed: {
+    getNameRoute(){
+      return ROUTERS[this.$route.name]
+    }
+  },
+  created() {
+  }
 };
 </script>

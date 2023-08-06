@@ -4,6 +4,8 @@ import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
 import index from '../pages/index.vue'
 import Tutors from '../pages/Tutors.vue'
+import TutorDetails from '../pages/instructor/TutorDetails.vue'
+
 const routes = [
     {
         path: '/',
@@ -32,7 +34,12 @@ const routes = [
                 path: '/gia-su',
                 name: 'tutor',
                 component: Tutors
-            }
+            },
+            {
+                path: '/chi-tiet-gia-su/:id',
+                name: 'detai-tutor',
+                component: TutorDetails
+            }   
         ],
     },
 ];
