@@ -4,6 +4,7 @@ import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
 import index from '../pages/index.vue'
 import Tutors from '../pages/Tutors.vue'
+import Courses from '../pages/Courses/Courses.vue'
 const routes = [
     {
         path: '/',
@@ -32,6 +33,11 @@ const routes = [
                 path: '/gia-su',
                 name: 'tutor',
                 component: Tutors
+            },
+            {
+                path: '/khoa-hoc',
+                name: 'courses',
+                component: Courses
             }
         ],
     },
