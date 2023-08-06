@@ -1,0 +1,30 @@
+.ribbon-blue-bg {
+  background: rgba(53, 143, 247, 0.1) !important;
+  color: #358FF7 !important;
+}
+.ribbon {
+  display: inline-block;
+  padding-right: 8px;
+  padding-left: 8px;
+  line-height: 22px;
+  background-color: rgba(246, 138, 3, 0.1);
+  color: #F68A03;
+  font-size: 11px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.icon-element-sm {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+
+  &:hover {
+    background-color: #ec5252;
+
+    .fa-heart{
+      color: #fff;
+    }
+  }
+}

@@ -17,7 +17,7 @@
               class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block"
             >
               <li><a href="/" class="nav-link">Trang chủ</a></li>
-              <li><a href="#services-section" class="nav-link">Khóa học</a></li>
+              <li> <router-link :to="{name: 'courses'}">Khoá Học</router-link></li>
 
               <li class="has-children">
                 <a href="#about-section" class="nav-link"
