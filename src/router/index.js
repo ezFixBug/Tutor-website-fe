@@ -6,6 +6,7 @@ import index from '../pages/index.vue'
 import Tutors from '../pages/Tutors.vue'
 import TutorDetails from '../pages/instructor/TutorDetails.vue'
 import DetailsCourse from '../pages/Courses/DetailsCourse.vue'
+import ListPost from '../pages/posts/ListPost.vue'
 
 import Courses from '../pages/Courses/Courses.vue'
 const routes = [
@@ -51,6 +52,11 @@ const routes = [
                 path: '/chi-tiet-khoa-hoc/:id',
                 name: 'detail-course',
                 component: DetailsCourse
+            },
+            {
+                path: '/bai-viet',
+                name: 'posts',
+                component: ListPost
             },
         ],
     },

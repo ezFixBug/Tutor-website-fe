@@ -57,10 +57,10 @@
                 ></a>
                 <ul class="dropdown arrow-top">
                   <li>
-                    <a href="#team-section" class="nav-link">Tin tức sự kiện</a>
+                    <a href="/bai-viet" class="nav-link">Tin tức sự kiện</a>
                   </li>
                   <li>
-                    <a href="#pricing-section" class="nav-link"
+                    <a  href="/bai-viet" class="nav-link"
                       >Câu hỏi thảo luận</a
                     >
                   </li>

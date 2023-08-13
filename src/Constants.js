@@ -3,5 +3,6 @@ export const ROUTERS = {
   'register': 'Đăng ký',
   'login': 'Đăng nhập',
   'tutor': 'Gia sư',
-  'detai-tutor': 'Chi tiết người hướng dẫn'
+  'detail-tutor': 'Chi tiết người hướng dẫn',
+  'posts': 'Bài viết',
 }
