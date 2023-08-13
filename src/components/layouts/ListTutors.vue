@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">
-            <router-link :to="{name : 'detai-tutor', params: {id: item.id}}">{{ item.fullname }}</router-link>
+            <router-link :to="{name : 'detail-tutor', params: {id: item.id}}">{{ item.fullname }}</router-link>
           </h5>
           <h6 class="card-title text-color-5 fs-14">
             {{ item.price }} vnđ/giờ
@@ -25,7 +25,7 @@
             {{ item.address.ward }}
           </p>
           <div class="d-flex justify-content-between align-items-center pt-3">
-            <router-link :to="{name : 'detai-tutor', params: {id: item.id}}" class="btn theme-btn-sm theme-btn-transparent">Xem hồ sơ</router-link>
+            <router-link :to="{name : 'detail-tutor', params: {id: item.id}}" class="btn theme-btn-sm theme-btn-transparent">Xem hồ sơ</router-link>
             <a href="#" class="btn theme-btn-sm theme-btn-transparent"
               >Mời dạy <i class="fa-solid fa-arrow-right"></i
             ></a>
