@@ -5,4 +5,6 @@ export const ROUTERS = {
   'tutor': 'Gia sư',
   'detail-tutor': 'Chi tiết người hướng dẫn',
   'posts': 'Bài viết',
+  'categories': 'Danh Mục',
+  'courses': 'Khoá Học'
 }

@@ -7,5 +7,9 @@ export default {
 }
 </script>
 <style lang="scss">
+  @import './assets/styles/paritials/_variables.scss';
+  @import './assets/styles/paritials/_mixins.scss';
+  @import './assets/styles/paritials/_common.scss';
+  @import './assets/styles/paritials/_category.scss';
   @import './assets/styles/paritials/_main.scss';
 </style>
