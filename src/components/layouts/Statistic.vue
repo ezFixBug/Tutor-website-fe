@@ -1,6 +1,7 @@
 <template>
   <section
-    class="funfact-area text-center overflow-hidden section-padding dot-bg"
+    class="funfact-area text-center section-padding dot-bg"
+    style="overflow: hidden;"
   >
     <div class="container">
       <div class="row">
