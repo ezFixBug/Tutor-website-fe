@@ -7,20 +7,21 @@
         <div class="col-lg-4" v-for="post in listPosts" :key="post.id">
           <div class="card card-item">
             <div class="card-image" style="margin: 0 !important">
-              <a href="#" class="d-block">
-                <img
-                  :src="post.image"
-                  alt="image"
-                  class="card-img-top lazy"
-                />
-              </a>
+              <router-link
+                :to="{ name: 'detail-post', params: { id: post.id } }"
+              >
+                <img :src="post.image" alt="image" class="card-img-top lazy" />
+              </router-link>
               <div class="course-badge-labels">
                 <div class="course-badge">{{ post.created_at }}</div>
               </div>
             </div>
             <div class="card-body">
               <h5 class="card-title">
-                <a href="#">{{ post.title }}</a>
+                <router-link
+                  :to="{ name: 'detail-post', params: { id: post.id } }"
+                  >{{ post.title }}</router-link
+                >
               </h5>
               <ul
                 class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center flex-wrap fs-14 pt-2"
@@ -48,9 +49,12 @@
               <div
                 class="d-flex justify-content-between align-items-center pt-3"
               >
-                <a href="#" class="btn theme-btn theme-btn-sm theme-btn-white">
+                <router-link
+                  :to="{ name: 'detail-post', params: { id: post.id } }"
+                  class="btn theme-btn theme-btn-sm theme-btn-white"
+                >
                   Chi tiết <i class="fa-solid fa-arrow-right"></i>
-                </a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -70,8 +74,7 @@ export default {
       listPosts: [
         {
           id: 1,
-          title:
-            "This is title of post ",
+          title: "This is title of post ",
           image:
             "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
           author: {
@@ -84,8 +87,7 @@ export default {
         },
         {
           id: 2,
-          title:
-            "This is title of post ",
+          title: "This is title of post ",
           image:
             "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
           author: {
@@ -98,8 +100,7 @@ export default {
         },
         {
           id: 3,
-          title:
-            "This is title of post ",
+          title: "This is title of post ",
           image:
             "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
           author: {
@@ -112,8 +113,7 @@ export default {
         },
         {
           id: 4,
-          title:
-            "This is title of post ",
+          title: "This is title of post ",
           image:
             "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
           author: {
@@ -126,8 +126,7 @@ export default {
         },
         {
           id: 5,
-          title:
-            "This is title of post ",
+          title: "This is title of post ",
           image:
             "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
           author: {
@@ -140,8 +139,7 @@ export default {
         },
         {
           id: 6,
-          title:
-            "This is title of post ",
+          title: "This is title of post ",
           image:
             "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
           author: {
@@ -154,8 +152,7 @@ export default {
         },
         {
           id: 7,
-          title:
-            "This is title of post ",
+          title: "This is title of post ",
           image:
             "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
           author: {

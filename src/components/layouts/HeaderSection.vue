@@ -16,8 +16,14 @@
             <ul
               class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block"
             >
-              <li><a href="/" class="nav-link">Trang chủ</a></li>
-              <li> <router-link :to="{name: 'courses'}">Khoá Học</router-link></li>
+              <li>
+                <router-link class="nav-link" :to="{ path: '/' }"
+                  >Trang chủ</router-link
+                >
+              </li>
+              <li>
+                <router-link :to="{ name: 'courses' }">Khoá Học</router-link>
+              </li>
 
               <li class="has-children">
                 <a href="#about-section" class="nav-link"
@@ -25,8 +31,8 @@
                 ></a>
                 <ul class="dropdown arrow-top">
                   <li>
-                    <a href="#team-section" class="nav-link"
-                      >Trở thành gia sư</a
+                    <router-link class="nav-link" :to="{ name: 'login' }"
+                      >Trở thành gia sư</router-link
                     >
                   </li>
                   <li>
@@ -45,8 +51,8 @@
                     <a href="#team-section" class="nav-link">Tìm gia sư</a>
                   </li>
                   <li>
-                    <a href="/gia-su" class="nav-link"
-                      >Gia sư hiện có</a
+                    <router-link class="nav-link" :to="{ name: 'tutor' }"
+                      >Gia sư hiện có</router-link
                     >
                   </li>
                 </ul>
@@ -57,22 +63,26 @@
                 ></a>
                 <ul class="dropdown arrow-top">
                   <li>
-                    <a href="/bai-viet" class="nav-link">Tin tức sự kiện</a>
+                    <router-link class="nav-link" :to="{ name: 'posts' }"
+                      >Tin tức sự kiện</router-link
+                    >
                   </li>
                   <li>
-                    <a  href="/bai-viet" class="nav-link"
-                      >Câu hỏi thảo luận</a
-                    >
+                    <a href="/bai-viet" class="nav-link">Câu hỏi thảo luận</a>
                   </li>
                 </ul>
               </li>
               <li>
-                <a class="btn-login" href="/dang-nhap">Đăng nhập</a>
+                <router-link class="btn-login" :to="{ name: 'login' }"
+                  >Đăng nhập</router-link
+                >
               </li>
               <b class="text-muted">Or</b>
               <li>
-                <a class="btn-login btn-register" href="/dang-ky"
-                  ><i class="fa-solid fa-user-pen"></i>Đăng ký</a
+                <router-link
+                  class="btn-login btn-register"
+                  :to="{ name: 'register' }"
+                  ><i class="fa-solid fa-user-pen"></i>Đăng ký</router-link
                 >
               </li>
             </ul>

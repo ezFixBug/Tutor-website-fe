@@ -19,7 +19,7 @@
         <ul
           class="generic-list-item generic-list-item-white generic-list-item-arrow d-flex flex-wrap align-items-center"
         >
-          <li><a href="/">Trang chủ</a></li>
+          <li><router-link :to="{path: '/'}">Trang chủ</router-link></li>
           <li> {{ getNameRoute }} </li>
         </ul>
       </div>

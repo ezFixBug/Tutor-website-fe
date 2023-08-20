@@ -8,6 +8,7 @@ import TutorDetails from '../pages/instructor/TutorDetails.vue'
 import DetailsCourse from '../pages/Courses/DetailsCourse.vue'
 import ListPost from '../pages/posts/ListPost.vue'
 import ListCategory from '../pages/Categories/ListCategory.vue'
+import PostDetail from '../pages/posts/PostDetail.vue'
 
 import Courses from '../pages/Courses/Courses.vue'
 const routes = [
@@ -60,6 +61,11 @@ const routes = [
                 component: ListPost
             },
             {
+                path: '/chi-tiet-bai-viet/:id',
+                name: 'detail-post',
+                component: PostDetail
+            },
+            {
                 path: '/danh-muc',
                 name: 'categories',
                 component: ListCategory
@@ -71,6 +77,9 @@ const router = createRouter({
     mode: 'history',
     history: createWebHistory(),
     routes: routes,
+    scrollBehavior(to, from, savedPosition) {
+        return { top: 0 }
+    },
 })
 
 export default router;

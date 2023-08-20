@@ -66,10 +66,17 @@
                     class="d-flex align-items-center justify-content-between pb-4"
                   >
                     <div class="custom-control custom-checkbox fs-15">
-                        <input type="checkbox" class="custom-control-input" id="rememberMeCheckbox"/>
-                        <label for="rememberMeCheckbox" class="custom-control-label custom--control-label btn-text">
-                            Nhớ tài khoản
-                        </label>
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="rememberMeCheckbox"
+                      />
+                      <label
+                        for="rememberMeCheckbox"
+                        class="custom-control-label custom--control-label btn-text"
+                      >
+                        Nhớ tài khoản
+                      </label>
                     </div>
                     <a href="#" class="btn-text">Quên mật khẩu?</a>
                   </div>
@@ -80,8 +87,10 @@
                 </div>
                 <p class="fs-14 pt-2">
                   Bạn chưa có tài khoản?
-                  <a href="/dang-ky" class="text-color-1 hover-underline"
-                    >Đăng ký</a
+                  <router-link
+                    class="text-color-1 hover-underline"
+                    :to="{ name: 'register' }"
+                    >Đăng ký</router-link
                   >
                 </p>
               </form>
@@ -100,9 +109,9 @@ export default {
   },
   data() {
     return {
-        isDisplayPassword: false,
-    }
-  }
+      isDisplayPassword: false,
+    };
+  },
 };
 </script>
 <style scoped src="@/assets/styles/form.css"></style>
