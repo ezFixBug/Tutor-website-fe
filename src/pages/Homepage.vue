@@ -10,6 +10,7 @@
     :quantityStudent="quantityStudent"
     :quantityRequest="quantityRequest"
   />
+  <OwlCarouselCourses :courses="courses" />
   <section
     class="cat-area section-padding img-bg"
     style="background-image: url('https://smart-edu.vn/images/img7.jpg')"
@@ -41,7 +42,43 @@ import CategoriesPopular from "../components/layouts/CategoriesPopular.vue";
 import GetStarted from "../components/layouts/GetStarted.vue";
 import Reviews from "../components/layouts/Reviews.vue";
 import Statistic from "../components/layouts/Statistic.vue";
+import OwlCarouselCourses from "./OwlCarouselCourses.vue";
+
 export default {
+  setup() {
+    const formattedPrice = (price) => {
+      const priceFormat = price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+      return priceFormat.replace(priceFormat.slice(-1), "VND")
+    }
+
+    const courses = [];
+
+    for (let i = 1; i <= 10; i++) {
+      const courseData = {
+        id: i,
+        image: "",
+        category: [
+          { id: 1, name: "Các Lớp Khác" },
+          { id: 2, name: "Lớp 10" },
+          { id: 3, name: "lớp 11" },
+          { id: 4, name: "lớp 11" },
+          { id: 5, name: "lớp 11" },
+          { id: 6, name: "lớp 11" },
+          { id: 7, name: "lớp 11" },
+        ],
+        name: `name ${i}`,
+        instructor: `instructor ${i}`,
+        rate: 3,
+        price: formattedPrice(7000000),
+      };
+
+      courses.push(courseData);
+    }
+
+    return {
+      courses,
+    }
+  },
   data() {
     return {
       quantityTutor: 215,
@@ -319,6 +356,7 @@ export default {
     GetStarted,
     Statistic,
     Reviews,
+    OwlCarouselCourses,
   },
 };
 </script>
