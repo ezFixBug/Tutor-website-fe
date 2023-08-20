@@ -7,6 +7,7 @@ import Tutors from '../pages/Tutors.vue'
 import TutorDetails from '../pages/instructor/TutorDetails.vue'
 import DetailsCourse from '../pages/Courses/DetailsCourse.vue'
 import ListPost from '../pages/posts/ListPost.vue'
+import ListCategory from '../pages/Categories/ListCategory.vue'
 
 import Courses from '../pages/Courses/Courses.vue'
 const routes = [
@@ -57,6 +58,11 @@ const routes = [
                 path: '/bai-viet',
                 name: 'posts',
                 component: ListPost
+            },
+            {
+                path: '/danh-muc',
+                name: 'categories',
+                component: ListCategory
             },
         ],
     },

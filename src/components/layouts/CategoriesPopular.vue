@@ -45,9 +45,7 @@
         </div>
       </div>
       <div class="view-more-box pt-4 text-center">
-        <a class="btn theme-btn" href="#"
-          >Xem tất cả danh mục<i class="fa-solid fa-arrow-right icon"></i
-        ></a>
+        <router-link :to="{name: 'categories'}" class="btn theme-btn">Xem tất cả danh mục<i class="fa-solid fa-arrow-right icon"></i></router-link>
       </div>
     </div>
   </section>
