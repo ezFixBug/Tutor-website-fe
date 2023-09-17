@@ -31,7 +31,7 @@
                 ></a>
                 <ul class="dropdown arrow-top">
                   <li>
-                    <router-link class="nav-link" :to="{ name: 'login' }"
+                    <router-link class="nav-link" :to="{ name: 'becomeTutor' }"
                       >Trở thành gia sư</router-link
                     >
                   </li>

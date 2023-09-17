@@ -9,6 +9,8 @@ import DetailsCourse from '../pages/Courses/DetailsCourse.vue'
 import ListPost from '../pages/posts/ListPost.vue'
 import ListCategory from '../pages/Categories/ListCategory.vue'
 import PostDetail from '../pages/posts/PostDetail.vue'
+import BecomeTutor from '../pages/BecomeTutor.vue'
+import { authGuard } from './auth';
 
 import Courses from '../pages/Courses/Courses.vue'
 const routes = [
@@ -70,6 +72,15 @@ const routes = [
                 name: 'categories',
                 component: ListCategory
             },
+            {
+                path: '/tro-thanh-gia-su',
+                // beforeEnter: (to, from, next) => {
+                //     authGuard(to, from, next);
+                // },
+                name: 'becomeTutor',
+                component: BecomeTutor
+            },
+
         ],
     },
 ];
