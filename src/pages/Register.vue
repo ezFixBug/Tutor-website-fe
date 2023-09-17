@@ -179,8 +179,10 @@
                 </div>
                 <p class="fs-14 pt-2">
                   Bạn đã có tài khoản?
-                  <a href="/dang-nhap" class="text-color-1 hover-underline"
-                    >Đăng nhập</a
+                  <router-link
+                    class="text-color-1 hover-underline"
+                    :to="{ name: 'login' }"
+                    >Đăng nhập</router-link
                   >
                 </p>
               </form>
