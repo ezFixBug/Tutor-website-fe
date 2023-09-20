@@ -1,6 +1,6 @@
 <template>
   <BreadCrumb />
-
+  <spinner :is_loading="is_loading"/>
   <section class="contact-area section-padding position-relative">
     <div class="container">
       <div class="row">
@@ -57,7 +57,7 @@
                       style="display: block"
                     >
                       <div class="media-img media-img-lg mr-4 bg-gray">
-                        <img class="mr-3" :src="dataTutor.front_citizen_card" />
+                        <img class="mr-3" :src="dataTutor.back_citizen_card" />
                       </div>
                       <div class="media-body col-lg-12 mt-2">
                         <div class="file-upload-wrap file-upload-wrap-2">
@@ -671,6 +671,7 @@ import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
+import axios from "axios";
 
 export default {
   components: {
@@ -678,6 +679,7 @@ export default {
   },
   data() {
     return {
+      is_loading: false,
       listOptionCities: [
         { label: "Đà Nẵng", value: 1 },
         { label: "Hà Nội", value: 2 },
@@ -760,16 +762,70 @@ export default {
   },
 
   methods: {
-    onFileChangeFrontCard(event) {
-      //To do handle get url image from cloud Service
+    async onFileChangeFrontCard(event) {
+      this.is_loading = true;
+      const file = event.target.files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "website_tutor");
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/" +
+            process.env.VUE_APP_CLOUDINARY_NAME +
+            "/image/upload",
+          formData
+        );
+
+        this.dataTutor.front_citizen_card = response.data.secure_url;
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }      
+      this.is_loading = false;
     },
 
-    onFileChangeBackCard(event) {
-      //To do handle get url image from cloud Service
+    async onFileChangeBackCard(event) {
+      this.is_loading = true;
+      const file = event.target.files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "website_tutor");
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/" +
+            process.env.VUE_APP_CLOUDINARY_NAME +
+            "/image/upload",
+          formData
+        );
+
+        this.dataTutor.back_citizen_card = response.data.secure_url;
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+      this.is_loading = false;
     },
 
-    onFileChangeCertificate(event) {
-      //To do handle get url image from cloud Service
+    async onFileChangeCertificate(event) {
+      this.is_loading = true;
+      const file = event.target.files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "website_tutor");
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/" +
+            process.env.VUE_APP_CLOUDINARY_NAME +
+            "/image/upload",
+          formData
+        );
+
+        this.dataTutor.certificate = response.data.secure_url;
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+      this.is_loading = false;
     },
 
     handleAddSubject() {
