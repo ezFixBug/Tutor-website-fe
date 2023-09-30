@@ -10,6 +10,7 @@ import ListPost from '../pages/posts/ListPost.vue'
 import ListCategory from '../pages/Categories/ListCategory.vue'
 import PostDetail from '../pages/posts/PostDetail.vue'
 import BecomeTutor from '../pages/BecomeTutor.vue'
+import SettingBasic from '../pages/settings/SettingBasic.vue'
 import { authGuard } from './auth';
 
 import Courses from '../pages/Courses/Courses.vue'
@@ -80,7 +81,14 @@ const routes = [
                 name: 'becomeTutor',
                 component: BecomeTutor
             },
-
+            {
+                path: '/cai-dat-nguoi-dung',
+                // beforeEnter: (to, from, next) => {
+                //     authGuard(to, from, next);
+                // },
+                name: 'setting-basic',
+                component: SettingBasic
+            },
         ],
     },
 ];

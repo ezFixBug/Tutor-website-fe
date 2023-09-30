@@ -1,5 +1,5 @@
 <template>
-  <header class="header-menu-area">
+  <header class="header-menu-area" :class="{ fixed_header: scrollY > 125 }">
     <div class="header-menu-content bg-white">
       <div class="container">
         <div class="main-menu-content">
