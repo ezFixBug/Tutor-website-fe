@@ -21,12 +21,12 @@ export default {
     bottom: 0;
     background-color: rgba(67, 67, 67, 0.4);
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 2000;
 }
 .spinner{
     position: absolute;
     top: 47%;
     left: 47%;
-    z-index: 10001;
+    z-index: 2000;
 }
 </style>

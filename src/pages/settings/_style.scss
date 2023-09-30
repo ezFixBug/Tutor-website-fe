@@ -1,0 +1,14 @@
+@import "../../assets/styles/paritials/_mixins.scss";
+@import "../../assets/styles/paritials/_variables.scss";
+@import "../../assets/styles/paritials/_button.scss";
+@import "../../assets/styles/paritials/_cards.scss";
+@import "../../assets/styles/paritials/_menu.scss";
+@import "../../assets/styles/paritials/_contact.scss";
+@import "../../assets/styles/paritials/_dashboard.scss";
+@import "../../assets/styles/paritials/_filer-uploader.scss";
+@import "../../assets/styles/paritials/_tab.scss";
+.off--canvas-menu-list li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    justify-content: flex-start;
+}
