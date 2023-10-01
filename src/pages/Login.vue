@@ -1,5 +1,6 @@
 <template>
   <BreadCrumb :type="1" />
+  <spinner :is_loading="is_loading" />
   <section class="contact-area section-padding position-relative">
     <div class="container">
       <div class="row">
@@ -10,6 +11,11 @@
                 Đăng nhập!
               </h3>
               <div class="section-block"></div>
+              <div class="text-danger validation-summary-errors">
+                <ul>
+                  <li>{{ error }}</li>
+                </ul>
+              </div>
               <form class="pt-4">
                 <div class="input-box">
                   <label class="label-text">
@@ -23,6 +29,7 @@
                       placeholder="Nhập email hoặc tên đăng nhập"
                       data-val-required="The field is required."
                       required
+                      v-model="dataUser.email"
                     />
                     <i class="fa-regular fa-envelope input-icon"></i>
                   </div>
@@ -40,6 +47,7 @@
                         placeholder="Nhập mật khẩu của bạn"
                         data-val-required="The password field is required."
                         required
+                        v-model="dataUser.password"
                       />
                       <i class="fa-solid fa-lock input-icon"></i>
                     </div>
@@ -65,22 +73,13 @@
                   <div
                     class="d-flex align-items-center justify-content-between pb-4"
                   >
-                    <div class="custom-control custom-checkbox fs-15">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="rememberMeCheckbox"
-                      />
-                      <label
-                        for="rememberMeCheckbox"
-                        class="custom-control-label custom--control-label btn-text"
-                      >
-                        Nhớ tài khoản
-                      </label>
-                    </div>
                     <a href="#" class="btn-text">Quên mật khẩu?</a>
                   </div>
-                  <button class="btn theme-btn">
+                  <button
+                    class="btn theme-btn"
+                    type="button"
+                    @click="handleLogin"
+                  >
                     Đăng nhập
                     <i class="fa-solid fa-arrow-right icon"></i>
                   </button>
@@ -103,6 +102,10 @@
 </template>
 <script>
 import BreadCrumb from "../components/layouts/BreadCrum.vue";
+import $auth from "@/services/authService";
+import get from "lodash/get";
+import set from "lodash/set";
+
 export default {
   components: {
     BreadCrumb,
@@ -110,7 +113,26 @@ export default {
   data() {
     return {
       isDisplayPassword: false,
+      is_loading: false,
+      dataUser: {
+        email: null,
+        password: null,
+      },
+      error: null,
     };
+  },
+
+  methods: {
+    async handleLogin() {
+      this.is_loading = true;
+      const response = await $auth.login(this.dataUser);
+      this.is_loading = false;
+      if (get(response, "data.user", null)) {
+        window.location.href = "/";
+      } else {
+        this.error = get(response, "data.message", {});
+      }
+    },
   },
 };
 </script>

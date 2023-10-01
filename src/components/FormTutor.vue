@@ -629,7 +629,7 @@ import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
-import axios from "axios";
+import $http from "@/services/httpService";
 
 export default {
   data() {
@@ -720,22 +720,7 @@ export default {
     async onFileChangeFrontCard(event) {
       this.is_loading = true;
       const file = event.target.files[0];
-
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "website_tutor");
-      try {
-        const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/" +
-            process.env.VUE_APP_CLOUDINARY_NAME +
-            "/image/upload",
-          formData
-        );
-
-        this.dataTutor.front_citizen_card = response.data.secure_url;
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
+      this.dataTutor.front_citizen_card = await $http.uploadImageToCloud(file);
       this.is_loading = false;
     },
 
@@ -743,21 +728,7 @@ export default {
       this.is_loading = true;
       const file = event.target.files[0];
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "website_tutor");
-      try {
-        const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/" +
-            process.env.VUE_APP_CLOUDINARY_NAME +
-            "/image/upload",
-          formData
-        );
-
-        this.dataTutor.back_citizen_card = response.data.secure_url;
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
+      this.dataTutor.back_citizen_card = await $http.uploadImageToCloud(file);
       this.is_loading = false;
     },
 
@@ -765,21 +736,7 @@ export default {
       this.is_loading = true;
       const file = event.target.files[0];
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "website_tutor");
-      try {
-        const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/" +
-            process.env.VUE_APP_CLOUDINARY_NAME +
-            "/image/upload",
-          formData
-        );
-
-        this.dataTutor.certificate = response.data.secure_url;
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
+      this.dataTutor.certificate = await $http.uploadImageToCloud(file);
       this.is_loading = false;
     },
 

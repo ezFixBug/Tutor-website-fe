@@ -1,12 +1,9 @@
 /**
  * httpService
  */
-import store from '@/store/index';
 import axios from 'axios';
 import $auth from '@/services/authService';
 import get from 'lodash/get';
-import $notify from '@/services/notifyService';
-import i18n from '@/plugins/vue-i18n';
 
 class HttpService {
 
@@ -41,48 +38,67 @@ class HttpService {
     );
   }
 
-  async get(url, params = {}) {
-    await $auth.isAuthenticated();
+  // async get(url, params = {}) {
+  //   await $auth.isAuthenticated();
 
-    const path = `${store.getters['apiUrl']}${url}`;
-    // const version = `${store.getters['version']}`;
+  //   const path = `${store.getters['apiUrl']}${url}`;
+  //   // const version = `${store.getters['version']}`;
 
-    // if (version !== 'production') {
-    //   const time_travel = sessionStorage.getItem('time_travel');
-    //   if (time_travel) Object.assign(params, { time_travel: time_travel });
-    // }
-    return this.http.get(path, { params: params });
-  }
+  //   // if (version !== 'production') {
+  //   //   const time_travel = sessionStorage.getItem('time_travel');
+  //   //   if (time_travel) Object.assign(params, { time_travel: time_travel });
+  //   // }
+  //   return this.http.get(path, { params: params });
+  // }
 
-  async post(url, params = {}) {
-    await $auth.isAuthenticated();
+  // async post(url, params = {}) {
+  //   await $auth.isAuthenticated();
 
-    const path = `${store.getters['apiUrl']}${url}`;
-    // const version = `${store.getters['version']}`;
+  //   const path = `${store.getters['apiUrl']}${url}`;
+  //   // const version = `${store.getters['version']}`;
 
-    // if (version !== 'production') {
-    //   const time_travel = sessionStorage.getItem('time_travel');
-    //   if (time_travel) Object.assign(params, { time_travel: time_travel });
-    // }
-    return this.http.post(path, params);
-  }
+  //   // if (version !== 'production') {
+  //   //   const time_travel = sessionStorage.getItem('time_travel');
+  //   //   if (time_travel) Object.assign(params, { time_travel: time_travel });
+  //   // }
+  //   return this.http.post(path, params);
+  // }
 
-  async delete(url) {
-    await $auth.isAuthenticated();
+  // async delete(url) {
+  //   await $auth.isAuthenticated();
 
-    const path = `${store.getters['apiUrl']}${url}`;
-    return this.http.delete(path);
-  }
+  //   const path = `${store.getters['apiUrl']}${url}`;
+  //   return this.http.delete(path);
+  // }
 
-  async upload(url, params) {
-    await $auth.isAuthenticated();
+  // async upload(url, params) {
+  //   await $auth.isAuthenticated();
 
-    const path = `${store.getters['apiUrl']}${url}`;
-    return this.http.post(path, params, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  //   const path = `${store.getters['apiUrl']}${url}`;
+  //   return this.http.post(path, params, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //     },
+  //   });
+  // }
+
+  async uploadImageToCloud(file)
+  {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "website_tutor");
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/" +
+          process.env.VUE_APP_CLOUDINARY_NAME +
+          "/image/upload",
+        formData
+      );
+
+      return response.data.secure_url;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   }
 
 }

@@ -1,5 +1,6 @@
 <template>
   <BreadCrum :type="0" />
+  <spinner :is_loading="is_loading" />
   <section class="contact-area section-padding position-relative">
     <div class="container">
       <div class="row">
@@ -12,6 +13,87 @@
               </h3>
               <div class="section-block"></div>
               <form class="pt-4">
+                <div class="text-danger validation-summary-errors">
+                  <ul>
+                    <li v-if="dataErrors.avatar">{{ dataErrors.avatar }}</li>
+                    <li v-if="dataErrors.first_name">
+                      <div
+                        v-for="(error, index) in dataErrors.first_name"
+                        :key="index"
+                      >
+                        {{ error }}
+                      </div>
+                    </li>
+                    <li v-if="dataErrors.last_name">
+                      <div
+                        v-for="(error, index) in dataErrors.last_name"
+                        :key="index"
+                      >
+                        {{ error }}
+                      </div>
+                    </li>
+                    <li v-if="dataErrors.username">
+                      <div
+                        v-for="(error, index) in dataErrors.username"
+                        :key="index"
+                      >
+                        {{ error }}
+                      </div>
+                    </li>
+                    <li v-if="dataErrors.phone_number">
+                      <div
+                        v-for="(error, index) in dataErrors.phone_number"
+                        :key="index"
+                      >
+                        {{ error }}
+                      </div>
+                    </li>
+                    <li v-if="dataErrors.email">
+                      <div
+                        v-for="(error, index) in dataErrors.email"
+                        :key="index"
+                      >
+                        {{ error }}
+                      </div>
+                    </li>
+                    <li v-if="dataErrors.password">
+                      <div
+                        v-for="(error, index) in dataErrors.password"
+                        :key="index"
+                      >
+                        {{ error }}
+                      </div>
+                    </li>
+                    <li v-if="dataErrors.cfm_password">
+                      <div
+                        v-for="(error, index) in dataErrors.cfm_password"
+                        :key="index"
+                      >
+                        {{ error }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="media media-card align-items-center col-sm-12 mb-2">
+                  <div class="media-img media-img-lg mr-4 bg-gray">
+                    <img class="mr-3" :src="dataUser.avatar" />
+                  </div>
+                </div>
+                <div class="media-body col-sm-12">
+                  <div class="file-upload-wrap file-upload-wrap-2">
+                    <input
+                      type="file"
+                      class="file-upload-input with-preview"
+                      data-val-required="The Avatar field is required."
+                      required
+                      @change="onFileChangeAvatar"
+                    />
+                    <span class="file-upload-text">
+                      <i class="fa-solid fa-image mr-2"></i>
+                      Tải Avatar
+                    </span>
+                  </div>
+                </div>
                 <div class="input-box">
                   <label class="label-text">
                     Họ
@@ -24,6 +106,7 @@
                       placeholder="Nhập họ của bạn"
                       data-val-required="The FirstName field is required."
                       required
+                      v-model="dataUser.first_name"
                     />
                     <i class="fa-regular fa-user input-icon"></i>
                   </div>
@@ -41,6 +124,7 @@
                       placeholder="Nhập tên của bạn"
                       data-val-required="The LastName field is required."
                       required
+                      v-model="dataUser.last_name"
                     />
                     <i class="fa-regular fa-user input-icon"></i>
                   </div>
@@ -58,6 +142,7 @@
                       placeholder="Nhập tên đăng nhập của bạn"
                       data-val-required="The Username field is required."
                       required
+                      v-model="dataUser.username"
                     />
                     <i class="fa-regular fa-user input-icon"></i>
                   </div>
@@ -75,6 +160,7 @@
                       placeholder="Nhập số điện thoại của bạn"
                       data-val-required="The phonenumber field is required."
                       required
+                      v-model="dataUser.phone_number"
                     />
                     <i class="fa-solid fa-phone input-icon"></i>
                   </div>
@@ -92,6 +178,7 @@
                       placeholder="Nhập email của bạn"
                       data-val-required="The email field is required."
                       required
+                      v-model="dataUser.email"
                     />
                     <i class="fa-regular fa-envelope input-icon"></i>
                   </div>
@@ -109,6 +196,7 @@
                         placeholder="Nhập mật khẩu của bạn"
                         data-val-required="The password field is required."
                         required
+                        v-model="dataUser.password"
                       />
                       <i class="fa-solid fa-lock input-icon"></i>
                     </div>
@@ -150,6 +238,7 @@
                         placeholder="Xác nhận mật khẩu"
                         data-val-required="The password field is required."
                         required
+                        v-model="dataUser.cfm_password"
                       />
                       <i class="fa-solid fa-lock input-icon"></i>
                     </div>
@@ -172,7 +261,7 @@
                   </div>
                 </div>
                 <div class="btn-box">
-                  <button class="btn theme-btn">
+                  <button class="btn theme-btn" @click="handleRegister" type="button">
                     Đăng ký tài khoản
                     <i class="fa-solid fa-arrow-right icon"></i>
                   </button>
@@ -195,6 +284,13 @@
 </template>
 <script>
 import BreadCrum from "../components/layouts/BreadCrum.vue";
+import axios from "axios";
+import isEmpty from "lodash/isEmpty";
+import $auth from "@/services/authService";
+import $http from "@/services/httpService";
+import get from "lodash/get";
+import set from "lodash/set";
+
 export default {
   components: {
     BreadCrum,
@@ -203,7 +299,49 @@ export default {
     return {
       isDisplayPassword: false,
       isDisplayRePassword: false,
+      is_loading: false,
+      dataUser: {
+        avatar: "https://smart-edu.vn/img/image.png",
+        first_name: null,
+        last_name: null,
+        username: null,
+        phone_number: null,
+        email: null,
+        password: null,
+        cfm_password: null,
+      },
+      dataErrors: {
+        avatar: null,
+        first_name: null,
+        last_name: null,
+        username: null,
+        phone_number: null,
+        email: null,
+        password: null,
+        cfm_password: null,
+      },
     };
+  },
+
+  methods: {
+    async onFileChangeAvatar(event) {
+      this.is_loading = true;
+      const file = event.target.files[0];
+
+      this.dataUser.avatar = await $http.uploadImageToCloud(file);
+      this.is_loading = false;
+    },
+
+    async handleRegister() {
+      this.is_loading = true;
+      const response = await $auth.register(this.dataUser);
+      this.is_loading = false;
+      if (get(response, "data.user", null)) {
+        window.location.href = "/";
+      } else {
+        this.dataErrors = get(response, "data.errors", {});
+      }
+    },
   },
 };
 </script>
