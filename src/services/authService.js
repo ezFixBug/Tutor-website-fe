@@ -6,19 +6,19 @@ class AuthService {
   constructor() {
     this.STORAGE = localStorage;
     this.STORAGE_KEY = 'token';
-    this.INVENTORY_PLAN_KEY = 'plan';
+    this.STORAGE_KEY_USER = 'user';
 
+    this.DEFAULT_AVATAR = 'https://smart-edu.vn/img/avatar.png';
     this.$auth = axios.create();
     this.storageValue = null;
   }
 
-  get value() {
+  get hasValue() {
     return JSON.parse(this.STORAGE.getItem(this.STORAGE_KEY));
   }
-
-  get hasValue() {
-    const auth = this.value;
-    return auth && get(auth, 'token') && get(auth, 'token_period') && get(auth, 'refresh_token');
+  
+  get getUser() {
+    return JSON.parse(this.STORAGE.getItem(this.STORAGE_KEY_USER));
   }
 
   get tokenExpiration() {
@@ -45,18 +45,39 @@ class AuthService {
     });
   }
 
+  register(request) {
+    const interceptor = this.$auth.interceptors.response.use(
+      (response) => {
+        if (response.data) {
+          this.success(response.data);
+        }
+        return response;
+      },
+      (error) => error.response
+    );
+
+    const app_url = process.env.VUE_APP_API_URL
+    const url = app_url + `/register`;
+
+    return this.$auth.post(url, request).finally(() => {
+      this.$auth.interceptors.response.eject(interceptor);
+    });
+  }
+
+
   login(request) {
     const interceptor = this.$auth.interceptors.response.use(
       (response) => {
-
-        return response.data.result;
+        if (response.data) {
+          this.success(response.data);
+        }
+        return response;
       },
-      (error) => -1
+      (error) => error.response
     );
 
-    const url = `${store.getters['apiUrl']}/login`;
-
-    this.account_id = String(request.account_id);
+    const app_url = process.env.VUE_APP_API_URL
+    const url = app_url + `/login`;
 
     return this.$auth.post(url, request).finally(() => {
       this.$auth.interceptors.response.eject(interceptor);
@@ -111,22 +132,14 @@ class AuthService {
 
   success(authData) {
     this.storageValue = authData;
-    this.STORAGE.setItem(this.STORAGE_KEY, JSON.stringify(authData));
-    this.STORAGE.setItem(this.LOGIN_KEY, JSON.stringify({ 
-      account_id: authData.account_id,
-      account_name: authData.account_name, 
-      due_date: authData.due_date, 
-      has_payment_problem: authData.has_payment_problem, 
-      email: authData.email
-    }));
+    this.STORAGE.setItem(this.STORAGE_KEY, JSON.stringify(authData.token));
+    this.STORAGE.setItem(this.STORAGE_KEY_USER, JSON.stringify(authData.user));
   }
 
   clear() {
-    this.account_id = null;
     this.storageValue = null;
     this.STORAGE.removeItem(this.STORAGE_KEY);
-    this.STORAGE.removeItem(this.INVENTORY_PLAN_KEY);
-    this.STORAGE.removeItem(this.SETTING_SSO_KEY);
+    this.STORAGE.removeItem(this.STORAGE_KEY_USER);
   }
 
   getAccount() {
