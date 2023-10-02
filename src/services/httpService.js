@@ -101,6 +101,29 @@ class HttpService {
     }
   }
 
+  async getProvinces() {
+    try {
+      const app_url = process.env.VUE_APP_API_URL
+      const response = await axios.get(app_url + '/provinces');
+      if (response.data) {
+        return response.data.provinces.map(city => ({ label: city.name, value: city.id }));
+      };
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  async getDistricts(province_id) {
+    try {
+      const app_url = process.env.VUE_APP_API_URL
+      const response = await axios.get(app_url + '/districts/' + province_id);
+      if (response.data) {
+        return response.data.districts.map(district => ({ label: district.name, value: district.id }));
+      };
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 }
 
 export default new HttpService();

@@ -1,7 +1,10 @@
 <template>
   <spinner :is_loading="is_loading" />
   <form class="row">
-    <div class="card card-item w-100" style="max-height: none">
+    <div
+      class="card card-item w-100"
+      style="max-height: none; max-height: none !important"
+    >
       <div class="card-body">
         <div class="row">
           <div class="input-box col-lg-12">
@@ -160,8 +163,8 @@
                         :options="listOptionCities"
                         size="large"
                         placeholder="--Chọn thành phố/tỉnh--"
-                        v-model="dataTutor.city"
                         class="w-85 mr-4"
+                        @change="onChangeChooseCityUser"
                       />
                     </FormItem>
                   </Form>
@@ -183,10 +186,16 @@
                     <FormItem>
                       <Select
                         show-search
-                        :options="listOptionDistricts"
+                        :options="listOptionDistrictsUser"
                         size="large"
                         placeholder="--Chọn quận/huyện--"
                         v-model="dataTutor.district"
+                        :filterOption="
+                          (input, option) =>
+                            option.label
+                              .toLowerCase()
+                              .indexOf(input.toLowerCase()) >= 0
+                        "
                         class="w-85 mr-4"
                       />
                     </FormItem>
@@ -313,7 +322,10 @@
         </div>
       </div>
     </div>
-    <div class="card card-item w-100" style="max-height: none">
+    <div
+      class="card card-item w-100"
+      style="max-height: none; max-heigt: none !important"
+    >
       <div class="card-body">
         <h3 class="fs-22 font-weight-semi-bold pb-2">
           Thêm môn dạy
@@ -492,14 +504,14 @@
                   <div class="form-group">
                     <div class="check-list row">
                       <div
-                        class="col-3"
+                        class="col-4"
                         v-for="(item, pos) in listOptionDistricts"
                         :key="pos"
                       >
                         <label class="ui-checkbox ui-checkbox-primary">
                           <input
                             type="checkbox"
-                            class="course-level"
+                            class="course-level mr-1"
                             :value="item.value"
                             v-model="list_districts_choosed"
                           />
@@ -632,19 +644,17 @@ import cloneDeep from "lodash/cloneDeep";
 import $http from "@/services/httpService";
 
 export default {
+  async created() {
+    this.is_loading = true;
+    this.listOptionCities = await $http.getProvinces();
+    this.is_loading = false;
+  },
   data() {
     return {
       is_loading: false,
-      listOptionCities: [
-        { label: "Đà Nẵng", value: 1 },
-        { label: "Hà Nội", value: 2 },
-        { label: "Quảng Nam", value: 3 },
-      ],
-      listOptionDistricts: [
-        { label: "Liên Chiểu", value: 1 },
-        { label: "Hải Châu", value: 2 },
-        { label: "Hòa Vang", value: 3 },
-      ],
+      listOptionCities: [],
+      listOptionDistrictsUser: [],
+      listOptionDistricts: [],
       listOptionJobs: [
         { label: "Option 1", value: 1 },
         { label: "Option 2", value: 2 },
@@ -667,7 +677,7 @@ export default {
         phone_number: "12345",
         birthday: "16/12/2001",
         sex: 1,
-        city: null,
+        province: null,
         district: null,
         street: null,
         education: null,
@@ -785,10 +795,19 @@ export default {
       this.classSubjectChoosed.splice(index, 1);
     },
 
-    onChangeChooseCity(value) {
-      //to do get list district of city
+    async onChangeChooseCityUser(value) {
+      this.is_loading = true;
+      this.dataTutor.province = value;
+      this.listOptionDistrictsUser = await $http.getDistricts(value);
+      this.is_loading = false;
+    },
+
+    async onChangeChooseCity(value) {
+      this.is_loading = true;
       this.city = value;
-      console.log(value);
+
+      this.listOptionDistricts = await $http.getDistricts(value);
+      this.is_loading = false;
     },
 
     handleAddCity() {
