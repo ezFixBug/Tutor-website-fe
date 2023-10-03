@@ -339,7 +339,14 @@ export default {
       if (get(response, "data.user", null)) {
         window.location.href = "/";
       } else {
-        this.dataErrors = get(response, "data.errors", {});
+        if (get(response, "data.status", {}) === 400) {
+          this.error = get(response, "data.message", {});
+        } else {
+          createToast(get(response, "data.message", {}), {
+            type: "danger",
+            timeout: 6000,
+          });
+        }
       }
     },
   },

@@ -14,10 +14,16 @@ class AuthService {
   }
 
   get hasValue() {
-    return JSON.parse(this.STORAGE.getItem(this.STORAGE_KEY));
+    if (this.STORAGE.getItem(this.STORAGE_KEY) === undefined)  {
+      return false;
+    }
+    return this.STORAGE.getItem(this.STORAGE_KEY);
   }
   
   get getUser() {
+    if (this.STORAGE.getItem(this.STORAGE_KEY_USER) === undefined) {
+      return false;
+    }
     return JSON.parse(this.STORAGE.getItem(this.STORAGE_KEY_USER));
   }
 
@@ -48,7 +54,7 @@ class AuthService {
   register(request) {
     const interceptor = this.$auth.interceptors.response.use(
       (response) => {
-        if (response.data) {
+        if (response.data.status === 200)  {
           this.success(response.data);
         }
         return response;
@@ -68,7 +74,7 @@ class AuthService {
   login(request) {
     const interceptor = this.$auth.interceptors.response.use(
       (response) => {
-        if (response.data) {
+        if (response.data.status === 200) {
           this.success(response.data);
         }
         return response;
@@ -140,12 +146,6 @@ class AuthService {
     this.storageValue = null;
     this.STORAGE.removeItem(this.STORAGE_KEY);
     this.STORAGE.removeItem(this.STORAGE_KEY_USER);
-  }
-
-  getAccount() {
-    const storage = JSON.parse(this.STORAGE.getItem(this.LOGIN_KEY));
-    if (storage) return storage;
-    else return { account_id: null, account_name: null };
   }
 }
 

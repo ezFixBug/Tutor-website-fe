@@ -4,11 +4,14 @@
 import axios from 'axios';
 import $auth from '@/services/authService';
 import get from 'lodash/get';
+import { createToast } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
 
 class HttpService {
 
   constructor() {
     this.http = axios.create();
+    this.app_url = process.env.VUE_APP_API_URL;
     this.init();
   }
 
@@ -38,18 +41,28 @@ class HttpService {
     );
   }
 
-  // async get(url, params = {}) {
-  //   await $auth.isAuthenticated();
+  showError(message) {
+    createToast(message, {
+      type: "danger",
+      timeout: 6000,
+    });
+  }
 
-  //   const path = `${store.getters['apiUrl']}${url}`;
-  //   // const version = `${store.getters['version']}`;
+  mapData(data) {
+    return data.map(item => ({ label: item.name, value: item.id }));
+  }
 
-  //   // if (version !== 'production') {
-  //   //   const time_travel = sessionStorage.getItem('time_travel');
-  //   //   if (time_travel) Object.assign(params, { time_travel: time_travel });
-  //   // }
-  //   return this.http.get(path, { params: params });
-  // }
+  async get(url, params = {}) {
+
+    const path = this.app_url + url;
+    // const version = `${store.getters['version']}`;
+
+    // if (version !== 'production') {
+    //   const time_travel = sessionStorage.getItem('time_travel');
+    //   if (time_travel) Object.assign(params, { time_travel: time_travel });
+    // }
+    return this.http.get(path, { params: params });
+  }
 
   // async post(url, params = {}) {
   //   await $auth.isAuthenticated();
@@ -97,31 +110,62 @@ class HttpService {
 
       return response.data.secure_url;
     } catch (error) {
-      console.error("Error uploading image:", error);
+      this.showError(error.response.data.message)
     }
   }
 
   async getProvinces() {
     try {
-      const app_url = process.env.VUE_APP_API_URL
-      const response = await axios.get(app_url + '/provinces');
-      if (response.data) {
-        return response.data.provinces.map(city => ({ label: city.name, value: city.id }));
+      const response = await axios.get(this.app_url + '/provinces');
+      if (response.data.provinces) {
+        return this.mapData(response.data.provinces);
       };
     } catch (error) {
-      console.error("Error:", error);
+      this.showError(error.response.data.message)
     }
   }
 
   async getDistricts(province_id) {
     try {
-      const app_url = process.env.VUE_APP_API_URL
-      const response = await axios.get(app_url + '/districts/' + province_id);
-      if (response.data) {
-        return response.data.districts.map(district => ({ label: district.name, value: district.id }));
+      const response = await axios.get(this.app_url + '/districts/' + province_id);
+      if (response.data.districts) {
+        return this.mapData(response.data.districts);
       };
     } catch (error) {
-      console.error("Error:", error);
+      this.showError(error.response.data.message)
+    }
+  }
+
+  async getSubjects() {
+    try {
+      const response = await axios.get(this.app_url + '/subjects');
+      if (response.data.subjects) {
+        return this.mapData(response.data.subjects);
+      };
+    } catch (error) {
+      this.showError(error.response.data.message)
+    }
+  }
+
+  async getClasses() {
+    try {
+      const response = await axios.get(this.app_url + '/classes');
+      if (response.data.classes) {
+        return this.mapData(response.data.classes);
+      };
+    } catch (error) {
+      this.showError(error.response.data.message)
+    }
+  }
+
+  async getJobs() {
+    try {
+      const response = await axios.get(this.app_url + '/jobs');
+      if (response.data.jobs) {
+        return this.mapData(response.data.jobs);
+      };
+    } catch (error) {
+      this.showError(error.response.data.message)
     }
   }
 }
