@@ -401,7 +401,7 @@
                             :value="item.value"
                             v-model="list_classes_choosed"
                           />
-                          <span class="input-span">{{ item.label }}</span>
+                          <span class="input-span ml-1">{{ item.label }}</span>
                         </label>
                       </div>
                     </div>
@@ -443,7 +443,7 @@
         </div>
       </div>
     </div>
-    <div class="card card-item w-100">
+    <div class="card card-item w-100" style="max-height: none !important">
       <div class="card-body">
         <h3 class="fs-22 font-weight-semi-bold pb-2">
           Nơi bạn có thể dạy
@@ -647,6 +647,9 @@ export default {
   async created() {
     this.is_loading = true;
     this.listOptionCities = await $http.getProvinces();
+    this.listOptionSubjects = await $http.getSubjects();
+    this.listOptionClasses = await $http.getClasses();
+    this.listOptionJobs = await $http.getJobs();
     this.is_loading = false;
   },
   data() {
@@ -655,21 +658,9 @@ export default {
       listOptionCities: [],
       listOptionDistrictsUser: [],
       listOptionDistricts: [],
-      listOptionJobs: [
-        { label: "Option 1", value: 1 },
-        { label: "Option 2", value: 2 },
-        { label: "Option 3", value: 3 },
-      ],
-      listOptionSubjects: [
-        { label: "Tiếng Anh", value: 1 },
-        { label: "Toán", value: 2 },
-        { label: "Ngữ văn", value: 3 },
-      ],
-      listOptionClasses: [
-        { label: "Lớp 1", value: 1 },
-        { label: "Lớp 2", value: 2 },
-        { label: "Lớp 3", value: 3 },
-      ],
+      listOptionJobs: [],
+      listOptionSubjects: [],
+      listOptionClasses: [],
       dataTutor: {
         id: 1,
         full_name: "Le Thang",
