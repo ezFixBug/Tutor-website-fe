@@ -13,7 +13,10 @@
               style="display: block"
             >
               <div class="media-img media-img-lg mr-4 bg-gray">
-                <img class="mr-3" :src="dataTutor.front_citizen_card" />
+                <img
+                  class="mr-3"
+                  :src="dataTutor.front_citizen_card ?? DEFAULT_IMAGE"
+                />
               </div>
               <div class="media-body col-lg-12 mt-2">
                 <div class="file-upload-wrap file-upload-wrap-2">
@@ -30,6 +33,13 @@
                     <span class="text-color fs-14">*</span>
                   </span>
                 </div>
+                <div
+                  v-for="(error, index) in dataErrors.front_citizen_card"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
+                </div>
                 <p class="fs-14">
                   Kích thước tệp tối đa là 5MB, Kích thước tối thiểu: 350x200 Và
                   các tệp phù hợp là .jpg & .png
@@ -43,7 +53,10 @@
               style="display: block"
             >
               <div class="media-img media-img-lg mr-4 bg-gray">
-                <img class="mr-3" :src="dataTutor.back_citizen_card" />
+                <img
+                  class="mr-3"
+                  :src="dataTutor.back_citizen_card ?? DEFAULT_IMAGE"
+                />
               </div>
               <div class="media-body col-lg-12 mt-2">
                 <div class="file-upload-wrap file-upload-wrap-2">
@@ -59,6 +72,13 @@
                     Mặt sau CCCD
                     <span class="text-color fs-14">*</span>
                   </span>
+                </div>
+                <div
+                  v-for="(error, index) in dataErrors.back_citizen_card"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
                 </div>
                 <p class="fs-14">
                   Kích thước tệp tối đa là 5MB, Kích thước tối thiểu: 350x200 Và
@@ -113,6 +133,13 @@
               />
               <i class="fa-solid fa-phone input-icon"></i>
             </div>
+            <div
+              v-for="(error, index) in dataErrors.phone_number"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
+            </div>
           </div>
           <div class="input-box col-lg-6">
             <label class="label-text">
@@ -128,22 +155,49 @@
               />
               <i class="fa-regular fa-calendar-days input-icon"></i>
             </div>
+            <div
+              v-for="(error, index) in dataErrors.birthday"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
+            </div>
           </div>
-          <div class="input-box col-lg-6">
-            <label class="label-text">
-              Giới tính
-              <span class="text-color fs-12">*</span>
-            </label>
+          <div class="col-lg-6">
+            <label class="label-text">Chọn giới tính</label>
             <div class="form-group">
-              <select
-                v-model="dataTutor.sex"
-                type="text"
-                class="form-control form--control"
-              >
-                <option value="1">Nam</option>
-                <option value="2">Nữ</option>
-              </select>
-              <i class="fa-solid fa-genderless input-icon"></i>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <div class="check-list row">
+                      <div class="col-5">
+                        <label class="ui-checkbox ui-checkbox-primary">
+                          <input
+                            type="radio"
+                            name="sex"
+                            class="course-level mr-1"
+                            :value="1"
+                            v-model="dataTutor.sex"
+                          />
+                          <span class="input-span">Nam</span>
+                        </label>
+                      </div>
+                      <div class="col-5">
+                        <label class="ui-checkbox ui-checkbox-primary">
+                          <input
+                            type="radio"
+                            name="sex"
+                            class="course-level mr-1"
+                            :value="2"
+                            v-model="dataTutor.sex"
+                          />
+                          <span class="input-span">Nữ</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="input-box col-lg-6">
@@ -165,16 +219,25 @@
                         placeholder="--Chọn thành phố/tỉnh--"
                         class="w-85 mr-4"
                         @change="onChangeChooseCityUser"
+                        v-model:value="dataTutor.province_id"
+                        :filter-option="filterOption"
                       />
                     </FormItem>
                   </Form>
                 </div>
               </div>
             </div>
+            <div
+              v-for="(error, index) in dataErrors.province_id"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
+            </div>
           </div>
           <div class="input-box col-lg-6">
             <label class="label-text">
-              Chọn thành quận/Huyện
+              Chọn quận/Huyện
               <span class="text-color fs-12">*</span>
             </label>
             <div class="form-group">
@@ -189,19 +252,21 @@
                         :options="listOptionDistrictsUser"
                         size="large"
                         placeholder="--Chọn quận/huyện--"
-                        v-model="dataTutor.district"
-                        :filterOption="
-                          (input, option) =>
-                            option.label
-                              .toLowerCase()
-                              .indexOf(input.toLowerCase()) >= 0
-                        "
                         class="w-85 mr-4"
+                        v-model:value="dataTutor.district_id"
+                        :filter-option="filterOption"
                       />
                     </FormItem>
                   </Form>
                 </div>
               </div>
+            </div>
+            <div
+              v-for="(error, index) in dataErrors.district_id"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
             </div>
           </div>
           <div class="input-box col-lg-6">
@@ -218,6 +283,13 @@
               />
               <i class="fa-solid fa-location-dot input-icon"></i>
             </div>
+            <div
+              v-for="(error, index) in dataErrors.street"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
+            </div>
           </div>
           <div class="input-box col-lg-6">
             <label class="label-text">
@@ -232,6 +304,13 @@
                 placeholder="vd: Đại học"
               />
               <i class="fa-solid fa-graduation-cap input-icon"></i>
+            </div>
+            <div
+              v-for="(error, index) in dataErrors.education"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
             </div>
           </div>
           <div class="input-box col-lg-6">
@@ -251,13 +330,21 @@
                         :options="listOptionJobs"
                         size="large"
                         placeholder="--Chọn nghề nghiệp--"
-                        v-model="dataTutor.job"
+                        v-model:value="dataTutor.job_current_id"
                         class="w-85 mr-4"
+                        :filter-option="filterOption"
                       />
                     </FormItem>
                   </Form>
                 </div>
               </div>
+            </div>
+            <div
+              v-for="(error, index) in dataErrors.job_current_id"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
             </div>
           </div>
           <div class="input-box col-lg-12">
@@ -266,7 +353,10 @@
               style="display: block"
             >
               <div class="media-img media-img-lg mr-4 bg-gray">
-                <img class="mr-3" :src="dataTutor.certificate" />
+                <img
+                  class="mr-3"
+                  :src="dataTutor.certificate ?? DEFAULT_IMAGE"
+                />
               </div>
               <div class="media-body col-lg-12 mt-2">
                 <div class="file-upload-wrap file-upload-wrap-2">
@@ -282,6 +372,13 @@
                     Bằng cấp
                     <span class="text-color fs-14">*</span>
                   </span>
+                </div>
+                <div
+                  v-for="(error, index) in dataErrors.certificate"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
                 </div>
                 <p class="fs-14">
                   Kích thước tệp tối đa là 5MB, Kích thước tối thiểu: 350x200 Và
@@ -299,10 +396,17 @@
               <input
                 type="text"
                 class="form-control form--control"
-                v-model="dataTutor.exp"
+                v-model="dataTutor.title"
                 placeholder="Gia sư nhiều năm kinh nghiệm"
               />
               <i class="fa-solid fa-graduation-cap input-icon"></i>
+            </div>
+            <div
+              v-for="(error, index) in dataErrors.title"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
             </div>
           </div>
           <div class="input-box col-lg-12">
@@ -317,6 +421,13 @@
                 placeholder="Giới thiệu bản thân"
                 v-model="dataTutor.description"
               ></textarea>
+            </div>
+            <div
+              v-for="(error, index) in dataErrors.description"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
             </div>
           </div>
         </div>
@@ -333,6 +444,13 @@
         </h3>
         <div class="divider"><span></span></div>
         <div class="row">
+          <div
+            v-for="(error, index) in dataErrors.listSubjectClasses"
+            :key="index"
+            class="text-danger validation-summary-errors fs-14"
+          >
+            {{ error }}
+          </div>
           <div
             class="col-lg-12 text-center"
             v-show="is_display_require_subject"
@@ -373,6 +491,7 @@
                         placeholder="--Chọn môn học--"
                         class="w-85 mr-4"
                         @change="onChangeSubject"
+                        :filter-option="filterOption"
                       />
                     </FormItem>
                   </Form>
@@ -450,6 +569,13 @@
           <span class="text-color fs-12">(bắt buộc)</span>
         </h3>
         <div class="divider"><span></span></div>
+        <div
+          v-for="(error, index) in dataErrors.listCityDistricts"
+          :key="index"
+          class="text-danger validation-summary-errors fs-14"
+        >
+          {{ error }}
+        </div>
         <div class="row">
           <div class="col-lg-12 text-center" v-show="is_display_require_city">
             <p class="text-color fs-12">Vui lòng chọn tỉnh(thành phố)</p>
@@ -487,6 +613,7 @@
                         placeholder="--Chọn thành phố/Tỉnh--"
                         class="w-85 mr-4"
                         @change="onChangeChooseCity"
+                        :filter-option="filterOption"
                       />
                     </FormItem>
                   </Form>
@@ -587,6 +714,13 @@
                 <i class="fa-solid fa-money-bill input-icon"></i>
               </div>
             </div>
+            <div
+              v-for="(error, index) in dataErrors.price"
+              :key="index"
+              class="text-danger validation-summary-errors fs-14"
+            >
+              {{ error }}
+            </div>
           </div>
           <div class="col-lg-12">
             <label class="label-text"
@@ -603,10 +737,11 @@
                       <div class="col-5">
                         <label class="ui-checkbox ui-checkbox-primary">
                           <input
-                            type="checkbox"
-                            class="course-level"
+                            type="radio"
+                            name="type"
+                            class="course-level mr-1"
                             :value="1"
-                            v-model="dataTutor.list_type_choosed"
+                            v-model="dataTutor.type_cd"
                           />
                           <span class="input-span">Học tại nhà</span>
                         </label>
@@ -614,10 +749,11 @@
                       <div class="col-5">
                         <label class="ui-checkbox ui-checkbox-primary">
                           <input
-                            type="checkbox"
-                            class="course-level"
+                            type="radio"
+                            name="type"
+                            class="course-level mr-1"
                             :value="2"
-                            v-model="dataTutor.list_type_choosed"
+                            v-model="dataTutor.type_cd"
                           />
                           <span class="input-span">Học online</span>
                         </label>
@@ -631,7 +767,7 @@
         </div>
       </div>
     </div>
-    <button class="btn theme-btn">
+    <button class="btn theme-btn" type="button" @click="handleBecomeTutor">
       Trở thành gia sư <i class="fa-solid fa-arrow-right icon"></i>
     </button>
   </form>
@@ -642,16 +778,33 @@ import get from "lodash/get";
 import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
 import $http from "@/services/httpService";
+import $auth from "@/services/authService";
+import { createToast } from "mosha-vue-toastify";
+import axios from "axios";
 
+const DEFAULT_IMAGE = "https://hryoutest.in.ua/uploads/images/default.jpg";
 export default {
   async created() {
     this.is_loading = true;
     this.listOptionCities = await $http.getProvinces();
     this.listOptionSubjects = await $http.getSubjects();
+    if (this.user.district_id) {
+      this.listOptionDistrictsUser = await $http.getDistricts(
+        this.user.province_id
+      );
+    }
     this.listOptionClasses = await $http.getClasses();
     this.listOptionJobs = await $http.getJobs();
+    const user_id = this.user.id;
+    const response = await $http.get("/user/" + user_id);
+    if (response.data.status === 200) {
+      this.dataTutor = response.data.user;
+      this.dataTutor.listCityDistricts = [];
+      this.dataTutor.listSubjectClasses = [];
+    }
     this.is_loading = false;
   },
+
   data() {
     return {
       is_loading: false,
@@ -661,28 +814,7 @@ export default {
       listOptionJobs: [],
       listOptionSubjects: [],
       listOptionClasses: [],
-      dataTutor: {
-        id: 1,
-        full_name: "Le Thang",
-        email: "lethang@gmail.com",
-        phone_number: "12345",
-        birthday: "16/12/2001",
-        sex: 1,
-        province: null,
-        district: null,
-        street: null,
-        education: null,
-        job: null,
-        certificate: "https://smart-edu.vn/img/image.png",
-        exp: null,
-        description: null,
-        listSubjectClasses: [],
-        listCityDistricts: [],
-        price: 0,
-        list_type_choosed: [],
-        front_citizen_card: "https://smart-edu.vn/img/image.png",
-        back_citizen_card: "https://smart-edu.vn/img/image.png",
-      },
+      dataTutor: {},
       subject: null,
       list_classes_choosed: [],
       classSubjectChoosed: [],
@@ -695,6 +827,7 @@ export default {
       city: null,
       list_districts_choosed: [],
       cityDistrictChoosed: [],
+      dataErrors: [],
     };
   },
 
@@ -714,6 +847,10 @@ export default {
       set(val) {
         this.cityDistrictChoosed.push(val);
       },
+    },
+
+    user() {
+      return $auth.getUser;
     },
   },
 
@@ -784,11 +921,13 @@ export default {
     },
     handleRemoveClassSubjectChoosed(index) {
       this.classSubjectChoosed.splice(index, 1);
+      this.dataTutor.listSubjectClasses.splice(index, 1);
     },
 
     async onChangeChooseCityUser(value) {
       this.is_loading = true;
-      this.dataTutor.province = value;
+      this.dataTutor.province_id = value;
+      this.dataTutor.district_id = null;
       this.listOptionDistrictsUser = await $http.getDistricts(value);
       this.is_loading = false;
     },
@@ -840,6 +979,36 @@ export default {
 
     handleRemoveCityDistrictChoosed(index) {
       this.cityDistrictChoosed.splice(index, 1);
+      this.dataTutor.listCityDistricts.splice(index, 1);
+    },
+
+    async handleBecomeTutor() {
+      this.is_loading = true;
+
+      let params = cloneDeep(this.dataTutor);
+      console.log(params);
+      const response = await $http.post("/become-tutor", params);
+      this.is_loading = false;
+      const user = get(response, "data.user", null);
+      if (user) {
+        createToast(
+          "Đã gửi yêu cầu trở thành gia sư thành công. Vui lòng đợi admin duyệt!",
+          {
+            type: "success",
+            timeout: 6000,
+          }
+        );
+        localStorage.setItem("user", JSON.stringify(user));
+        this.$router.push({ path: "/" });
+      } else {
+        if (get(response, "data.status", {}) === 422) {
+          this.dataErrors = get(response, "data.errors", {});
+        }
+      }
+    },
+
+    filterOption(input, option) {
+      return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     },
   },
 

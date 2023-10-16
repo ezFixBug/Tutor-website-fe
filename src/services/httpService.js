@@ -18,8 +18,12 @@ class HttpService {
   init() {
     this.http.interceptors.request.use(
       (config) => {
-        const token = get($auth.value, 'token', null);
-        config.headers['X-Auth-Token'] = `${token}`;
+        if ($auth.hasValue) {
+          const token = $auth.hasValue.replace(`"`, '');
+
+          config.headers['Content-Type'] = "multipart/form-data";
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
         return config;
       }
     );
@@ -30,12 +34,15 @@ class HttpService {
       },
       (error) => {
         if (error.response && error.response.status === 401) {
-          $auth.reject();
+          this.showError('Vui lòng đăng nhập!');
+          this.$router.push({name: 'login'});
         }
-        // $notify.show({
-        //   message: i18n.t('ERRORS.STOP_PROCESSING'),
-        //   style: 'danger',
-        // });
+        if (error.response && error.response.status === 422) {
+          return { data: { result: false, errors: error.response.data.errors, status: 422 } };
+        }
+
+        this.showError(error.response.data.message);
+
         return { data: { result: false, message: error.response.data.message } };
       }
     );
@@ -53,29 +60,16 @@ class HttpService {
   }
 
   async get(url, params = {}) {
-
     const path = this.app_url + url;
-    // const version = `${store.getters['version']}`;
-
-    // if (version !== 'production') {
-    //   const time_travel = sessionStorage.getItem('time_travel');
-    //   if (time_travel) Object.assign(params, { time_travel: time_travel });
-    // }
     return this.http.get(path, { params: params });
   }
 
-  // async post(url, params = {}) {
-  //   await $auth.isAuthenticated();
+  async post(url, params = {}) {
+    const path = this.app_url + url;
+    const res = await this.http.post(path, params);
+    return res;
 
-  //   const path = `${store.getters['apiUrl']}${url}`;
-  //   // const version = `${store.getters['version']}`;
-
-  //   // if (version !== 'production') {
-  //   //   const time_travel = sessionStorage.getItem('time_travel');
-  //   //   if (time_travel) Object.assign(params, { time_travel: time_travel });
-  //   // }
-  //   return this.http.post(path, params);
-  // }
+  }
 
   // async delete(url) {
   //   await $auth.isAuthenticated();
@@ -95,16 +89,15 @@ class HttpService {
   //   });
   // }
 
-  async uploadImageToCloud(file)
-  {
+  async uploadImageToCloud(file) {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "website_tutor");
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/" +
-          process.env.VUE_APP_CLOUDINARY_NAME +
-          "/image/upload",
+        process.env.VUE_APP_CLOUDINARY_NAME +
+        "/image/upload",
         formData
       );
 
