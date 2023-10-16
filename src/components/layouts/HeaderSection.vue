@@ -44,7 +44,7 @@
                         Dành cho gia sư <i class="fa-solid fa-chevron-down"></i>
                       </a>
                       <ul class="dropdown-menu-item">
-                        <li>
+                        <li v-show="userStatusCd !== 2">
                           <router-link :to="{ name: 'becomeTutor' }"
                             >Trở thành gia sư</router-link
                           >
@@ -330,7 +330,7 @@
             </button>
           </a>
           <ul class="collapse" id="tutor">
-            <li>
+            <li v-show="userStatusCd !== 2">
               <router-link
                 @click="is_active = false"
                 :to="{ name: 'becomeTutor' }"
@@ -487,6 +487,12 @@ export default {
     user() {
       return $auth.getUser;
     },
+
+    userStatusCd() {
+      if (this.user) {
+        return this.user.status_cd;
+      }
+    }
   },
   methods: {
     handleScroll() {

@@ -13,70 +13,16 @@
               </h3>
               <div class="section-block"></div>
               <form class="pt-4">
-                <div class="text-danger validation-summary-errors">
-                  <ul>
-                    <li v-if="dataErrors.avatar">{{ dataErrors.avatar }}</li>
-                    <li v-if="dataErrors.first_name">
-                      <div
-                        v-for="(error, index) in dataErrors.first_name"
-                        :key="index"
-                      >
-                        {{ error }}
-                      </div>
-                    </li>
-                    <li v-if="dataErrors.last_name">
-                      <div
-                        v-for="(error, index) in dataErrors.last_name"
-                        :key="index"
-                      >
-                        {{ error }}
-                      </div>
-                    </li>
-                    <li v-if="dataErrors.username">
-                      <div
-                        v-for="(error, index) in dataErrors.username"
-                        :key="index"
-                      >
-                        {{ error }}
-                      </div>
-                    </li>
-                    <li v-if="dataErrors.phone_number">
-                      <div
-                        v-for="(error, index) in dataErrors.phone_number"
-                        :key="index"
-                      >
-                        {{ error }}
-                      </div>
-                    </li>
-                    <li v-if="dataErrors.email">
-                      <div
-                        v-for="(error, index) in dataErrors.email"
-                        :key="index"
-                      >
-                        {{ error }}
-                      </div>
-                    </li>
-                    <li v-if="dataErrors.password">
-                      <div
-                        v-for="(error, index) in dataErrors.password"
-                        :key="index"
-                      >
-                        {{ error }}
-                      </div>
-                    </li>
-                    <li v-if="dataErrors.cfm_password">
-                      <div
-                        v-for="(error, index) in dataErrors.cfm_password"
-                        :key="index"
-                      >
-                        {{ error }}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
                 <div class="media media-card align-items-center col-sm-12 mb-2">
                   <div class="media-img media-img-lg mr-4 bg-gray">
-                    <img class="mr-3" :src="dataUser.avatar" />
+                    <img
+                      class="mr-3"
+                      :src="
+                        dataUser.avatar
+                          ? dataUser.avatar
+                          : `https://smart-edu.vn/img/image.png`
+                      "
+                    />
                   </div>
                 </div>
                 <div class="media-body col-sm-12">
@@ -93,6 +39,13 @@
                       Tải Avatar
                     </span>
                   </div>
+                </div>
+                <div
+                  v-for="(error, index) in dataErrors.avatar"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
                 </div>
                 <div class="input-box">
                   <label class="label-text">
@@ -111,7 +64,13 @@
                     <i class="fa-regular fa-user input-icon"></i>
                   </div>
                 </div>
-
+                <div
+                  v-for="(error, index) in dataErrors.first_name"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
+                </div>
                 <div class="input-box">
                   <label class="label-text">
                     Tên
@@ -129,7 +88,13 @@
                     <i class="fa-regular fa-user input-icon"></i>
                   </div>
                 </div>
-
+                <div
+                  v-for="(error, index) in dataErrors.last_name"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
+                </div>
                 <div class="input-box">
                   <label class="label-text">
                     Tên đăng nhập
@@ -147,7 +112,13 @@
                     <i class="fa-regular fa-user input-icon"></i>
                   </div>
                 </div>
-
+                <div
+                  v-for="(error, index) in dataErrors.username"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
+                </div>
                 <div class="input-box">
                   <label class="label-text">
                     Số điện thoại
@@ -165,7 +136,13 @@
                     <i class="fa-solid fa-phone input-icon"></i>
                   </div>
                 </div>
-
+                <div
+                  v-for="(error, index) in dataErrors.phone_number"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
+                </div>
                 <div class="input-box">
                   <label class="label-text">
                     Email
@@ -182,6 +159,13 @@
                     />
                     <i class="fa-regular fa-envelope input-icon"></i>
                   </div>
+                </div>
+                <div
+                  v-for="(error, index) in dataErrors.email"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
                 </div>
                 <div class="input-box">
                   <label class="label-text">
@@ -217,12 +201,20 @@
                       </button>
                     </div>
                   </div>
+                  <div
+                    v-for="(error, index) in dataErrors.password"
+                    :key="index"
+                    class="text-danger validation-summary-errors fs-14"
+                  >
+                    {{ error }}
+                  </div>
                   <label class="fs-12">
                     <span class="text-color-6">*</span>
                     Mật khẩu có 6-20 ký tự. Trong đó phải có ít nhất 1 chữ hoa,
                     1 chữ thường, 1 số, 1 ký tự đặc biệt!
                   </label>
                 </div>
+
                 <div class="input-box">
                   <label class="label-text">
                     Xác nhận mật khẩu
@@ -260,8 +252,19 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  v-for="(error, index) in dataErrors.cfm_password"
+                  :key="index"
+                  class="text-danger validation-summary-errors fs-14"
+                >
+                  {{ error }}
+                </div>
                 <div class="btn-box">
-                  <button class="btn theme-btn" @click="handleRegister" type="button">
+                  <button
+                    class="btn theme-btn"
+                    @click="handleRegister"
+                    type="button"
+                  >
                     Đăng ký tài khoản
                     <i class="fa-solid fa-arrow-right icon"></i>
                   </button>
@@ -290,6 +293,7 @@ import $auth from "@/services/authService";
 import $http from "@/services/httpService";
 import get from "lodash/get";
 import set from "lodash/set";
+import { createToast } from "mosha-vue-toastify";
 
 export default {
   components: {
@@ -301,7 +305,7 @@ export default {
       isDisplayRePassword: false,
       is_loading: false,
       dataUser: {
-        avatar: "https://smart-edu.vn/img/image.png",
+        avatar: null,
         first_name: null,
         last_name: null,
         username: null,
@@ -339,8 +343,9 @@ export default {
       if (get(response, "data.user", null)) {
         window.location.href = "/";
       } else {
-        if (get(response, "data.status", {}) === 400) {
-          this.error = get(response, "data.message", {});
+        if (get(response, "data.status", {}) === 422) {
+          console.log(response);
+          this.dataErrors = get(response, "data.errors", {});
         } else {
           createToast(get(response, "data.message", {}), {
             type: "danger",

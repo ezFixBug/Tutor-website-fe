@@ -35,19 +35,15 @@ class AuthService {
 
   isAuthenticated() {
     return new Promise(async (resolve) => {
-      if (this.value && this.tokenExpiration) {
+      if (this.hasValue) {
         resolve(true);
         return;
       }
 
-      if (!this.value) {
+      if (!this.hasValue) {
         rejectService(true);
         return;
       }
-
-      const refresh = await this.refresh();
-
-      if (refresh) resolve(true);
     });
   }
 
@@ -59,7 +55,7 @@ class AuthService {
         }
         return response;
       },
-      (error) => error.response
+      (error) => {return error.response}
     );
 
     const app_url = process.env.VUE_APP_API_URL
