@@ -106,6 +106,7 @@
                   data-id="221"
                   data-target="#itemDeleteModal"
                   class="w-100 h-100 d-inline-block delete_discord"
+                  @click="post_id_delete = post.id"
                   ><i class="fa-regular fa-trash-can"></i
                 ></span>
               </div>
@@ -129,7 +130,6 @@
     >
       <div class="modal-dialog moda+l-dialog-centered" role="document">
         <div class="modal-content">
-          0 0.
           <div class="modal-body text-center">
             <input type="hidden" id="ipItemId" name="record_id" />
             <i class="fa-regular fa-circle-question fs-60 text-warning"></i>
@@ -150,6 +150,7 @@
               </button>
               <button
                 type="button"
+                @click="handleDeletePost"
                 class="btn theme-btn theme-btn-sm lh-30 btn-delete-record"
               >
                 Xóa
@@ -168,7 +169,7 @@
 <script>
 import $auth from "@/services/authService";
 import $http from "@/services/httpService";
-
+import { createToast } from "mosha-vue-toastify";
 import get from "lodash/get";
 const DEFAULT_IMAGE = "https://hryoutest.in.ua/uploads/images/default.jpg";
 export default {
@@ -180,6 +181,7 @@ export default {
     return {
       is_loading: false,
       posts: [],
+      post_id_delete: null,
     };
   },
 
@@ -197,6 +199,22 @@ export default {
       this.is_loading = false;
       if (get(res, "data.result", false)) {
         this.posts = res.data.posts;
+      }
+      this.is_loading = false;
+    },
+
+    async handleDeletePost() {
+      this.is_loading = true;
+      const res = await $http.delete("/post/" + this.post_id_delete);
+      this.is_loading = false;
+      if (get(res, "data.result", false)) {
+        createToast("Xóa bài viết thành công!", {
+          type: "success",
+          timeout: 6000,
+        });
+        document.getElementById("itemDeleteModal").classList.remove("show");
+        document.querySelector(".modal-backdrop").classList.remove("show");
+        this.getPostsByUser();
       }
       this.is_loading = false;
     },

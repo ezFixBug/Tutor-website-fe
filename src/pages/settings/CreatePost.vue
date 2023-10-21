@@ -302,9 +302,11 @@
       <!-- end card -->
 
       <div class="course-submit-btn-box pb-4">
-          <router-link class="btn btn-outline-secondary" :to="{ name: 'my-posts' }"
-            >Trở về</router-link
-          >
+        <router-link
+          class="btn btn-outline-secondary"
+          :to="{ name: 'my-posts' }"
+          >Trở về</router-link
+        >
         <button class="btn theme-btn" type="button" @click="onCreatePost">
           Tạo bài viết
         </button>
@@ -370,14 +372,14 @@ export default {
       const res = await $http.post("/post/" + this.user.id, params);
       this.is_loading = false;
       if (get(res, "data.result", false)) {
-              createToast("Tạo bài viết thành công!", {
+        createToast("Tạo bài viết thành công!", {
           type: "success",
           timeout: 6000,
         });
         this.$router.push({ name: "my-posts" });
       } else if (get(res, "data.status", false) === 422) {
-        this.errors = res.data.errors
-      } 
+        this.errors = res.data.errors;
+      }
     },
   },
 };
