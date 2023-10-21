@@ -30,6 +30,12 @@
         >
       </li>
       <li class="hightlight-menu">
+        <router-link :to="{ name: 'my-posts' }" class="logo">
+          <i class="fa-solid fa-file-pen mr-2"></i>
+          Bài viết của tôi</router-link
+        >
+      </li>
+      <li class="hightlight-menu">
         <router-link :to="{ name: 'setting-basic' }" class="logo">
           <i class="fa-solid fa-book mr-2"></i>
           Khóa học của tôi</router-link
@@ -72,5 +78,4 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "./_style.scss";
 </style>

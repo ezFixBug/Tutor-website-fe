@@ -27,7 +27,7 @@
   </section>
 </template>
 <script>
-import { ROUTERS } from '../../Constants'
+import CONSTS from '@/Constants';
 
 export default {
   props: {
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     getNameRoute(){
-      return ROUTERS[this.$route.name]
+      return CONSTS.ROUTERS[this.$route.name]
     }
   },
   created() {

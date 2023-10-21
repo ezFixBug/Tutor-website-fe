@@ -343,11 +343,17 @@ export default {
       if (get(response, "data.user", null)) {
         window.location.href = "/";
       } else {
-        if (get(response, "data.status", {}) === 422) {
-          console.log(response);
-          this.dataErrors = get(response, "data.errors", {});
+        if (get(response, "response.status", {}) === 422) {
+          this.dataErrors = get(response, "response.data.errors", {});
+        } else if (get(response, "data.status", {}) === 400) {
+          this.error = get(response, "data.message", {});
+        } else if (get(response, "code", null) === "ERR_NETWORK") {
+          createToast(get(response, "message", {}), {
+            type: "danger",
+            timeout: 6000,
+          });
         } else {
-          createToast(get(response, "data.message", {}), {
+          createToast(get(response, "data.errors", {}), {
             type: "danger",
             timeout: 6000,
           });
