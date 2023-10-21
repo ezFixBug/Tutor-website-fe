@@ -105,8 +105,8 @@ import BreadCrumb from "../components/layouts/BreadCrum.vue";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import set from "lodash/set";
-import { createToast } from 'mosha-vue-toastify';
-import 'mosha-vue-toastify/dist/style.css';
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 
 export default {
   components: {
@@ -134,8 +134,13 @@ export default {
       } else {
         if (get(response, "data.status", {}) === 400) {
           this.error = get(response, "data.message", {});
+        } else if (get(response, "code", null) === "ERR_NETWORK") {
+          createToast(get(response, "message", {}), {
+            type: "danger",
+            timeout: 6000,
+          });
         } else {
-          createToast(get(response, "data.message", {}), {
+          createToast(get(response, "data.errors", {}), {
             type: "danger",
             timeout: 6000,
           });

@@ -11,6 +11,11 @@ import ListCategory from '../pages/Categories/ListCategory.vue'
 import PostDetail from '../pages/posts/PostDetail.vue'
 import BecomeTutor from '../pages/BecomeTutor.vue'
 import SettingBasic from '../pages/settings/SettingBasic.vue'
+import Setting from '../pages/settings/Setting.vue'
+import MyPosts from '../pages/settings/MyPosts.vue'
+import CreatePost from '../pages/settings/CreatePost.vue'
+import DetailPostUser from '../pages/settings/DetailPostUser.vue'
+import EditPost from '../pages/settings/EditPost.vue'
 import { authGuard } from '@/services/authGuard';
 
 import Courses from '../pages/Courses/Courses.vue'
@@ -82,13 +87,56 @@ const routes = [
                 component: BecomeTutor
             },
             {
-                path: '/cai-dat-nguoi-dung',
+                path: '/cai-dat',
                 beforeEnter: (to, from, next) => {
                     authGuard(to, from, next);
                 },
-                name: 'setting-basic',
-                component: SettingBasic
+                name: 'setting',
+                component: Setting,
+                children: [
+                    {
+                        path: '/cai-dat-nguoi-dung',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'setting-basic',
+                        component: SettingBasic
+                    },
+                    {
+                        path: '/bai-viet-cua-toi',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'my-posts',
+                        component: MyPosts
+                    },
+                    {
+                        path: '/tao-bai-viet',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'create-post',
+                        component: CreatePost
+                    },
+                    {
+                        path: '/chi-tiet-bai-viet-cua-toi/:post_id',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'detail-post-user',
+                        component: DetailPostUser
+                    },
+                    {
+                        path: '/chinh-sua-bai-viet/:post_id',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'edit-post',
+                        component: EditPost
+                    },
+                ]
             },
+
         ],
     },
 ];

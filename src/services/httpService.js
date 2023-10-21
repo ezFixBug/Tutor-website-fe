@@ -19,8 +19,8 @@ class HttpService {
     this.http.interceptors.request.use(
       (config) => {
         if ($auth.hasValue) {
-          const token = $auth.hasValue.replace(`"`, '');
-
+          const token = $auth.hasValue.replace(/"/g, '');
+          console.log(token);
           config.headers['Content-Type'] = "multipart/form-data";
           config.headers['Authorization'] = `Bearer ${token}`;
         }
@@ -33,17 +33,23 @@ class HttpService {
         return response;
       },
       (error) => {
+        console.log(error);
         if (error.response && error.response.status === 401) {
           this.showError('Vui lòng đăng nhập!');
-          this.$router.push({name: 'login'});
+          location.href = '/dang-nhap';
+          return;
         }
         if (error.response && error.response.status === 422) {
           return { data: { result: false, errors: error.response.data.errors, status: 422 } };
         }
+        
+        if (error.code && error.code === 'ERR_NETWORK') {
+          this.showError(error.message);
+          return { data: { result: false, errors :error.messages, status: 500 } };
+        }
 
         this.showError(error.response.data.message);
-
-        return { data: { result: false, message: error.response.data.message } };
+        return { data: { result: false, errors: error.response.data.message, status: error.response.status} };
       }
     );
   }

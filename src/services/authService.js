@@ -55,7 +55,7 @@ class AuthService {
         }
         return response;
       },
-      (error) => {return error.response}
+      (error) => {return error }
     );
 
     const app_url = process.env.VUE_APP_API_URL
@@ -75,7 +75,9 @@ class AuthService {
         }
         return response;
       },
-      (error) => error.response
+      (error) => {
+        return error;
+      }
     );
 
     const app_url = process.env.VUE_APP_API_URL

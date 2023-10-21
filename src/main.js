@@ -5,8 +5,8 @@ import BreadCrumb from "@/components/layouts/BreadCrum.vue";
 import { Select, FormItem, Form, Button, Card, Row } from "ant-design-vue";
 import Cloudinary from 'cloudinary-vue';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
-import Spinner from '@/components/Spinner/Spinner.vue'
-
+import Spinner from '@/components/Spinner/Spinner.vue';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 const app = createApp({
     render: () => h(App)
 });
@@ -18,6 +18,7 @@ app.use(Cloudinary, {
       apiKey: process.env.VUE_APP_API_KEY,
     },
 })
+app.use(CKEditor);
 app.component('App', App);
 app.component('BreadCrumb', BreadCrumb);
 app.component('Select', Select);

@@ -232,7 +232,7 @@
                                   >
                                 </li>
                                 <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
+                                  <router-link :to="{ name: 'my-posts' }">
                                     <i
                                       class="fa-solid fa-book-open-reader mr-1"
                                     ></i>
