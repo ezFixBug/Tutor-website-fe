@@ -77,6 +77,12 @@ class HttpService {
 
   }
 
+  async delete(url) {
+    const path = this.app_url + url;
+    const res = await this.http.delete(path);
+    return res;
+  }
+
   // async delete(url) {
   //   await $auth.isAuthenticated();
 
