@@ -71,9 +71,23 @@
                       </ul>
                     </li>
                     <li>
-                      <router-link :to="{ name: 'courses' }"
-                        >Bài viết</router-link
-                      >
+                      <router-link :to="{ path: '/bai-viet' }"
+                        >Bài viết <i class="fa-solid fa-chevron-down"></i
+                      ></router-link>
+                      <ul class="dropdown-menu-item">
+                        <li>
+                          <router-link
+                            :to="{ name: 'posts', params: { type_cd: 1 } }"
+                            >Tin tức - sự kiện</router-link
+                          >
+                        </li>
+                        <li>
+                          <router-link
+                            :to="{ name: 'posts', params: { type_cd: 2 } }"
+                            >Kiến thức - thủ thuật</router-link
+                          >
+                        </li>
+                      </ul>
                     </li>
                   </ul>
                 </nav>
@@ -368,9 +382,32 @@
           </ul>
         </li>
         <li>
-          <router-link @click="is_active = false" :to="{ name: 'courses' }"
-            >Bài viết</router-link
-          >
+          <a
+            href="#"
+            class="open-menu collapsed"
+            data-toggle="collapse"
+            data-target="#post"
+            >Bài viết
+            <button class="sub-nav-toggler" type="button">
+              <i class="fa-solid fa-chevron-down"></i></button
+          ></a>
+
+          <ul class="collapse" id="post">
+            <li>
+              <router-link
+                @click="is_active = false"
+                :to="{ name: 'posts', params: { type_cd: 1 } }"
+                >Tin tức - sự kiện</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                @click="is_active = false"
+                :to="{ name: 'posts', params: { type_cd: 2 } }"
+                >Kiến thức - thủ thuật</router-link
+              >
+            </li>
+          </ul>
         </li>
       </ul>
       <h4 class="off-canvas-menu-heading pt-20px" v-if="hasLogin">
@@ -492,17 +529,17 @@ export default {
       if (this.user) {
         return this.user.status_cd;
       }
-    }
+    },
   },
   methods: {
     handleScroll() {
       this.scrollY = window.scrollY;
     },
-    
+
     handleLogout() {
       $auth.logout();
       window.location.href = "/";
-    }
+    },
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);
