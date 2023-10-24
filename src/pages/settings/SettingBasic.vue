@@ -2,9 +2,7 @@
   <spinner :is_loading="is_loading" />
 
   <div class="container-fluid">
-    <div
-      class="breadcrumb-content d-flex flex-wrap align-items-center justify-content-between mb-5"
-    >
+    <div class="breadcrumb-content d-flex flex-wrap align-items-center justify-content-between mb-5">
       <div class="media media-card align-items-center">
         <div class="media-img media--img media-img-md rounded-full">
           <img :src="dataUser.avatar" alt="Avatar" class="rounded-full" />
@@ -20,8 +18,8 @@
     <div class="dashboard-heading mb-5">
       <h3 class="fs-22 font-weight-semi-bold">Thông tin cá nhân</h3>
     </div>
-    <div class="nav nav-tabs generic-tab pb-30px">
-      <ul class="nav nav-tabs generic-tab pb-30px">
+    <div class="nav generic-tab d-flex flex-column">
+      <ul class="nav mb-30px">
         <li class="nav-item" @click="tab = 0">
           <span class="nav-link" :class="{ active: tab === 0 }"> Avatar </span>
         </li>
@@ -37,12 +35,12 @@
         </li>
       </ul>
       <div class="tab-content">
-        <div
-          class="tab-pane fade"
-          :class="{ show: tab === 0, active: tab === 0 }"
-        >
+        <div class="tab-pane fade" :class="{ show: tab === 0, active: tab === 0 }">
           <div class="setting-body">
             <h3 class="fs-17 font-weight-semi-bold pb-4">
+              Cập nhật Avatar
+            </h3>
+            <div>
               <form class="row pt-40px">
                 <div class="media media-card align-items-center col-sm-12">
                   <div class="media-img media-img-lg mr-4 bg-gray">
@@ -50,13 +48,8 @@
                   </div>
                   <div class="media-body col-sm-12">
                     <div class="file-upload-wrap file-upload-wrap-2 mb-1">
-                      <input
-                        class="file-upload-input with-preview"
-                        type="file"
-                        placeholder="Hình ảnh khóa học"
-                        data-val-required="The AvatarUp field is required."
-                        @change="onFileChangeAvatar"
-                      />
+                      <input class="file-upload-input with-preview" type="file" placeholder="Hình ảnh khóa học"
+                        data-val-required="The AvatarUp field is required." @change="onFileChangeAvatar" />
                       <span class="file-upload-text">
                         <i class="fa-solid fa-image mr-2"></i>
                         Tải hình ảnh
@@ -69,22 +62,15 @@
                   </div>
                 </div>
                 <div class="input-box col-lg-12 py-2">
-                  <button
-                    type="button"
-                    class="btn theme-btn"
-                    @click="handleChangeAvatar"
-                  >
+                  <button type="button" class="btn theme-btn" @click="handleChangeAvatar">
                     Cập nhật
                   </button>
                 </div>
               </form>
-            </h3>
+            </div>
           </div>
         </div>
-        <div
-          class="tab-pane fade"
-          :class="{ show: tab === 1, active: tab === 1 }"
-        >
+        <div class="tab-pane fade" :class="{ show: tab === 1, active: tab === 1 }">
           <div class="setting-body">
             <h3 class="fs-17 font-weight-semi-bold pb-4">Cập nhật hồ sơ</h3>
             <p class="fs-14 text-color-3 mb-2">
@@ -93,52 +79,34 @@
             <FormTutor />
           </div>
         </div>
-        <div
-          class="tab-pane fade"
-          :class="{ show: tab === 2, active: tab === 2 }"
-        >
+        <div class="tab-pane fade" :class="{ show: tab === 2, active: tab === 2 }">
           <div class="setting-body">
             <h3 class="fs-17 font-weight-semi-bold pb-4">Đổi mật khẩu</h3>
             <form class="row">
               <div class="input-box col-lg-4">
                 <label class="label-text"> Mật khẩu cũ </label>
                 <div class="form-group">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Old Password"
-                    data-val-required="The OldPassword field is required."
-                    class="form-control form--control"
-                    v-model="dataPassword.oldPassword"
-                  />
+                  <input type="password" required placeholder="Old Password"
+                    data-val-required="The OldPassword field is required." class="form-control form--control"
+                    v-model="dataPassword.oldPassword" />
                   <i class="fa-solid fa-lock input-icon"></i>
                 </div>
               </div>
               <div class="input-box col-lg-4">
                 <label class="label-text"> Mật khẩu mới </label>
                 <div class="form-group">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Old Password"
-                    data-val-required="The OldPassword field is required."
-                    class="form-control form--control"
-                    v-model="dataPassword.newPassword"
-                  />
+                  <input type="password" required placeholder="Old Password"
+                    data-val-required="The OldPassword field is required." class="form-control form--control"
+                    v-model="dataPassword.newPassword" />
                   <i class="fa-solid fa-lock input-icon"></i>
                 </div>
               </div>
               <div class="input-box col-lg-4">
                 <label class="label-text"> Xác nhận mật khẩu</label>
                 <div class="form-group">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Old Password"
-                    data-val-required="The OldPassword field is required."
-                    class="form-control form--control"
-                    v-model="dataPassword.cfmPassword"
-                  />
+                  <input type="password" required placeholder="Old Password"
+                    data-val-required="The OldPassword field is required." class="form-control form--control"
+                    v-model="dataPassword.cfmPassword" />
                   <i class="fa-solid fa-lock input-icon"></i>
                 </div>
               </div>
@@ -153,12 +121,10 @@
   </div>
 </template>
 <script>
-import Sidebar from "../../components/layouts/Sidebar.vue";
 import axios from "axios";
 import FormTutor from "@/components/FormTutor.vue";
 export default {
   components: {
-    Sidebar,
     FormTutor,
   },
   data() {
@@ -188,8 +154,8 @@ export default {
       try {
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/" +
-            process.env.VUE_APP_CLOUDINARY_NAME +
-            "/image/upload",
+          process.env.VUE_APP_CLOUDINARY_NAME +
+          "/image/upload",
           formData
         );
 

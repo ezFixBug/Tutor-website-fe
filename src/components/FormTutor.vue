@@ -13,15 +13,13 @@
               style="display: block"
             >
               <div class="media-img media-img-lg mr-4 bg-gray">
-                <img
-                  class="mr-3"
-                  :src="dataTutor.front_citizen_card ?? DEFAULT_IMAGE"
-                />
+                <img :src='dataTutor.front_citizen_card ?? DEFAULT_IMAGE'/>
               </div>
-              <div class="media-body col-lg-12 mt-2">
+              <div class="media-body mt-2">
                 <div class="file-upload-wrap file-upload-wrap-2">
                   <input
                     ref="refFileFrontCard"
+                    id="refFileFrontCard"
                     placeholder="Hình ảnh mặt trước CCCD"
                     type="file"
                     class="file-upload-input with-preview"
@@ -55,13 +53,14 @@
               <div class="media-img media-img-lg mr-4 bg-gray">
                 <img
                   class="mr-3"
-                  :src="dataTutor.back_citizen_card ?? DEFAULT_IMAGE"
+                  :src='dataTutor.back_citizen_card ?? DEFAULT_IMAGE'
                 />
               </div>
-              <div class="media-body col-lg-12 mt-2">
+              <div class="media-body mt-2">
                 <div class="file-upload-wrap file-upload-wrap-2">
                   <input
                     ref="refFileBackCard"
+                    id="refFileBackCard"
                     placeholder="Hình ảnh mặt trước CCCD"
                     type="file"
                     class="file-upload-input with-preview"
@@ -240,7 +239,7 @@
               Chọn quận/Huyện
               <span class="text-color fs-12">*</span>
             </label>
-            <div class="form-group">
+            <div class="">
               <div class="select-container w-auto">
                 <div
                   class="dropdown bootstrap-select select-container-select dropup"
@@ -355,13 +354,14 @@
               <div class="media-img media-img-lg mr-4 bg-gray">
                 <img
                   class="mr-3"
-                  :src="dataTutor.certificate ?? DEFAULT_IMAGE"
+                  :src='dataTutor.certificate ?? DEFAULT_IMAGE'
                 />
               </div>
-              <div class="media-body col-lg-12 mt-2">
+              <div class="media-body mt-2">
                 <div class="file-upload-wrap file-upload-wrap-2">
                   <input
                     ref="refFileCertificate"
+                    id="refFileCertificate"
                     placeholder="Hình ảnh bằng cấp/chứng chỉ"
                     type="file"
                     class="file-upload-input with-preview"
@@ -726,7 +726,7 @@
             <label class="label-text"
               >Chọn hình thức dạy
               <span class="text-color fs-14"
-                >*(ít nhất 1 hình thức)</span
+                > *</span
               ></label
             >
             <div class="form-group">
@@ -775,12 +775,10 @@
 <script>
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
-import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
 import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import { createToast } from "mosha-vue-toastify";
-import axios from "axios";
 
 const DEFAULT_IMAGE = "https://hryoutest.in.ua/uploads/images/default.jpg";
 export default {
@@ -814,7 +812,9 @@ export default {
       listOptionJobs: [],
       listOptionSubjects: [],
       listOptionClasses: [],
-      dataTutor: {},
+      dataTutor: {
+        sex: 2
+      },
       subject: null,
       list_classes_choosed: [],
       classSubjectChoosed: [],
@@ -828,6 +828,7 @@ export default {
       list_districts_choosed: [],
       cityDistrictChoosed: [],
       dataErrors: [],
+      DEFAULT_IMAGE: DEFAULT_IMAGE
     };
   },
 
@@ -1033,4 +1034,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .file-upload-input{
+    width: 200px !important;
+  }
+  .ant-select-selector{
+    height: 50px !important;
+  }
 </style>

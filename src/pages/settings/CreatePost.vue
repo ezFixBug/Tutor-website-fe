@@ -52,7 +52,7 @@
                   <img
                     class="mr-3"
                     id="output"
-                    :src="post.image ?? DEFAULT_IMAGE"
+                    :src=DEFAULT_IMAGE
                     alt="course image"
                   />
                 </div>
@@ -316,7 +316,6 @@
   </div>
 </template>
 <script>
-import Sidebar from "../../components/layouts/Sidebar.vue";
 import $auth from "@/services/authService";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import $http from "@/services/httpService";
@@ -326,7 +325,6 @@ import { createToast } from "mosha-vue-toastify";
 
 export default {
   components: {
-    Sidebar,
   },
 
   data() {
@@ -336,13 +334,12 @@ export default {
         image: null,
         title: null,
         type_cd: 1,
-        title: null,
         description: null,
         content: "",
         tags: [],
       },
       errors: {},
-      DEFAULT_IMAGE: "https://hryoutest.in.ua/uploads/images/default.jpg",
+      DEFAULT_IMAGE: 'https://hryoutest.in.ua/uploads/images/default.jpg',
 
       editor: ClassicEditor,
       editorConfig: {
