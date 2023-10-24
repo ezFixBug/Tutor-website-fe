@@ -1,23 +1,30 @@
 <template>
   <BreadCrumb />
-
+  <spinner :is_loading="is_loading" />
   <section class="blog-area section--padding">
     <div class="container">
       <div class="row">
         <div class="col-lg-4" v-for="post in listPosts" :key="post.id">
-          <div class="card card-item">
-            <div class="card-image" style="margin: 0 !important">
+          <div class="card card-item" style="height: 500px">
+            <div class="card-image" style="margin: 0 !important; height: 240px">
               <router-link
                 :to="{ name: 'detail-post', params: { id: post.id } }"
               >
-                <img :src="post.image" alt="image" class="card-img-top lazy" />
+                <img
+                  :src="post.image"
+                  alt="image"
+                  class="card-img-top lazy"
+                  style="height: 240px"
+                />
               </router-link>
               <div class="course-badge-labels">
-                <div class="course-badge">{{ post.created_at }}</div>
+                <div class="course-badge">
+                  {{ getDateCreated(post.created_at) }}
+                </div>
               </div>
             </div>
             <div class="card-body">
-              <h5 class="card-title">
+              <h5 class="card-title" style="height: 50px">
                 <router-link
                   :to="{ name: 'detail-post', params: { id: post.id } }"
                   >{{ post.title }}</router-link
@@ -32,7 +39,7 @@
                     class="ml-1"
                     :to="{ name: 'detail-tutor', params: { id: 1 } }"
                   >
-                    {{ post.author.name }}
+                    {{ post.user.full_name }}
                   </router-link>
                 </li>
               </ul>
@@ -40,10 +47,10 @@
                 class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center flex-wrap fs-14 pt-2"
               >
                 <li class="d-flex align-items-center">
-                  <a href="#"> {{ post.views }} Views</a>
+                  <a href="#"> {{ post.view }} Views</a>
                 </li>
                 <li class="d-flex align-items-center">
-                  <a href="#"> {{ post.likes }} Likes</a>
+                  <a href="#"> {{ post.likes_count }} Likes</a>
                 </li>
               </ul>
               <div
@@ -60,111 +67,71 @@
           </div>
         </div>
       </div>
+      <div class="text-center pt-3">
+        <pagination :pagination="pagination" />
+      </div>
     </div>
   </section>
 </template>
 <script>
 import BreadCrumb from "@/components/layouts/BreadCrum.vue";
+import $http from "@/services/httpService";
+import get from "lodash/get";
+
 export default {
   components: {
     BreadCrumb,
   },
+
+  async mounted() {
+    this.getPosts(this.$route.params.type_cd);
+  },
+
+  beforeRouteUpdate(from, to, next) {
+    this.getPosts(from.params.type_cd);
+    next();
+  },
+
   data() {
     return {
-      listPosts: [
-        {
-          id: 1,
-          title: "This is title of post ",
-          image:
-            "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
-          author: {
-            id: 1,
-            name: "Le Thang",
-          },
-          views: 10,
-          likes: 10,
-          created_at: "2023-10-15",
-        },
-        {
-          id: 2,
-          title: "This is title of post ",
-          image:
-            "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
-          author: {
-            id: 1,
-            name: "Le Thang",
-          },
-          views: 10,
-          likes: 10,
-          created_at: "2023-10-15",
-        },
-        {
-          id: 3,
-          title: "This is title of post ",
-          image:
-            "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
-          author: {
-            id: 1,
-            name: "Le Thang",
-          },
-          views: 10,
-          likes: 10,
-          created_at: "2023-10-15",
-        },
-        {
-          id: 4,
-          title: "This is title of post ",
-          image:
-            "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
-          author: {
-            id: 1,
-            name: "Le Thang",
-          },
-          views: 10,
-          likes: 10,
-          created_at: "2023-10-15",
-        },
-        {
-          id: 5,
-          title: "This is title of post ",
-          image:
-            "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
-          author: {
-            id: 1,
-            name: "Le Thang",
-          },
-          views: 10,
-          likes: 10,
-          created_at: "2023-10-15",
-        },
-        {
-          id: 6,
-          title: "This is title of post ",
-          image:
-            "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
-          author: {
-            id: 1,
-            name: "Le Thang",
-          },
-          views: 10,
-          likes: 10,
-          created_at: "2023-10-15",
-        },
-        {
-          id: 7,
-          title: "This is title of post ",
-          image:
-            "https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-19.jpg",
-          author: {
-            id: 1,
-            name: "Le Thang",
-          },
-          views: 10,
-          likes: 10,
-          created_at: "2023-10-15",
-        },
-      ],
+      listPosts: [],
+      is_loading: false,
+      pagination: {},
     };
+  },
+
+  methods: {
+    async getPosts(type_cd) {
+      this.is_loading = true;
+      let params = this.$route.query;
+      params.type_cd = type_cd;
+      const res = await $http.get("/posts", params);
+      if (get(res, "data.result", false)) {
+        this.listPosts = res.data.posts;
+        this.pagination = res.data.paginate;
+      }
+
+      this.is_loading = false;
+    },
+
+    getDateCreated(created_at) {
+      const inputDate = created_at;
+      const date = new Date(inputDate);
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    },
+  },
+
+  watch: {
+    $route: {
+      handler: function () {
+        this.getPosts(this.$route.params.type_cd);
+      },
+    },
   },
 };
 </script>

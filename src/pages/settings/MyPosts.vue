@@ -64,7 +64,7 @@
             >
           </h5>
           <div class="rating-wrap d-flex align-items-center py-2">
-            <span class="text-black">Lượt thích: {{ post.like }}</span> &nbsp;
+            <span class="text-black">Lượt thích: {{ post.likes_count }}</span> &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp;
             <span class="text-black">Lượt xem: {{ post.view }}</span> &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp;

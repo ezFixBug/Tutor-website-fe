@@ -211,28 +211,7 @@
       </div>
       <ListTutors :listTutors="listTutors" />
       <div class="text-center pt-3">
-        <nav aria-label="Page navigation example" class="pagination-box">
-          <ul class="pagination justify-content-center">
-            <li class="page-item">
-              <a
-                class="page-link"
-                href="/gia-su?pageIndex=1"
-                aria-label="Previous"
-                ><span aria-hidden="true"
-                  ><i class="fa-solid fa-arrow-left"></i></span
-              ></a>
-            </li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="/gia-su?pageIndex=1" aria-label="next"
-                ><span aria-hidden="true"
-                  ><i class="fa-solid fa-arrow-right"></i></span
-              ></a>
-            </li>
-          </ul>
-        </nav>
+        <!-- <pagination /> -->
       </div>
     </div>
   </section>

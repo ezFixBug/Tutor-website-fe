@@ -366,7 +366,9 @@ export default {
       this.is_loading = true;
       const file = event.target.files[0];
 
-      this.post.image = await $http.uploadImageToCloud(file);
+      if (file) {
+        this.post.image = await $http.uploadImageToCloud(file);
+      }
       this.is_loading = false;
     },
 
