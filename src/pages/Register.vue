@@ -331,8 +331,9 @@ export default {
     async onFileChangeAvatar(event) {
       this.is_loading = true;
       const file = event.target.files[0];
-
-      this.dataUser.avatar = await $http.uploadImageToCloud(file);
+      if (file) {
+        this.dataUser.avatar = await $http.uploadImageToCloud(file);
+      }
       this.is_loading = false;
     },
 

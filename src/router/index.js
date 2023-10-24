@@ -64,7 +64,7 @@ const routes = [
                 component: DetailsCourse
             },
             {
-                path: '/bai-viet',
+                path: '/bai-viet/:type_cd?',
                 name: 'posts',
                 component: ListPost
             },

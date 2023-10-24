@@ -858,23 +858,29 @@ export default {
     async onFileChangeFrontCard(event) {
       this.is_loading = true;
       const file = event.target.files[0];
-      this.dataTutor.front_citizen_card = await $http.uploadImageToCloud(file);
+      if (file) {
+        this.dataTutor.front_citizen_card = await $http.uploadImageToCloud(
+          file
+        );
+      }
       this.is_loading = false;
     },
 
     async onFileChangeBackCard(event) {
       this.is_loading = true;
       const file = event.target.files[0];
-
-      this.dataTutor.back_citizen_card = await $http.uploadImageToCloud(file);
+      if (file) {
+        this.dataTutor.back_citizen_card = await $http.uploadImageToCloud(file);
+      }
       this.is_loading = false;
     },
 
     async onFileChangeCertificate(event) {
       this.is_loading = true;
       const file = event.target.files[0];
-
-      this.dataTutor.certificate = await $http.uploadImageToCloud(file);
+      if (file) {
+        this.dataTutor.certificate = await $http.uploadImageToCloud(file);
+      }
       this.is_loading = false;
     },
 

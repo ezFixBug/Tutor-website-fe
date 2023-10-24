@@ -6,6 +6,7 @@ import { Select, FormItem, Form, Button, Card, Row } from "ant-design-vue";
 import Cloudinary from 'cloudinary-vue';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import Spinner from '@/components/Spinner/Spinner.vue';
+import Pagination from '@/components/layouts/Pagination.vue';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 const app = createApp({
     render: () => h(App)
@@ -29,5 +30,6 @@ app.component('Card', Card);
 app.component('Row', Row);
 app.component('pulse-loader', PulseLoader);
 app.component('spinner', Spinner);
+app.component('pagination', Pagination);
 app.config.productionTip = false
 app.mount('#app');

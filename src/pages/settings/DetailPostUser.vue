@@ -104,7 +104,7 @@ export default {
     if (get(res, "data.result", false)) {
       this.post = res.data.post;
       this.user = get(this.post, "user", {});
-      console.log(CONSTS.CD_POST_TAGS);
+
       this.list_tags = CONSTS.CD_POST_TAGS.filter((tag) =>
         this.post.tags.includes(tag.id)
       );
@@ -123,7 +123,7 @@ export default {
 
   computed: {
     post_created() {
-      const inputDate = "2023-10-21T12:43:08.000000Z";
+      const inputDate = this.post.created_at;
       const date = new Date(inputDate);
 
       const year = date.getFullYear();
