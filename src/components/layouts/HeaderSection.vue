@@ -572,4 +572,8 @@ export default {
   color: red;
   font-weight: 500;
 }
+
+a.active.router-link-exact-active{
+  color: red !important;
+}
 </style>

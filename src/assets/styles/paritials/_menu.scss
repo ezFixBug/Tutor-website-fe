@@ -801,6 +801,11 @@ $small_mobile: 'only screen and (min-width: 320px) and (max-width: 479px)';
             fill: $color-3;
           }
         }
+        &.active.router-link-exact-active {
+          background-color: rgba(53, 143, 227, 0.04);
+          color: $color-3;
+          border-right-color: $color-3;
+        }
       }
       &.page-active {
         svg {

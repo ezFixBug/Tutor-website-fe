@@ -12,4 +12,7 @@ export default {
   @import './assets/styles/paritials/_common.scss';
   @import './assets/styles/paritials/_category.scss';
   @import './assets/styles/paritials/_main.scss';
+  .form--control{
+    height: 40px !important;
+  }
 </style>
