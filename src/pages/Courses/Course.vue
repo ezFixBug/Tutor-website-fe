@@ -1,7 +1,5 @@
 <template>
   <Card hoverable class='mb-4' @click="goToDetailCourse">
-    <router-link :to="{ name: 'detail-course', params: { id: 1 } }" class="text-secondary">
-    </router-link>
     <template #cover>
       <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
         style="max-height: 247px; max-width: 370px;" />
