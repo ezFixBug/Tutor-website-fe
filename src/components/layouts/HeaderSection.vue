@@ -423,7 +423,7 @@
           >
         </li>
         <li>
-          <router-link :to="{ name: 'setting-basic' }">
+          <router-link :to="{ name: 'my-courses' }">
             Khóa học của tôi</router-link
           >
         </li>
@@ -438,22 +438,9 @@
           >
         </li>
         <li>
-          <a href="#" class="open-menu"
-            >Bài viết<button class="sub-nav-toggler" type="button">
-              <i class="fa-solid fa-chevron-down"></i></button
-          ></a>
-          <ul class="sub-menu" style="display: none">
-            <li>
-              <router-link :to="{ name: 'setting-basic' }">
-                Bài viết của tôi</router-link
-              >
-            </li>
-            <li>
-              <router-link :to="{ name: 'setting-basic' }">
-                Tất cả bài viết</router-link
-              >
-            </li>
-          </ul>
+          <router-link :to="{ name: 'my-posts' }">
+            Bài viết của tôi</router-link
+          >
         </li>
         <li>
           <a href="#" class="open-menu"

@@ -105,7 +105,7 @@ export default {
       this.post = res.data.post;
       this.user = get(this.post, "user", {});
 
-      this.list_tags = CONSTS.CD_POST_TAGS.filter((tag) =>
+      this.list_tags = CONSTS.CD_TAGS.filter((tag) =>
         this.post.tags.includes(tag.id)
       );
     }
