@@ -12,7 +12,7 @@ export default Object.freeze({
     'becomeTutor': 'Trở thành gia sư',
   },
 
-  CD_POST_TAGS: [
+  CD_TAGS: [
     {
       id: "1",
       label: 'Công nghệ'
@@ -36,6 +36,17 @@ export default Object.freeze({
     {
       id: "6",
       label: 'Vỡ lòng'
+    },
+  ],
+
+  CD_TYPE_CD_OF_COURSE: [
+    {
+      value: 1,
+      label: "Học tại nhà",
+    },
+    {
+      value: 2,
+      label: "Học online",
     },
   ]
 })

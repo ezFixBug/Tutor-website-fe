@@ -456,7 +456,7 @@ export default {
         this.post = res.data.post;
         this.user = get(this.post, "user", {});
         this.listRelatedPosts = res.data.related_posts;
-        this.list_tags = CONSTS.CD_POST_TAGS.filter((tag) =>
+        this.list_tags = CONSTS.CD_TAGS.filter((tag) =>
           this.post.tags.includes(tag.id)
         );
       }

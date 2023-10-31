@@ -12,11 +12,16 @@ import PostDetail from '../pages/posts/PostDetail.vue'
 import BecomeTutor from '../pages/BecomeTutor.vue'
 import SettingBasic from '../pages/settings/SettingBasic.vue'
 import Setting from '../pages/settings/Setting.vue'
-import MyPosts from '../pages/settings/MyPosts.vue'
-import CreatePost from '../pages/settings/CreatePost.vue'
-import DetailPostUser from '../pages/settings/DetailPostUser.vue'
-import EditPost from '../pages/settings/EditPost.vue'
-import { authGuard } from '@/services/authGuard';
+import MyPosts from '../pages/settings/posts/MyPosts.vue'
+import MyCourses from '../pages/settings/courses/MyCourses.vue'
+import CreatePost from '../pages/settings/posts/CreatePost.vue'
+import DetailPostUser from '../pages/settings/posts/DetailPostUser.vue'
+import EditPost from '../pages/settings/posts/EditPost.vue'
+import CreateCourse from '../pages/settings/courses/CreateCourse.vue'
+import EditCourse from '../pages/settings/courses/EditCourse.vue'
+import ListStudentCourse from '../pages/settings/courses/ListStudentCourse.vue'
+
+import { authGuard, authTutorGuard } from '@/services/authGuard';
 
 import Courses from '../pages/Courses/Courses.vue'
 const routes = [
@@ -134,6 +139,38 @@ const routes = [
                         name: 'edit-post',
                         component: EditPost
                     },
+                    {
+                        path: '/khoa-hoc-cua-toi',
+                        beforeEnter: (to, from, next) => {
+                            authTutorGuard(to, from, next);
+                        },
+                        name: 'my-courses',
+                        component: MyCourses
+                    },
+                    {
+                        path: '/tao-khoa-hoc',
+                        beforeEnter: (to, from, next) => {
+                            authTutorGuard(to, from, next);
+                        },
+                        name: 'create-course',
+                        component: CreateCourse
+                    },
+                    {
+                        path: '/chinh-sua-khoa-hoc/:course_id',
+                        beforeEnter: (to, from, next) => {
+                            authTutorGuard(to, from, next);
+                        },
+                        name: 'edit-course',
+                        component: EditCourse
+                    },
+                    {
+                        path: '/danh-sach-hoc-vien/',
+                        beforeEnter: (to, from, next) => {
+                            authTutorGuard(to, from, next);
+                        },
+                        name: 'list-student-course',
+                        component: ListStudentCourse
+                    }
                 ]
             },
 

@@ -27,7 +27,7 @@
           Bài viết của tôi</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'setting-basic' }" class="logo">
+        <router-link :to="{ name: 'my-courses' }" class="logo">
           <i class="fa-solid fa-book mr-2"></i>
           Khóa học của tôi</router-link>
       </li>

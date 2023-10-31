@@ -316,7 +316,7 @@
   </div>
 </template>
 <script>
-import Sidebar from "../../components/layouts/Sidebar.vue";
+import Sidebar from "../../../components/layouts/Sidebar.vue";
 import $auth from "@/services/authService";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import $http from "@/services/httpService";
