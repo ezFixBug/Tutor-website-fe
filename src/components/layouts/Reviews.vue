@@ -11,9 +11,9 @@
               </p>
             </div>
             <div class="btn-box mt-28px">
-              <a href="#" class="btn theme-btn"
+              <router-link :to="{name: 'feedback'}" class="btn theme-btn"
                 >Gửi feedback <i class="fa-solid fa-arrow-right icon"></i
-              ></a>
+              ></router-link >
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
                     <div class="media media-card align-items-center pt-4">
                       <div class="media-img avatar-md">
                         <img
-                          :src="item.avatar"
+                          src="https://smart-edu.vn/img/avatar.png"
                           alt="avatar"
                           class="rounded-full"
                           style="width: 100%; height: 100%"
@@ -49,7 +49,7 @@
                       </div>
                       <div class="media-body">
                         <div class="d-flex align-items-center pt-1">
-                          <span class="lh-18 pr-2"> {{ item.fullname }}</span>
+                          <span class="lh-18 pr-2"> {{ item.name }}</span>
                           <div class="review-stars">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>

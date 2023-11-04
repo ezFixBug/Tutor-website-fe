@@ -145,7 +145,7 @@ class HttpService {
     try {
       const response = await axios.get(this.app_url + '/subjects');
       if (response.data.subjects) {
-        return this.mapData(response.data.subjects);
+        return response.data.subjects.map(item => ({ label: item.name, value: item.id, image: item.image }));
       };
     } catch (error) {
       this.showError(error.response.data.message)

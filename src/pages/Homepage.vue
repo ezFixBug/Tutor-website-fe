@@ -1,5 +1,6 @@
 <template>
-  <Hero />
+  <spinner :is_loading="is_loading" />
+  <Hero :subjects="subjects" />
   <TypicalTutor :listTutors="listTutors" />
   <div class="section-block"></div>
   <GetStarted />
@@ -44,12 +45,18 @@ import Reviews from "../components/layouts/Reviews.vue";
 import Statistic from "../components/layouts/Statistic.vue";
 import OwlCarouselCourses from "./OwlCarouselCourses.vue";
 
+import $http from "@/services/httpService";
+import get from "lodash/get";
+
 export default {
   setup() {
     const formattedPrice = (price) => {
-      const priceFormat = price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-      return priceFormat.replace(priceFormat.slice(-1), "VND")
-    }
+      const priceFormat = price.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
+      return priceFormat.replace(priceFormat.slice(-1), "VND");
+    };
 
     const courses = [];
 
@@ -77,70 +84,28 @@ export default {
 
     return {
       courses,
-    }
+    };
   },
+
+  components: {
+    TypicalTutor,
+    Hero,
+    CategoriesPopular,
+    GetStarted,
+    Statistic,
+    Reviews,
+    OwlCarouselCourses,
+  },
+
   data() {
     return {
+      is_loading: false,
       quantityTutor: 215,
       quantityCoure: 215,
       quantityStudent: 215,
       quantityRequest: 215,
-      listReviews: [
-        {
-          id: 1,
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea vel sit dignissimos voluptates tempora odit suscipit debitis sed atque eum nobis delectus voluptate minima maxime, esse ipsam doloremque? Sit, eveniet!",
-          avatar: "https://smart-edu.vn/img/avatar.png",
-          fullname: "Tong Le Thang",
-        },
-        {
-          id: 2,
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea vel sit dignissimos voluptates tempora odit suscipit debitis sed atque eum nobis delectus voluptate minima maxime, esse ipsam doloremque? Sit, eveniet!",
-          avatar: "https://smart-edu.vn/img/avatar.png",
-          fullname: "Tong Le Thang",
-        },
-        {
-          id: 3,
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea vel sit dignissimos voluptates tempora odit suscipit debitis sed atque eum nobis delectus voluptate minima maxime, esse ipsam doloremque? Sit, eveniet!",
-          avatar: "https://smart-edu.vn/img/avatar.png",
-          fullname: "Tong Le Thang",
-        },
-        {
-          id: 4,
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea vel sit dignissimos voluptates tempora odit suscipit debitis sed atque eum nobis delectus voluptate minima maxime, esse ipsam doloremque? Sit, eveniet!",
-          avatar: "https://smart-edu.vn/img/avatar.png",
-          fullname: "Tong Le Thang",
-        },
-      ],
-      listCategories: [
-        {
-          id: 1,
-          name: "Toán học",
-          image:
-            "https://sigmabooks.vn/uploads/images/ly-do-cac-em-hoc-sinh-can-phai-hoc-toan.jpg",
-        },
-        {
-          id: 2,
-          name: "Toán học",
-          image:
-            "https://sigmabooks.vn/uploads/images/ly-do-cac-em-hoc-sinh-can-phai-hoc-toan.jpg",
-        },
-        {
-          id: 3,
-          name: "Toán học",
-          image:
-            "https://sigmabooks.vn/uploads/images/ly-do-cac-em-hoc-sinh-can-phai-hoc-toan.jpg",
-        },
-        {
-          id: 4,
-          name: "Toán học",
-          image:
-            "https://sigmabooks.vn/uploads/images/ly-do-cac-em-hoc-sinh-can-phai-hoc-toan.jpg",
-        },
-      ],
+      listReviews: [],
+      subjects: [],
       listTutors: [
         {
           id: 1,
@@ -349,14 +314,22 @@ export default {
       ],
     };
   },
-  components: {
-    TypicalTutor,
-    Hero,
-    CategoriesPopular,
-    GetStarted,
-    Statistic,
-    Reviews,
-    OwlCarouselCourses,
+
+  async created() {
+    this.is_loading = true;
+    this.subjects = await $http.getSubjects();
+    this.listCategories = this.subjects.slice(0, 6);
+
+    const res = await $http.get("/courses", { order_by_like: true });
+    if (get(res, "data.result", false)) {
+      this.courses = res.data.courses;
+    }
+
+    const response = await $http.get("/feedbacks");
+    if (get(response, "data.result", false)) {
+      this.listReviews = response.data.feedbacks;
+    }
+    this.is_loading = false;
   },
 };
 </script>

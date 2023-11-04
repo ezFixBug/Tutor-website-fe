@@ -137,7 +137,11 @@ class AuthService {
   success(authData) {
     this.storageValue = authData;
     this.STORAGE.setItem(this.STORAGE_KEY, JSON.stringify(authData.token));
-    this.STORAGE.setItem(this.STORAGE_KEY_USER, JSON.stringify(authData.user));
+    this.setUser(authData.user);
+  }
+
+  setUser(user) {
+    this.STORAGE.setItem(this.STORAGE_KEY_USER, JSON.stringify(user));
   }
 
   clear() {

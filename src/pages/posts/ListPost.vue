@@ -67,9 +67,8 @@
           </div>
         </div>
       </div>
-      <div class="text-center pt-3">
-        <pagination :pagination="pagination" />
-      </div>
+
+      <pagination :pagination="pagination" />
     </div>
   </section>
 </template>

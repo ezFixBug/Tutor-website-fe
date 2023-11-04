@@ -52,14 +52,14 @@
         :key="course.id"
       >
         <div class="card-image">
-          <a href="/chi-tiet-khoa-hoc-cua-toi/513" class="d-block">
+          <router-link :to="{name: 'edit-course', params: {course_id: course.id}}" class="d-block">
             <img
               class="card-img-top"
               :src="course.image"
               alt="Card image cap"
               style="height: 233.7px"
             />
-          </a>
+          </router-link>
         </div>
         <!-- end card-image -->
         <div class="card-body">

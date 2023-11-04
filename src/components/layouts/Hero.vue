@@ -28,7 +28,7 @@
                   <div class="dropdown bootstrap-select select-container-select dropup">
                     <Form :model="FormFilterCourse" @finish="handleSubmitFormFilterCource">
                       <FormItem>
-                        <Select show-search v-model:value="FormFilterCourse.CourseName" :options="listOptionCourses" size="large"
+                        <Select show-search v-model:value="FormFilterCourse.CourseName" :options="subjects" size="large"
                           placeholder="Chọn Khóa Học" class="w-75 mr-4" />
                         <Button type="primary" danger html-type="submit" :class="{ 'd-none': !FormFilterCourse.CourseName }" style="height: 100%; padding: 7px 16px;">
                           <span class="mr-1"> Tìm Kiếm</span>
@@ -46,62 +46,62 @@
           <div class="row hero-category-wrap">
             <div class="col-lg-4 responsive-column-half">
               <div class="category-item category-item-layout-2">
-                <a href="#" class="category-content">
+                <router-link :to="{name: 'courses', params: {subject_id: 1}}" class="category-content">
                   <div style="color: #ec5252 !important" class="icon-element icon-element-md shadow-sm text-color">
                     <i class="fa-solid fa-calculator"></i>
                   </div>
                   <h3 class="cat__title fs-16">Toán</h3>
-                </a>
+                </router-link>
               </div>
             </div>
             <div class="col-lg-4 responsive-column-half">
               <div class="category-item category-item-layout-2">
-                <a href="#" class="category-content">
+                <router-link :to="{name: 'courses', params: {subject_id: 3}}" class="category-content">
                   <div style="color: ##233d63 !important" class="icon-element icon-element-md shadow-sm text-color">
                     <i class="fa-solid fa-language"></i>
                   </div>
-                  <h3 class="cat__title fs-16">Ngoại ngữ</h3>
-                </a>
+                  <h3 class="cat__title fs-16">Tiếng Anh</h3>
+                </router-link>
               </div>
             </div>
             <div class="col-lg-4 responsive-column-half">
               <div class="category-item category-item-layout-2">
-                <a href="#" class="category-content">
+                <router-link :to="{name: 'courses', params: {subject_id: 21}}" class="category-content">
                   <div style="color: #7e3cf9 !important" class="icon-element icon-element-md shadow-sm text-color">
                     <i class="fa-solid fa-music"></i>
                   </div>
                   <h3 class="cat__title fs-16">Âm nhạc</h3>
-                </a>
+                </router-link>
               </div>
             </div>
             <div class="col-lg-4 responsive-column-half">
               <div class="category-item category-item-layout-2">
-                <a href="#" class="category-content">
+                <router-link :to="{name: 'courses', params: {subject_id: 15}}" class="category-content">
                   <div style="color: #f68a03 !important" class="icon-element icon-element-md shadow-sm text-color">
                     <i class="fa-solid fa-business-time"></i>
                   </div>
-                  <h3 class="cat__title fs-16">Kinh doanh</h3>
-                </a>
+                  <h3 class="cat__title fs-16">SEO</h3>
+                </router-link>
               </div>
             </div>
             <div class="col-lg-4 responsive-column-half">
               <div class="category-item category-item-layout-2">
-                <a href="#" class="category-content">
+                <router-link :to="{name: 'courses', params: {subject_id: 8}}" class="category-content">
                   <div style="color: #358ff7 !important" class="icon-element icon-element-md shadow-sm text-color">
                     <i class="fa-solid fa-code"></i>
                   </div>
                   <h3 class="cat__title fs-16">Lập trình</h3>
-                </a>
+                </router-link>
               </div>
             </div>
             <div class="col-lg-4 responsive-column-half">
               <div class="category-item category-item-layout-2">
-                <a href="#" class="category-content">
+                <router-link :to="{name: 'courses', params: {subject_id: 10}}" class="category-content">
                   <div style="color: #38bb0c !important" class="icon-element icon-element-md shadow-sm text-color">
-                    <i class="fa-solid fa-cookie-bite"></i>
+                    <i class="fa-solid fa-users"></i>
                   </div>
-                  <h3 class="cat__title fs-16">Nấu ăn</h3>
-                </a>
+                  <h3 class="cat__title fs-16">Kỹ năng mềm</h3>
+                </router-link>
               </div>
             </div>
           </div>
@@ -122,20 +122,22 @@ export default {
   data() {
     return {
       selectedValues: null,
-      listOptionCourses: [
-        { label: "Option 1", value: "option1" },
-        { label: "Option 2", value: "option2" },
-        { label: "Option 3", value: "option3" },
-      ],
       FormFilterCourse: {
         CourseName: null
       }
     };
   },
 
+  props: {
+    subjects: {
+      type: Array,
+      default: []
+    }
+  },
+
   methods: {
     handleSubmitFormFilterCource() {
-      console.log(this.FormFilterCourse);
+      this.$router.push({name: 'courses', params: {subject_id: this.FormFilterCourse.CourseName}})
     },
   }
 };
