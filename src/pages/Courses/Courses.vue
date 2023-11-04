@@ -1,13 +1,28 @@
 <template>
-  <BreadCrumb :type="3" />
+  <spinner :is_loading="is_loading" />
+  <BreadCrumb :type="3" :subject="subject" />
   <section class="course-area section-padding">
     <div class="container">
       <div class="filter-bar mb-4">
-        <div class="filter-bar-inner d-flex flex-wrap align-items-center justify-content-between pb-4">
-          <p class="fs-14">Chúng tôi đã tìm thấy <span class="text-black">504</span> khóa học có sẵn cho bạn</p>
+        <div
+          class="filter-bar-inner d-flex flex-wrap align-items-center justify-content-between pb-4"
+        >
+          <p class="fs-14">
+            Chúng tôi đã tìm thấy
+            <span class="text-black">{{
+              pagination ? pagination.total_count : 0
+            }}</span>
+            khóa học có sẵn cho bạn
+          </p>
           <div class="d-flex flex-wrap align-items-center">
-            <a class="btn theme-btn theme-btn-sm theme-btn-white lh-28 collapse-btn collapsed" data-toggle="collapse"
-              href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter">
+            <a
+              class="btn theme-btn theme-btn-sm theme-btn-white lh-28 collapse-btn collapsed"
+              data-toggle="collapse"
+              href="#collapseFilter"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseFilter"
+            >
               Lọc
               <i class="fa-solid fa-chevron-down ml-1 collapse-btn-hide"></i>
               <i class="fa-solid fa-chevron-up ml-1 collapse-btn-show"></i>
@@ -15,37 +30,61 @@
           </div>
         </div>
         <div class="collapse" id="collapseFilter" style="">
-          <Form class="row" :model="FormFilterCourse" @finish="handleSubmitFormFilterCource">
+          <Form
+            class="row"
+            :model="FormFilterCourse"
+            @finish="handleSubmitFormFilterCource"
+          >
             <FormItem class="input-box col-lg-3">
               <div class="form-group">
                 <div class="select-container w-auto">
-                  <div class="dropdown bootstrap-select select-container-select">
-                    <Select show-search v-model:value="FormFilterCourse.category" :options="categories" size="large" :filter-option="filterOption" allow-clear
-                      placeholder="Chọn Khóa Học" />
-                  </div>
-                </div>
-              </div>
-            </FormItem>
-            <FormItem class="input-box col-lg-3">
-              <div class="form-group">
-                <div class="select-container w-auto">
-                  <div class="dropdown bootstrap-select select-container-select">
-                    <Select show-search v-model:value="FormFilterCourse.level" :options="levels" size="large" :filter-option="filterOption" allow-clear
-                      placeholder="Chọn Level" />
-                  </div>
-                </div>
-              </div>
-            </FormItem>
-            <FormItem class="input-box col-lg-3">
-              <div class="form-group">
-                <div class="select-container w-auto">
-                  <div class="dropdown bootstrap-select select-container-select">
-                    <Select 
-                      show-search 
-                      v-model:value="FormFilterCourse.city" 
-                      :options="cities" 
+                  <div
+                    class="dropdown bootstrap-select select-container-select"
+                  >
+                    <Select
+                      show-search
+                      v-model:value="FormFilterCourse.subject_id"
+                      :options="subjects"
                       size="large"
-                      placeholder="Chọn Tỉnh/Thành Phố" 
+                      :filter-option="filterOption"
+                      allow-clear
+                      placeholder="Chọn danh mục"
+                    />
+                  </div>
+                </div>
+              </div>
+            </FormItem>
+            <FormItem class="input-box col-lg-3">
+              <div class="form-group">
+                <div class="select-container w-auto">
+                  <div
+                    class="dropdown bootstrap-select select-container-select"
+                  >
+                    <Select
+                      show-search
+                      v-model:value="FormFilterCourse.class_id"
+                      :options="classes"
+                      size="large"
+                      :filter-option="filterOption"
+                      allow-clear
+                      placeholder="Chọn level"
+                    />
+                  </div>
+                </div>
+              </div>
+            </FormItem>
+            <FormItem class="input-box col-lg-3">
+              <div class="form-group">
+                <div class="select-container w-auto">
+                  <div
+                    class="dropdown bootstrap-select select-container-select"
+                  >
+                    <Select
+                      show-search
+                      v-model:value="FormFilterCourse.province_id"
+                      :options="provinces"
+                      size="large"
+                      placeholder="Chọn Tỉnh/Thành Phố"
                       :filter-option="filterOption"
                       allow-clear
                     />
@@ -56,9 +95,18 @@
             <FormItem class="input-box col-lg-3">
               <div class="form-group">
                 <div class="select-container w-auto">
-                  <div class="dropdown bootstrap-select select-container-select">
-                    <Select show-search v-model:value="FormFilterCourse.type" :options="types" size="large" :filter-option="filterOption" allow-clear
-                      placeholder="Chọn Hình Thức" />
+                  <div
+                    class="dropdown bootstrap-select select-container-select"
+                  >
+                    <Select
+                      show-search
+                      v-model:value="FormFilterCourse.type_cd"
+                      :options="types"
+                      size="large"
+                      :filter-option="filterOption"
+                      allow-clear
+                      placeholder="Chọn Hình Thức"
+                    />
                   </div>
                 </div>
               </div>
@@ -66,9 +114,18 @@
             <FormItem class="input-box col-lg-3">
               <div class="form-group">
                 <div class="select-container w-auto">
-                  <div class="dropdown bootstrap-select select-container-select">
-                    <Select show-search v-model:value="FormFilterCourse.paymentMethod" :options="paymentMethods" size="large" :filter-option="filterOption" allow-clear
-                      placeholder="Chọn Loại Khoá Học" />
+                  <div
+                    class="dropdown bootstrap-select select-container-select"
+                  >
+                    <Select
+                      show-search
+                      v-model:value="FormFilterCourse.price_cd"
+                      :options="paymentMethods"
+                      size="large"
+                      :filter-option="filterOption"
+                      allow-clear
+                      placeholder="Chọn Loại Khoá Học"
+                    />
                   </div>
                 </div>
               </div>
@@ -76,9 +133,18 @@
             <FormItem class="input-box col-lg-3">
               <div class="form-group">
                 <div class="select-container w-auto">
-                  <div class="dropdown bootstrap-select select-container-select">
-                    <Select show-search v-model:value="FormFilterCourse.rate" :options="rates" size="large" :filter-option="filterOption" allow-clear
-                      placeholder="Chọn Đánh Giá" />
+                  <div
+                    class="dropdown bootstrap-select select-container-select"
+                  >
+                    <Select
+                      show-search
+                      v-model:value="FormFilterCourse.rate"
+                      :options="rates"
+                      size="large"
+                      :filter-option="filterOption"
+                      allow-clear
+                      placeholder="Chọn Đánh Giá"
+                    />
                   </div>
                 </div>
               </div>
@@ -88,7 +154,13 @@
                 <span class="mr-1"> Tìm Kiếm</span>
                 <i class="fa-solid fa-arrow-right"></i>
               </Button>
-              <Button type="primary" danger html-type="button" @click="resetForm" class="ml-2">
+              <Button
+                type="primary"
+                danger
+                html-type="button"
+                @click="resetForm"
+                class="ml-2"
+              >
                 <i class="fa-solid fa-arrows-rotate"></i>
               </Button>
             </div>
@@ -97,16 +169,23 @@
       </div>
       <div class="row">
         <div class="col-sm-4" v-for="course in courses" :key="course.id">
-          <Course :course=course />
+          <Course :course="course" />
         </div>
       </div>
     </div>
+    <pagination :pagination="pagination" />
   </section>
 </template>
 <script>
-import { reactive } from 'vue';
-import { Form } from 'ant-design-vue';
-import Course from './Course.vue'
+import { reactive } from "vue";
+import { Form } from "ant-design-vue";
+import Course from "./Course.vue";
+import $auth from "@/services/authService";
+import $http from "@/services/httpService";
+import cloneDeep from "lodash/cloneDeep";
+import CONSTS from "@/Constants";
+import get from "lodash/get";
+
 const useForm = Form.useForm;
 
 export default {
@@ -116,43 +195,21 @@ export default {
 
   setup() {
     const FormFilterCourse = reactive({
-      category: null,
-      level: null,
-      city: null,
-      district: null,
-      type: null,
+      subject_id: null,
+      class_id: null,
+      province_id: null,
+      district_id: null,
+      type_cd: null,
       rate: null,
-      paymentMethod: null
+      price_cd: null,
     });
-    
+
     const { resetFields } = useForm(FormFilterCourse);
 
     const filterOption = (input, option) => {
       return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
 
-    const resetForm = () => {
-      resetFields();
-    };
-    const categories = [
-      { label: "category 1", value: "1" },
-      { label: "category 2", value: "2" },
-    ];
-    const levels = [
-      { label: "Các Lớp Khác", value: "1" },
-      { label: "Ôn thi trường chuyên", value: "2" },
-      { label: "Dạy Song Ngữ", value: "3" },
-    ];
-    const cities = [
-      { label: "Đà Nẵng", value: "1" },
-      { label: "Hà Nội", value: "2" },
-      { label: "Hồ Chí Minh", value: "3" },
-    ];
-    const types = [
-      { label: "Học Tại Nhà", value: "1" },
-      { label: "Học Online", value: "2" },
-      { label: "Học Online Qua Video", value: "2" },
-    ];
     const rates = [
       { label: "1 Sao", value: "1" },
       { label: "2 Sao", value: "2" },
@@ -163,67 +220,86 @@ export default {
     const paymentMethods = [
       { label: "Thanh Toán", value: "1" },
       { label: "Miễn Phí", value: "2" },
-    ]
-
-    const formattedPrice = (price) => {
-      const priceFormat = price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-      return priceFormat.replace(priceFormat.slice(-1), "VND")
-    }
+    ];
 
     const courses = [];
-
-    for (let i = 1; i <= 10; i++) {
-    const courseData = {
-      id: i,
-      image: "",
-      category: [
-        { id: 1, name: "Các Lớp Khác" },
-        { id: 2, name: "Lớp 10" },
-        { id: 3, name: "lớp 11" },
-        { id: 4, name: "lớp 11" },
-        { id: 5, name: "lớp 11" },
-        { id: 6, name: "lớp 11" },
-        { id: 7, name: "lớp 11" },
-      ],
-      name: `name ${i}`,
-      instructor: `instructor ${i}`,
-      rate: 3,
-      price: formattedPrice(7000000),
-    };
-
-    courses.push(courseData);
-  }
 
     return {
       FormFilterCourse,
       filterOption,
-      resetForm,
-      categories,
-      levels,
-      cities,
-      types,
+      resetFields,
       rates,
       paymentMethods,
       courses,
-    }
+    };
   },
 
   data() {
     return {
       isOpenFilter: false,
-      
+      is_loading: false,
+      subjects: [],
+      classes: [],
+      provinces: [],
+      types: [],
+      pagination: {},
+      subject: null,
+    };
+  },
+
+  async created() {
+    this.is_loading = true;
+    this.subjects = await $http.getSubjects();
+    this.classes = await $http.getClasses();
+    this.provinces = await $http.getProvinces();
+    this.types = CONSTS.CD_TYPE_CD_OF_COURSE;
+    const subject_id = this.$route.params.subject_id;
+    if (subject_id) {
+      this.FormFilterCourse.subject_id = subject_id;
+      this.subject = this.subjects.find((item) => {
+        return item.value == subject_id;
+      });
     }
+    this.getDataCourses();
+    this.is_loading = false;
   },
-  created() {
-    console.log(this.courses);
-  },
+
   methods: {
     handleSubmitFormFilterCource() {
-      console.log(this.FormFilterCourse)
+      this.$router.push({ name: "courses", query: { page: 1 } });
+      this.getDataCourses();
     },
-  }
-}
+
+    resetForm() {
+      this.resetFields();
+      this.$router.push({ name: "courses" });
+      this.subject = null;
+      this.getDataCourses({});
+    },
+
+    async getDataCourses() {
+      this.is_loading = true;
+      let params = cloneDeep(this.FormFilterCourse);
+      params["page"] = this.$route.query.page;
+      console.log(params);
+      const res = await $http.get("/courses", params);
+      if (get(res, "data.result", false)) {
+        this.courses = res.data.courses;
+        this.pagination = res.data.paginate;
+      }
+      this.is_loading = false;
+    },
+  },
+
+  watch: {
+    $route: {
+      handler: function () {
+        this.getDataCourses();
+      },
+    },
+  },
+};
 </script>
 <style>
-    @import "./_style.scss";
+@import "./_style.scss";
 </style>

@@ -421,7 +421,7 @@ export default {
   },
 
   computed: {
-    user() {
+    currentUser() {
       return $auth.getUser;
     },
 
@@ -434,18 +434,31 @@ export default {
     async handleLike() {
       this.is_loading = true;
       let params = {
-        user_id: this.user.id,
+        user_id: this.currentUser.id,
         relation_id: this.post.id,
       };
-      const res = await $http.post("/like", params);
+      const res = await $http.post("/like/post", params);
       if (get(res, "data.result", false)) {
         this.post.is_like = !this.post.is_like;
         if (this.post.is_like) {
           this.post.likes_count = this.post.likes_count + 1;
+          const current_user = this.currentUser;
+          current_user.likes_count = current_user.likes_count + 1;
+          $auth.setUser(current_user);
         } else {
           this.post.likes_count = this.post.likes_count - 1;
+          const current_user = this.currentUser;
+          current_user.likes_count = current_user.likes_count - 1;
+          $auth.setUser(current_user);
         }
       }
+      window.dispatchEvent(
+        new CustomEvent("localstorage-changed", {
+          detail: {
+            storage: localStorage.getItem("user"),
+          },
+        })
+      );
       this.is_loading = false;
     },
 

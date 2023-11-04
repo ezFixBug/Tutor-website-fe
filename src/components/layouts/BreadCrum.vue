@@ -13,21 +13,21 @@
       >
         <div class="section-heading">
           <h2 class="section__title text-white">
-            {{ getNameRoute }}
+            {{ subject ? subject.label : getNameRoute }}
           </h2>
         </div>
         <ul
           class="generic-list-item generic-list-item-white generic-list-item-arrow d-flex flex-wrap align-items-center"
         >
-          <li><router-link :to="{path: '/'}">Trang chủ</router-link></li>
-          <li> {{ getNameRoute }} </li>
+          <li><router-link :to="{ path: '/' }">Trang chủ</router-link></li>
+          <li>{{ subject ? subject.label : getNameRoute}}</li>
         </ul>
       </div>
     </div>
   </section>
 </template>
 <script>
-import CONSTS from '@/Constants';
+import CONSTS from "@/Constants";
 
 export default {
   props: {
@@ -35,17 +35,19 @@ export default {
       type: Number,
       default: 0,
     },
+    subject: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
-    getNameRoute(){
-      return CONSTS.ROUTERS[this.$route.name]
-    }
+    getNameRoute() {
+      return CONSTS.ROUTERS[this.$route.name];
+    },
   },
-  created() {
-  }
+  created() {},
 };
 </script>

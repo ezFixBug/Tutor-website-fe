@@ -4,6 +4,8 @@ import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
 import index from '../pages/index.vue'
 import Tutors from '../pages/Tutors.vue'
+import MyLikes from '../pages/MyLikes.vue'
+import FeedBack from '../pages/FeedBack.vue'
 import TutorDetails from '../pages/instructor/TutorDetails.vue'
 import DetailsCourse from '../pages/Courses/DetailsCourse.vue'
 import ListPost from '../pages/posts/ListPost.vue'
@@ -59,7 +61,7 @@ const routes = [
                 component: TutorDetails
             },
             {
-                path: '/khoa-hoc',
+                path: '/khoa-hoc/:subject_id?',
                 name: 'courses',
                 component: Courses
             },
@@ -84,12 +86,25 @@ const routes = [
                 component: ListCategory
             },
             {
+                path: '/lien-he',
+                name: 'feedback',
+                component: FeedBack
+            },
+            {
                 path: '/tro-thanh-gia-su',
                 beforeEnter: (to, from, next) => {
                     authGuard(to, from, next);
                 },
                 name: 'becomeTutor',
                 component: BecomeTutor
+            },
+            {
+                path: '/danh-sach-yeu-thich',
+                beforeEnter: (to, from, next) => {
+                    authGuard(to, from, next);
+                },
+                name: 'my-likes',
+                component: MyLikes
             },
             {
                 path: '/cai-dat',

@@ -1,14 +1,24 @@
 <template>
   <BreadCrumb />
+  <spinner :is_loading="is_loading" />
   <section class="category-area section--padding">
     <div class="container">
       <div class="filter-bar mb-4 row">
-        <input class="form-control col-sm" type="text" v-model="keyword" name="keyword"
-          placeholder="Nhập theo tên danh mục">
+        <input
+          class="form-control col-sm"
+          type="text"
+          v-model="keyword"
+          name="keyword"
+          placeholder="Nhập theo tên danh mục"
+        />
       </div>
       <div class="category-wrapper">
         <div class="row">
-          <div class="col-lg-3 responsive-column-half" v-for="category in categories" :key="category.id">
+          <div
+            class="col-lg-3 responsive-column-half"
+            v-for="category in subjects"
+            :key="category.id"
+          >
             <Category :category="category" />
           </div>
         </div>
@@ -17,35 +27,35 @@
   </section>
 </template>
 <script>
-import Category from './CategoryComponent.vue'
+import Category from "./CategoryComponent.vue";
+import $http from "@/services/httpService";
+import get from "lodash/get";
 export default {
   components: {
-    Category
+    Category,
   },
-  setup() {
-    const categories = []
-    for (let i = 0; i <= 20; i++) {
-      const category = {
-        id: i,
-        name: 'category ' + i,
-        numOfCourse: Math.random()
-      }
-      categories.push(category);
-    }
 
-    return {
-      categories,
-    }
+  async created() {
+    this.is_loading = true;
+    this.subjects_all = await $http.getSubjects();
+    this.subjects = this.subjects_all;
+    this.is_loading = false;
   },
+
   data() {
     return {
-      keyword: '',
-    }
+      keyword: "",
+      subjects: [],
+      subjects_all: [],
+      is_loading: false,
+    };
   },
   watch: {
     keyword() {
-      console.log(this.keyword);
-    }
-  }
-}
+      this.subjects = this.subjects_all.filter((item) =>
+        item.label.includes(this.keyword)
+      );
+    },
+  },
+};
 </script>

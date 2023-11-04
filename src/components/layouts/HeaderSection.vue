@@ -6,7 +6,7 @@
           <div class="row align-items-center">
             <div class="col-lg-2">
               <div class="logo-box">
-                <a href="#" class="logo">
+                <a href="/" class="logo">
                   <img
                     class="img-fluid"
                     src="https://smart-edu.vn/images/logo_7.png"
@@ -120,10 +120,12 @@
                       <ul>
                         <li>
                           <router-link
-                            :to="{ path: '/' }"
+                            :to="{ name: 'my-likes' }"
                             class="shop-cart-btn d-flex align-items-center"
                             ><i class="fa-regular fa-heart"></i
-                            ><span class="noty-number">1</span></router-link
+                            ><span class="noty-number">{{
+                              likes_count
+                            }}</span></router-link
                           >
                         </li>
                       </ul>
@@ -215,12 +217,12 @@
                                   >
                                 </li>
                                 <li><div class="section-block"></div></li>
-                                <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
+                                <li v-if="userStatusCd === 2">
+                                  <router-link :to="{ name: 'my-courses' }">
                                     <i
                                       class="fa-solid fa-file-circle-plus mr-1"
                                     ></i>
-                                    Tạo khóa học</router-link
+                                    Khóa học của tôi</router-link
                                   >
                                 </li>
                                 <li>
@@ -501,7 +503,19 @@ export default {
     return {
       scrollY: 0,
       is_active: false,
+      likes_count: 0,
     };
+  },
+
+  mounted() {
+    window.addEventListener("localstorage-changed", (event) => {
+      const user = JSON.parse(event.detail.storage);
+      if (user) {
+        this.likes_count = user.likes_count;
+      } else if (this.user) {
+        this.likes_count = this.user.likes_count;
+      }
+    });
   },
   computed: {
     hasLogin() {
@@ -526,6 +540,10 @@ export default {
     handleLogout() {
       $auth.logout();
       window.location.href = "/";
+    },
+
+    handleStorageChange(event) {
+      console.log(1);
     },
   },
   created() {
@@ -560,7 +578,7 @@ export default {
   font-weight: 500;
 }
 
-a.active.router-link-exact-active{
+a.active.router-link-exact-active {
   color: red !important;
 }
 </style>

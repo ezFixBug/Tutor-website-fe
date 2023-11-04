@@ -10,6 +10,8 @@ export default Object.freeze({
     'categories': 'Danh Mục',
     'courses': 'Khoá Học',
     'becomeTutor': 'Trở thành gia sư',
+    'my-likes': 'Danh sách yêu thích',
+    'feedback': 'Liên hệ'
   },
 
   CD_TAGS: [
