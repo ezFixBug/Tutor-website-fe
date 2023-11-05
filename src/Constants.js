@@ -11,7 +11,8 @@ export default Object.freeze({
     'courses': 'Khoá Học',
     'becomeTutor': 'Trở thành gia sư',
     'my-likes': 'Danh sách yêu thích',
-    'feedback': 'Liên hệ'
+    'feedback': 'Liên hệ',
+    'requests': 'Yêu cầu gia sư'
   },
 
   CD_TAGS: [

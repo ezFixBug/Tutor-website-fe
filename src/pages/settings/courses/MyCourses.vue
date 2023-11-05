@@ -191,6 +191,7 @@
               <button
                 type="button"
                 class="btn theme-btn theme-btn-sm lh-30 btn-delete-record"
+                data-dismiss="modal"
                 @click="deleteCourse"
               >
                 Xóa
@@ -255,8 +256,6 @@ export default {
           type: "success",
           timeout: 6000,
         });
-        document.getElementById("itemDeleteModal").classList.remove("show");
-        document.querySelector(".modal-backdrop").classList.remove("show");
         this.getCoursesByUser();
       }
       this.is_loading = false;

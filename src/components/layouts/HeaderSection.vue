@@ -50,7 +50,9 @@
                           >
                         </li>
                         <li>
-                          <a href="#pricing-section">Lớp học cần gia sư</a>
+                          <router-link :to="{ name: 'requests' }"
+                            >Lớp học cần gia sư</router-link
+                          >
                         </li>
                       </ul>
                     </li>
@@ -242,7 +244,7 @@
                                   >
                                 </li>
                                 <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
+                                  <router-link :to="{ name: 'my-requests' }">
                                     <i class="fa-solid fa-user-plus mr-1"></i>
                                     Yêu cầu gia sư</router-link
                                   >
@@ -354,8 +356,8 @@
               >
             </li>
             <li>
-              <a href="#pricing-section" @click="is_active = false"
-                >Lớp học cần gia sư</a
+              <router-link :to="{ name: 'requests' }" @click="is_active = false"
+                >Lớp học cần gia sư</router-link
               >
             </li>
           </ul>
@@ -435,7 +437,7 @@
           >
         </li>
         <li>
-          <router-link :to="{ name: 'setting-basic' }">
+          <router-link :to="{ name: 'my-requests' }">
             Yêu cầu gia sư <span class="product-count">0</span></router-link
           >
         </li>

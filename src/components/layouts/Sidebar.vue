@@ -37,7 +37,7 @@
           Khóa học đã đăng ký</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'setting-basic' }" class="logo">
+        <router-link :to="{ name: 'my-requests' }" class="logo">
           <i class="fa-solid fa-magnifying-glass-plus mr-2"></i>
           Yêu cầu gia sư</router-link>
       </li>

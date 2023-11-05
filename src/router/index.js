@@ -6,6 +6,7 @@ import index from '../pages/index.vue'
 import Tutors from '../pages/Tutors.vue'
 import MyLikes from '../pages/MyLikes.vue'
 import FeedBack from '../pages/FeedBack.vue'
+import RequestTutors from '../pages/requests/RequestTutors.vue'
 import TutorDetails from '../pages/instructor/TutorDetails.vue'
 import DetailsCourse from '../pages/Courses/DetailsCourse.vue'
 import ListPost from '../pages/posts/ListPost.vue'
@@ -22,6 +23,10 @@ import EditPost from '../pages/settings/posts/EditPost.vue'
 import CreateCourse from '../pages/settings/courses/CreateCourse.vue'
 import EditCourse from '../pages/settings/courses/EditCourse.vue'
 import ListStudentCourse from '../pages/settings/courses/ListStudentCourse.vue'
+import CreateRequest from '../pages/settings/tutors/CreateRequest.vue'
+import MyRequests from '../pages/settings/tutors/MyRequests.vue'
+import DetailRequestUser from '../pages/settings/tutors/DetailRequestUser.vue'
+import DetailRequest from '../pages/requests/DetailRequest.vue'
 
 import { authGuard, authTutorGuard } from '@/services/authGuard';
 
@@ -89,6 +94,16 @@ const routes = [
                 path: '/lien-he',
                 name: 'feedback',
                 component: FeedBack
+            },
+            {
+                path: '/yeu-cau-gia-su',
+                name: 'requests',
+                component: RequestTutors
+            },
+            {
+                path: '/chi-tiet-yeu-cau/:request_id',
+                name: 'detail-request',
+                component: DetailRequest
             },
             {
                 path: '/tro-thanh-gia-su',
@@ -185,7 +200,39 @@ const routes = [
                         },
                         name: 'list-student-course',
                         component: ListStudentCourse
-                    }
+                    },
+                    {
+                        path: '/dang-ky-tim-gia-su',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'register-request-tutor',
+                        component: CreateRequest
+                    },
+                    {
+                        path: '/yeu-cau-cua-toi',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'my-requests',
+                        component: MyRequests
+                    },
+                    {
+                        path: '/chi-tiet-yeu-cau-cua-toi/:request_id',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'detail-request-user',
+                        component: DetailRequestUser
+                    },
+                    {
+                        path: '/chinh-sua-yeu-cau/:request_id',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'edit-request',
+                        component: CreateRequest
+                    },
                 ]
             },
 

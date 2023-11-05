@@ -312,8 +312,8 @@ export default {
         });
         this.$router.push({ path: "/" });
       } else {
-        if (get(response, "data.status", {}) === 422) {
-          this.dataErrors = get(response, "data.errors", {});
+        if (get(res, "data.status", {}) === 422) {
+          this.dataErrors = get(res, "data.errors", {});
         }
       }
       this.is_loading = false;
