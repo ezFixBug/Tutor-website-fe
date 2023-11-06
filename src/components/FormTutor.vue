@@ -346,7 +346,7 @@
                     <div class="check-list row">
                       <div class="col-3" v-for="(item, pos) in listOptionClasses" :key="pos">
                         <label class="ui-checkbox ui-checkbox-primary">
-                          <input type="checkbox" class="course-level" :value="item.value" @change="handleAddSubject"
+                          <input type="checkbox" class="course-level" :value="item.value"
                             v-model="list_classes_choosed" />
                           <span class="input-span ml-1">{{ item.label }}</span>
                         </label>
@@ -357,11 +357,11 @@
               </div>
             </div>
           </div>
-          <!-- <div class="btn-box col-lg-12 text-right">
+          <div class="btn-box col-lg-12 text-right">
             <button class="btn theme-btn" type="button" @click="handleAddSubject">
               Thêm môn dạy
             </button>
-          </div> -->
+          </div>
           <div class="input-box col-lg-12">
             <label class="label-text"> Danh sách môn dạy </label>
             <div class="l-teaching-topic">
@@ -578,8 +578,49 @@ export default {
       this.dataTutor = response.data.user;
       this.dataTutor.listCityDistricts = [];
       this.dataTutor.listSubjectClasses = [];
+  
+      this.dataTutor.teach_subjects.forEach(item => {
+        const subjectName = item.subject.name;
+        const classesName = item.teach_subject_classes.map(teachSubject => teachSubject.classes.name);
+        const classesId = item.teach_subject_classes.map(teachSubject => teachSubject.classes.id);
+        const subjectId = item.subject.id;
 
-      this.getSubject()
+        this.dataTutor.listSubjectClasses.push({
+          subject: subjectId,
+          classes: classesId
+        })
+
+        this.classSubjectChoosed.push({
+          "classes": classesName.join(", "),
+          "subject": {
+            "label": subjectName,
+            "value": subjectId,
+            "image": ""
+          }
+        });
+      });
+
+      this.dataTutor.teach_places.forEach(item => {
+        const provinceName = item.province.name;
+        const districtsName = item.teach_place_districts.map(teachPlace => teachPlace.district.name);
+        const districtsId = item.teach_place_districts.map(teachPlace => teachPlace.district.id);
+        const provinceId = item.province.id;
+
+        this.dataTutor.listCityDistricts.push({
+          city: item.province_id,
+          districts: districtsId
+        })
+
+        this.cityDistrictChoosed.push({
+          "districts": districtsName.join(", "),
+          "city": {
+            "label": provinceName,
+            "value": provinceId,
+          }
+        });
+      });
+
+      // this.getSubject()
     }
     this.is_loading = false;
   },
@@ -613,7 +654,7 @@ export default {
 
       const filteredClassIds = this.dataTutor.teach_subjects
         .filter(teachSubject => teachSubject.subject_id === this.subject)
-        .map(teachSubject => teachSubject.classes.map(item => item.class_id))
+        .map(teachSubject => teachSubject.teach_subject_classes.map(item => item.class_id))
         .flat();
       this.list_classes_choosed = filteredClassIds ?? [];
     },
@@ -648,47 +689,41 @@ export default {
     },
 
     handleAddSubject() {
-      // danh sách lớp đã chọn
       const list_classes_choosed_value = Object.values(
         this.list_classes_choosed
       );
-
-      const listOptionSubjects = cloneDeep(this.listOptionSubjects);
-
-      const listOptionClasses = cloneDeep(this.listOptionClasses);
-      const class_choosed = listOptionClasses.filter((item) =>
-        list_classes_choosed_value.includes(item.value)
+      const check_subject_already = this.listClassSubjectChoosed.find(
+        (item) => item.subject.value === this.subject
       );
-
-      // kiểm tra môn đang chọn có được chọnt trước đó chưa
-      const indexOfSubject = this.listClassSubjectChoosed.map((item, index) => (item.subject.value === this.subject ? index : -1))
-        .filter(index => index !== -1);
-
-      if (!isEmpty(indexOfSubject)) {
-        indexOfSubject.forEach(index => {
-          this.listClassSubjectChoosed[index].classes = class_choosed.map((item) => item.label).join(", ");
-        });
-        
+      if (!this.subject) {
+        this.is_display_require_subject = true;
+      } else if (isEmpty(list_classes_choosed_value)) {
+        this.is_display_require_class = true;
+      } else if (!isEmpty(check_subject_already)) {
+        this.is_display_subject_already = true;
       } else {
-        let data = {
+        this.is_display_subject_already = false;
+        this.is_display_require_class = false;
+        this.is_display_require_subject = false;
+        const listOptionClasses = cloneDeep(this.listOptionClasses);
+        const class_choosed = listOptionClasses.filter((item) =>
+          list_classes_choosed_value.includes(item.value)
+        );
+        let item = {
           classes: null,
-          subject: null
-        }
-
-        data.subject = listOptionSubjects.find(
+          subject: null,
+        };
+        item.classes = class_choosed.map((item) => item.label).join(", ");
+        const listOptionSubjects = cloneDeep(this.listOptionSubjects);
+        item.subject = listOptionSubjects.find(
           (item) => item.value === this.subject
         );
-
-        data.classes = class_choosed.map((item) => item.label).join(", ");
-        data.subject = listOptionSubjects.find(
-          (item) => item.value === this.subject
-        );
-        this.listClassSubjectChoosed = data;
-
-        this.dataTutor.listSubjectClasses.push({
+        this.listClassSubjectChoosed = item;
+        let id_subject_classes = {
           subject: this.subject,
           classes: class_choosed.map((item) => item.value),
-        });
+        };
+        this.dataTutor.listSubjectClasses.push(id_subject_classes);
       }
     },
     onChangeSubject(value) {
@@ -750,6 +785,7 @@ export default {
         };
         this.dataTutor.listCityDistricts.push(id_city_districts);
       }
+      console.log(this.dataTutor.listCityDistricts);
     },
 
     handleRemoveCityDistrictChoosed(index) {
