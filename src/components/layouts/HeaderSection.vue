@@ -95,7 +95,7 @@
                 </nav>
                 <div
                   class="nav-right-button border-left border-left-gray pl-4 mr-3"
-                  v-if="!hasLogin"
+                  v-if="!user"
                 >
                   <ul class="generic-list-item">
                     <li>
@@ -134,12 +134,67 @@
                     </div>
                     <div
                       class="shop-cart notification-cart pr-3 mr-3 border-right border-right-gray"
+                      v-if="user"
                     >
                       <ul>
                         <li>
                           <p class="shop-cart-btn">
+                            <span
+                              class="dot-status bg-1"
+                              v-if="isHaveNewNotify"
+                            ></span>
                             <i class="fa-regular fa-bell"></i>
                           </p>
+                          <ul
+                            class="cart-dropdown-menu after-none p-0 notification-dropdown-menu scrolled-box custom-scrollbar-styled"
+                          >
+                            <li
+                              class="menu-heading-block d-flex align-items-center justify-content-between"
+                            >
+                              <h4>Thông báo</h4>
+                              <span class="ribbon fs-14">{{
+                                listNotifications.length
+                              }}</span>
+                            </li>
+                            <li>
+                              <div class="notification-body">
+                                <div
+                                  v-for="(noti, index) in listNotifications"
+                                  :key="index"
+                                >
+                                  <router-link
+                                    :to="noti.url"
+                                    class="media media-card align-items-center"
+                                    style="background-color: #fff"
+                                    :class="{ is_read: noti.is_read }"
+                                    @click="handleRead(noti)"
+                                  >
+                                    <div
+                                      class="icon-element icon-element-sm flex-shrink-0 bg-3 mr-3 text-white"
+                                    >
+                                      <i
+                                        class="fa-solid fa-heart"
+                                        v-if="noti.type_cd === 1"
+                                      ></i>
+                                      <i
+                                        class="fa-solid fa-comment"
+                                        v-if="noti.type_cd === 2"
+                                      ></i>
+                                    </div>
+                                    <div class="media-body">
+                                      <h5>
+                                        {{ noti.content }}
+                                      </h5>
+                                      <span
+                                        class="d-block lh-18 pt-1 text-gray fs-13"
+                                        >{{ noti.created_at }}</span
+                                      >
+                                    </div>
+                                  </router-link>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
                         </li>
                         <ul
                           class="cart-dropdown-menu after-none p-0 notification-dropdown-menu scrolled-box custom-scrollbar-styled"
@@ -166,13 +221,16 @@
                         </ul>
                       </ul>
                     </div>
-                    <div class="shop-cart user-profile-cart pr-3 mr-3">
+                    <div
+                      class="shop-cart user-profile-cart pr-3 mr-3"
+                      v-if="user"
+                    >
                       <ul>
                         <li>
                           <div class="shop-cart-btn">
                             <div class="avatar-xs">
                               <img
-                                :src="user.avatar"
+                                :src="user ? user.avatar : null"
                                 class="rounded-full img-fluid"
                                 alt=""
                               />
@@ -225,14 +283,6 @@
                                       class="fa-solid fa-file-circle-plus mr-1"
                                     ></i>
                                     Khóa học của tôi</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
-                                    <i
-                                      class="fa-solid fa-circle-question mr-1"
-                                    ></i>
-                                    Câu hỏi thảo luận</router-link
                                   >
                                 </li>
                                 <li>
@@ -499,13 +549,22 @@
 <script >
 import $auth from "@/services/authService";
 import get from "lodash/get";
-import set from "lodash/set";
+import {
+  database,
+  ref,
+  push,
+  onValue,
+  child,
+  get as firebaseGet,
+  set,
+} from "@/services/firebaseService";
 export default {
   data() {
     return {
       scrollY: 0,
       is_active: false,
       likes_count: 0,
+      notifications: [],
     };
   },
 
@@ -518,6 +577,8 @@ export default {
         this.likes_count = this.user.likes_count;
       }
     });
+
+    this.getDataNotification();
   },
   computed: {
     hasLogin() {
@@ -533,6 +594,31 @@ export default {
         return this.user.status_cd;
       }
     },
+
+    listNotifications() {
+      const list = [];
+      this.notifications.forEach((item) => {
+        if (item[1].user_id === this.user.id) {
+          item[1].id = item[0];
+          list.push(item[1]);
+        }
+      });
+
+      list.sort((item1, item2) => {
+        const date1 = new Date(item1.created_at);
+        const date2 = new Date(item2.created_at);
+
+        return date2 - date1;
+      });
+
+      return list;
+    },
+
+    isHaveNewNotify() {
+      return this.listNotifications.find((item) => {
+        return item.is_read === false;
+      });
+    },
   },
   methods: {
     handleScroll() {
@@ -546,6 +632,27 @@ export default {
 
     handleStorageChange(event) {
       console.log(1);
+    },
+
+    getDataNotification() {
+      onValue(ref(database, "notifications"), (snapshot) => {
+        if (snapshot.exists()) {
+          this.notifications = Object.keys(snapshot.val()).map((key) => [
+            key,
+            snapshot.val()[key],
+          ]);
+        }
+      });
+    },
+
+    handleRead(noti) {
+      const notify = { ...noti };
+      notify.is_read = true;
+      set(ref(database, "notifications/" + noti.id), {
+        ...notify,
+      });
+
+      this.$router.push(notify.url);
     },
   },
   created() {
@@ -582,5 +689,9 @@ export default {
 
 a.active.router-link-exact-active {
   color: red !important;
+}
+
+.is_read {
+  background-color: rgb(224, 224, 224) !important;
 }
 </style>

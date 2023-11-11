@@ -6,9 +6,9 @@
       </div>
       <ListTutors :listTutors="listTutors"/>
       <div class="view-more-box pt-4 text-center">
-        <a class="btn theme-btn" href="#"
+        <router-link class="btn theme-btn" :to="{name: 'tutor'}"
           >Xem tất cả gia sư giỏi<i class="fa-solid fa-arrow-right icon"></i
-        ></a>
+        ></router-link>
       </div>
     </div>
   </section>

@@ -9,24 +9,12 @@
         <div class="media-img media--img media-img-md rounded-full">
           <img
             class="rounded-full"
-            src="https://storage.smart-edu.vn\files\user\20231021142828tải xuống.jfif"
+            :src="user.avatar"
             alt="Student thumbnail image"
           />
         </div>
         <div class="media-body">
-          <h2 class="section__title fs-30">phạm nhật trường</h2>
-          <div class="rating-wrap d-flex align-items-center pt-2">
-            <div class="review-stars">
-              <span class="rating-number">0</span>
-
-              <span class="la la-star-o"></span>
-              <span class="la la-star-o"></span>
-              <span class="la la-star-o"></span>
-              <span class="la la-star-o"></span>
-              <span class="la la-star-o"></span>
-            </div>
-            <span class="rating-total pl-1">(0)</span>
-          </div>
+          <h2 class="section__title fs-30">{{user.full_name}}</h2>
           <!-- end rating-wrap -->
         </div>
         <!-- end media-body -->
@@ -116,7 +104,7 @@
             </p>
             <div class="card-action-wrap pl-3">
               <router-link
-                :to="{ name: 'detail-post-user', params: { post_id: course.id } }"
+                :to="{ name: 'list-student-course', params: { course_id: course.id } }"
                 class="icon-element icon-element-sm shadow-sm cursor-pointer ml-1 text-success"
                 data-toggle="tooltip"
                 data-placement="top"

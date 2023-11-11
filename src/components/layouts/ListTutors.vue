@@ -11,21 +11,32 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">
-            <router-link :to="{name : 'detail-tutor', params: {id: item.id}}">{{ item.fullname }}</router-link>
+            <router-link
+              :to="{ name: 'detail-tutor', params: { id: item.id } }"
+              >{{ item.full_name }}</router-link
+            >
           </h5>
           <h6 class="card-title text-color-5 fs-14">
             {{ item.price }} vnđ/giờ
           </h6>
           <p class="card-text">
-            {{ item.subject.name }}:
-            {{ listClasses(item.subject) }}
+            {{
+              item.teach_subjects[0]
+                ? item.teach_subjects[0].subject.name
+                : null
+            }}:
+            {{ item.teach_subjects[0] ? listClasses(item.teach_subjects[0]) : null }}
           </p>
           <p class="card-text">
-            {{ item.address.city }} - {{ item.address.district }} -
-            {{ item.address.ward }}
+            <!-- {{ item.address.city }} - {{ item.address.district }} -
+            {{ item.address.ward }} -->
           </p>
           <div class="d-flex justify-content-between align-items-center pt-3">
-            <router-link :to="{name : 'detail-tutor', params: {id: item.id}}" class="btn theme-btn-sm theme-btn-transparent">Xem hồ sơ</router-link>
+            <router-link
+              :to="{ name: 'detail-tutor', params: { id: item.id } }"
+              class="btn theme-btn-sm theme-btn-transparent"
+              >Xem hồ sơ</router-link
+            >
             <a href="#" class="btn theme-btn-sm theme-btn-transparent"
               >Mời dạy <i class="fa-solid fa-arrow-right"></i
             ></a>
@@ -46,11 +57,11 @@ export default {
   methods: {
     listClasses(subject) {
       const listClasses = [];
-      subject.listClasses = subject.classes.map((item, index) => {
-        if (index !== subject.classes.length - 1) {
-          listClasses.push(item.name + ", ");
+      subject.teach_subject_classes.forEach((item, index) => {
+        if (index !== subject.teach_subject_classes.length - 1) {
+          listClasses.push(item.class.name + ", ");
         } else {
-          listClasses.push(item.name);
+          listClasses.push(item.class.name);
         }
       });
       return listClasses.join("");

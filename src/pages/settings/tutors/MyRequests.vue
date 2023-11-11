@@ -140,7 +140,7 @@
           </div>
           <!-- end rating-wrap -->
           <p class="text-black">
-            <i class="fa-regular fa-hand-point-right mr-1 text-color"></i> lời
+            <i class="fa-regular fa-hand-point-right mr-1 text-color"></i> {{ request.offers_count }} lời
             đề nghị <span class="bg-1"></span>
           </p>
 

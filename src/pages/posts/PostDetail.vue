@@ -394,9 +394,20 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import CONSTS from "@/Constants";
+
+import {
+  database,
+  ref,
+  push,
+  onValue,
+  child,
+  get as firebaseGet,
+  set,
+} from "@/services/firebaseService";
 export default {
   async mounted() {
     this.getPost(this.$route.params.id);
+
     this.getComments(this.$route.params.id);
   },
 
@@ -432,6 +443,9 @@ export default {
 
   methods: {
     async handleLike() {
+      if (!this.currentUser) {
+        return;
+      }
       this.is_loading = true;
       let params = {
         user_id: this.currentUser.id,
@@ -445,6 +459,17 @@ export default {
           const current_user = this.currentUser;
           current_user.likes_count = current_user.likes_count + 1;
           $auth.setUser(current_user);
+
+          push(ref(database, "notifications"), {
+            user_id: this.post.user_id,
+            object_id: this.post.id,
+            created_at: this.getDateTimeNow(),
+            type_cd: 1,
+            content:
+              this.currentUser.full_name + " đã yêu thích bài viết của bạn",
+            url: { name: "detail-post", params: { id: this.post.id } },
+            is_read: false,
+          });
         } else {
           this.post.likes_count = this.post.likes_count - 1;
           const current_user = this.currentUser;
@@ -500,6 +525,17 @@ export default {
       if (get(res, "data.result", false)) {
         this.getComments(this.post.id);
         this.comment_content = "";
+
+        push(ref(database, "notifications"), {
+          user_id: this.post.user_id,
+          object_id: this.post.id,
+          created_at: this.getDateTimeNow(),
+          type_cd: 2,
+          content:
+            this.currentUser.full_name + " đã bình luận về bài viết của bạn",
+          url: { name: "detail-post", params: { id: this.post.id } },
+          is_read: false,
+        });
       }
       this.is_loading = false;
     },
@@ -517,6 +553,17 @@ export default {
       if (get(res, "data.result", false)) {
         this.getComments(this.post.id);
         this.comment_replay_content = "";
+
+        push(ref(database, "notifications"), {
+          user_id: this.post.user_id,
+          object_id: this.post.id,
+          created_at: this.getDateTimeNow(),
+          type_cd: 2,
+          content:
+            this.currentUser.full_name + " đã bình luận về bài viết của bạn",
+          url: { name: "detail-post", params: { id: this.post.id } },
+          is_read: false,
+        });
       }
       this.is_loading = false;
     },
@@ -529,6 +576,19 @@ export default {
       const day = String(date.getDate()).padStart(2, "0");
 
       return `${year}-${month}-${day}`;
+    },
+
+    getDateTimeNow() {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
   },
 

@@ -194,7 +194,7 @@ const routes = [
                         component: EditCourse
                     },
                     {
-                        path: '/danh-sach-hoc-vien/',
+                        path: '/danh-sach-hoc-vien/:course_id',
                         beforeEnter: (to, from, next) => {
                             authTutorGuard(to, from, next);
                         },

@@ -1,10 +1,11 @@
 <template>
+  <spinner :is_loading="is_loading" />
   <section class="breadcrumb-area">
     <div class="bg-dark pt-60px pb-60px">
       <div class="container">
         <div class="breadcrumb-content text-center">
           <div class="section-heading">
-            <h1 class="section__title text-white pt-2">{{request.title}}</h1>
+            <h1 class="section__title text-white pt-2">{{ request.title }}</h1>
           </div>
           <div class="breadcrumb-btn-box pt-30px">
             <button class="btn theme-btn text-white-50">
@@ -59,8 +60,8 @@
                   {{ request.user ? request.user.street : null }}
                 </li>
                 <li class="mr-2 fs-18">
-                  {{ request.user ? request.user.district.name: null }} -
-                  {{ request.user ? request.user.province.name: null }}
+                  {{ request.user ? request.user.district.name : null }} -
+                  {{ request.user ? request.user.province.name : null }}
                 </li>
               </ul>
             </div>
@@ -79,16 +80,21 @@
                       : "Nữ"
                   }}
                 </li>
-                <li><i class="la la-user fs-18 mr-2"></i>Số học viên: {{request.num_student}}</li>
+                <li>
+                  <i class="la la-user fs-18 mr-2"></i>Số học viên:
+                  {{ request.num_student }}
+                </li>
                 <li>
                   <i class="la la-money fs-18 mr-2"></i>Học phí:
                   <span class="fs-18 text-color-3"
-                    >{{request.price}} vnđ/người/tháng</span
+                    >{{ request.price }} vnđ/người/tháng</span
                   >
                 </li>
                 <li>
                   <i class="la la-calculator fs-18 mr-2"></i>Tổng:
-                  <span class="fs-18 text-color">{{request.num_student * request.price}} vnđ/tháng</span>
+                  <span class="fs-18 text-color"
+                    >{{ request.num_student * request.price }} vnđ/tháng</span
+                  >
                 </li>
               </ul>
             </div>
@@ -97,8 +103,14 @@
           <div class="col-lg-4 ml-auto">
             <div class="quiz-ans-content">
               <ul class="generic-list-item pt-3">
-                <li><i class="la la-clock fs-18 mr-2"></i>{{request.num_day_per_week}} buổi/tuần</li>
-                <li><i class="la la-clock fs-18 mr-2"></i>{{request.num_hour_per_day}}giờ/buổi:</li>
+                <li>
+                  <i class="la la-clock fs-18 mr-2"></i
+                  >{{ request.num_day_per_week }} buổi/tuần
+                </li>
+                <li>
+                  <i class="la la-clock fs-18 mr-2"></i
+                  >{{ request.num_hour_per_day }}giờ/buổi:
+                </li>
                 <li>
                   <i class="la la-money fs-18 mr-2"></i>Phí nhận lớp:
                   <span class="fs-20 text-color-5 font-weight-semi-bold"
@@ -116,8 +128,7 @@
                 </li>
                 <li>
                   <i class="la la-heart fs-18 mr-2"></i
-                  ><span class="fs-15 text-black" id="offerNumber_3027">1</span
-                  >{{request.offers_count}} lời đề nghị
+                  >{{ request.offers_count }} lời đề nghị
                 </li>
 
                 <li>
@@ -125,8 +136,9 @@
                     class="btn theme-btn theme-btn-sm btn-add-offer"
                     data-id="3027"
                     v-if="$route.name !== 'detail-request-user'"
+                    @click="handleOfferRequest"
                   >
-                    Hủy đề nghị
+                    {{ request.is_requested ? "Hủy đề nghị" : "Đề nghị dạy" }}
                   </button>
                 </li>
               </ul>
@@ -136,7 +148,7 @@
           <div class="col-lg-12">
             <div class="quiz-ans-content pb-4">
               <h3 class="fs-22 font-weight-semi-bold">Mô tả</h3>
-              <p class="pt-2">{{request.description}}</p>
+              <p class="pt-2">{{ request.description }}</p>
             </div>
           </div>
           <!-- end col-lg-6 -->
@@ -517,6 +529,10 @@
 
 <script>
 import CONSTS from "@/Constants";
+import $http from "@/services/httpService";
+import $auth from "@/services/authService";
+import { createToast } from "mosha-vue-toastify";
+import get from "lodash/get";
 export default {
   props: {
     request: {
@@ -532,6 +548,58 @@ export default {
   },
 
   methods: {
+    async handleOfferRequest() {
+      this.is_loading = true;
+      if (this.request.offers_count === 6 && !this.request.is_requested) {
+        createToast("Số lượng yêu cầu đề nghị dạy đã đầy!", {
+          type: "warning",
+          timeout: 6000,
+        });
+        return;
+      }
+      const user = $auth.getUser;
+      if (user) {
+        if (user.role_cd === 2) {
+          let params = {
+            user_id: user.id,
+          };
+
+          if (this.request.is_requested) {
+            const res = await $http.delete(
+              "/cancel-offer/" + this.request.id,
+              params
+            );
+            if (get(res, "data.result", false)) {
+              createToast("Đã hủy yêu cầu đề nghị dạy!", {
+                type: "success",
+                timeout: 6000,
+              });
+
+              this.$emit('getDataRequest');
+            }
+          } else {
+            const res = await $http.post(
+              "/offer-request/" + this.request.id,
+              params
+            );
+            if (get(res, "data.result", false)) {
+              createToast("Đã gửi yêu cầu đề nghị dạy!", {
+                type: "success",
+                timeout: 6000,
+              });
+              this.$emit('getDataRequest');
+            }
+          }
+        } else {
+          this.$router.push({ name: "becomeTutor" });
+        }
+      } else {
+        this.$router.push({ name: "login" });
+      }
+
+      this.is_loading = false;
+    },
+
     formatDate(inputDate) {
       const date = new Date(inputDate);
 
