@@ -1,5 +1,5 @@
 <template>
-  <Card hoverable class="mb-4" @click="goToDetailCourse" style="height: 100%">
+  <Card hoverable class="mb-4" @click="goToDetailCourse" style="height: 100%;text-align: left !important">
     <template #cover>
       <img
         alt="example"

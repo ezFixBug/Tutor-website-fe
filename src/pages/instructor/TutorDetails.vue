@@ -1,39 +1,38 @@
 <template>
+  <spinner :is_loading="is_loading" />
   <BreadCrumb />
   <section class="breadcrumb-area py-5 bg-white pattern-bg">
     <div class="container">
       <div class="breadcrumb-content">
         <div class="media media-card align-items-center pb-4">
           <div class="media-img media--img media-img-md rounded-full">
-            <img class="rounded-full" src="https://smart-edu.vn/img/avatar.png" alt="Student thumbnail image"
-              height="100%" width="100%">
+            <img
+              class="rounded-full"
+              src="https://smart-edu.vn/img/avatar.png"
+              alt="Student thumbnail image"
+              height="100%"
+              width="100%"
+            />
           </div>
           <div class="media-body">
-            <h2 class="section__title fs-30">Hoang Thi Lan Anh</h2>
+            <h2 class="section__title fs-30">{{ tutor.full_name }}</h2>
             <div class="rating-wrap d-flex align-items-center py-2">
-              <div class="review-stars">
-                <span class="rating-number">0 </span>
-                <span><i class="fa-regular fa-star"></i></span>
-                <span><i class="fa-regular fa-star"></i></span>
-                <span><i class="fa-regular fa-star"></i></span>
-                <span><i class="fa-regular fa-star"></i></span>
-                <span><i class="fa-regular fa-star"></i></span>
-              </div>
+              <span class="d-block lh-18 pt-1 pb-2">{{
+                formatDate(tutor.created_at)
+              }}</span>
             </div>
-            <span class="d-block lh-18 pt-1 pb-2">03/08/2023</span>
-            <p class="lh-18">Gia Sư Tiếng Anh IELTS 7.0 có 5 năm kinh nghiệm dạy online, offline học sinh cấp 1,2,3 và đại
-              học</p>
+            <p class="lh-18">
+              {{ tutor.title }}
+            </p>
           </div>
         </div>
         <div class="nav-right-button d-flex align-items-center mt-2">
-          <a href="#" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-26 text-black mr-2" data-toggle="modal"
-            data-target="#ratingModal"><i class="fa-solid fa-star"></i> Đánh giá</a>
-          <input class="share-teacher-fdb3b5e0-99e8-4898-5dc4-08db93f06c6a"
-            value="https://smart-edu.vn/chi-tiet-gia-su/fdb3b5e0-99e8-4898-5dc4-08db93f06c6a" type="hidden">
-          <button class="btn btn-primary share-teacher mr-2" data-id="fdb3b5e0-99e8-4898-5dc4-08db93f06c6a">Chia
-            sẻ</button>
-          <a class="btn btn-danger invite-teacher" href="/dang-ky-tim-gia-su/fdb3b5e0-99e8-4898-5dc4-08db93f06c6a"
-            type="button">Mời dạy<i class="la la-arrow-right icon ml-1"></i></a>
+          <a
+            class="btn btn-danger invite-teacher"
+            href="/dang-ky-tim-gia-su/fdb3b5e0-99e8-4898-5dc4-08db93f06c6a"
+            type="button"
+            >Mời dạy<i class="la la-arrow-right icon ml-1"></i
+          ></a>
         </div>
       </div>
     </div>
@@ -42,59 +41,99 @@
     <div class="container">
       <div class="student-details-wrap pb-20px">
         <h3 class="fs-24 font-weight-semi-bold pb-2">Giới thiệu</h3>
-        <p class="pb-5">Luôn luôn nhiệt tình và hết lòng đối với học sinh.</p>
+        <p class="pb-5">{{ tutor.description }}</p>
 
         <div class="row">
           <div class="col-lg-6 col-md-6">
             <div class="media media-card media-card-cic align-items-center">
               <div class="media-img media-img-lg mr-4 bg-gray">
-                <img class="mr-3 work" id="outputTheBackCIC"
-                  src="https://storage.smart-edu.vn\files\lcart\20230803144422364216873_222710813629590_7377453395357909197_n.jpg"
-                  alt="avatar image">
+                <img
+                  class="mr-3 work"
+                  id="outputTheBackCIC"
+                  :src="tutor.avatar"
+                  alt="avatar image"
+                />
               </div>
-            </div><!-- end media -->
+            </div>
+            <!-- end media -->
           </div>
           <div class="col-lg-3 col-md-3">
-            <p class="label-text font-weight-bold text-color-3">Giới tính: </p>
-            <span class="fs-15" type="text">Nữ</span>
+            <p class="label-text font-weight-bold text-color-3">Giới tính:</p>
+            <span class="fs-15" type="text">{{
+              tutor.sex == 1 ? "Nam" : "Nữ"
+            }}</span>
 
-            <p class="label-text font-weight-bold text-color-3">Sinh nhật: </p>
-            <span class="fs-15" type="text">20/12/1999</span>
+            <p class="label-text font-weight-bold text-color-3">Sinh nhật:</p>
+            <span class="fs-15" type="text">{{
+              formatDate(tutor.birthday)
+            }}</span>
 
-            <p class="label-text font-weight-bold text-color-3">Học vấn: </p>
-            <span class="fs-15" type="text">Đại Học</span>
-          </div><!-- end input-box -->
+            <p class="label-text font-weight-bold text-color-3">Học vấn:</p>
+            <span class="fs-15" type="text">{{ tutor.education }}</span>
+          </div>
+          <!-- end input-box -->
           <div class="col-lg-3 col-md-3">
-            <p class="label-text font-weight-bold text-color-3">Chi phí dạy/Giờ: </p>
-            <span class="fs-15" type="text">150,000 vnđ</span>
-            <p class="label-text font-weight-bold text-color-3">Đang là: </p>
-            <span class="fs-15" type="text">Học Sinh</span>
+            <p class="label-text font-weight-bold text-color-3">
+              Chi phí dạy/Giờ:
+            </p>
+            <span class="fs-15" type="text">{{ tutor.price }} vnđ</span>
+            <p class="label-text font-weight-bold text-color-3">Đang là:</p>
+            <span class="fs-15" type="text">{{
+              tutor.job ? tutor.job.name : null
+            }}</span>
 
-            <p class="label-text font-weight-bold text-color-3">Địa chỉ: </p>
-            <span class="fs-15" type="text">Hồ Chí Minh, Quận 6</span>
-          </div><!-- end input-box -->
+            <p class="label-text font-weight-bold text-color-3">Địa chỉ:</p>
+            <span class="fs-15" type="text"
+              >{{ tutor.province ? tutor.province.name : null }} -
+              {{ tutor.district ? tutor.district.name : null }}</span
+            >
+          </div>
+          <!-- end input-box -->
           <div class="col-lg-12 col-md-12">
-            <span class="label-text font-weight-bold text-color-3">Môn dạy: </span>
-            <ul class="generic-list-item  generic-list-item-boxed d-flex flex-wrap fs-15">
-              <li><a href="#" onclick="return false;">Tiếng Anh: Dạy Trẻ Tự Kỷ, Lớp 11, Lớp 10, Lớp 9, Lớp 8, Lớp 7, Lớp
-                  6, Lớp 5, Lớp 4, Lớp 3, Lớp 2, Lớp 1</a></li>
-
+            <span class="label-text font-weight-bold text-color-3"
+              >Môn dạy:
+            </span>
+            <ul
+              class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15"
+              v-for="(item, index) in tutor.teach_subjects"
+              :key="index"
+            >
+              <li>
+                <a href="#" onclick="return false;"
+                  >{{ item.subject.name }}: {{ listClasses(item) }}
+                </a>
+              </li>
             </ul>
           </div>
           <div class="col-lg-12 col-md-12">
-            <span class="label-text font-weight-bold text-color-3">Có thể dạy tại: </span>
-            <ul class="generic-list-item  generic-list-item-boxed d-flex flex-wrap fs-15">
-              <li><a href="#" onclick="return false;">Hồ Chí Minh: Quận 10, Quận 11, Quận 5, Quận 6, Quận 8, Quận Bình
-                  Tân</a></li>
-
+            <span class="label-text font-weight-bold text-color-3"
+              >Có thể dạy tại:
+            </span>
+            <ul
+              class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15"
+              v-for="(item, index) in tutor.teach_places"
+              :key="index"
+            >
+              <li>
+                <a href="#" onclick="return false;"
+                  >{{ item.province.name }}: {{ listDistricts(item) }}
+                </a>
+              </li>
             </ul>
           </div>
           <div class="col-lg-12 col-md-12">
-            <span class="label-text font-weight-bold text-color-3">Hình thức dạy: </span>
-            <ul class="generic-list-item  generic-list-item-boxed d-flex flex-wrap fs-15">
-              <li class="mr-3"><a href="#" onclick="return false;">Học tại nhà</a></li>
-              <li class="mr-3"><a href="#" onclick="return false;"> Học online</a></li>
-
+            <span class="label-text font-weight-bold text-color-3"
+              >Hình thức dạy:
+            </span>
+            <ul
+              class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15"
+            >
+              <li class="mr-3" v-if="tutor.type_cd == 1">
+                <a href="#" onclick="return false;">Học tại nhà</a>
+              </li>
+              <li class="mr-3" v-else>
+                <a href="#" onclick="return false;"> Học online</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -104,29 +143,41 @@
         <div class="col-lg-4 responsive-column-half">
           <div class="counter-item">
             <div class="counter__icon icon-element mb-3 shadow-sm">
-              <svg class="svg-icon-color-1" width="40" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                viewBox="0 0 490.667 490.667" xml:space="preserve">
+              <svg
+                class="svg-icon-color-1"
+                width="40"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                viewBox="0 0 490.667 490.667"
+                xml:space="preserve"
+              >
                 <g>
                   <g>
                     <path
                       d="M245.333,85.333c-41.173,0-74.667,33.493-74.667,74.667s33.493,74.667,74.667,74.667S320,201.173,320,160
                                                 C320,118.827,286.507,85.333,245.333,85.333z M245.333,213.333C215.936,213.333,192,189.397,192,160
-                                                c0-29.397,23.936-53.333,53.333-53.333s53.333,23.936,53.333,53.333S274.731,213.333,245.333,213.333z">
-                    </path>
+                                                c0-29.397,23.936-53.333,53.333-53.333s53.333,23.936,53.333,53.333S274.731,213.333,245.333,213.333z"
+                    ></path>
                   </g>
                 </g>
                 <g>
                   <g>
-                    <path d="M394.667,170.667c-29.397,0-53.333,23.936-53.333,53.333s23.936,53.333,53.333,53.333S448,253.397,448,224
+                    <path
+                      d="M394.667,170.667c-29.397,0-53.333,23.936-53.333,53.333s23.936,53.333,53.333,53.333S448,253.397,448,224
                                                 S424.064,170.667,394.667,170.667z M394.667,256c-17.643,0-32-14.357-32-32c0-17.643,14.357-32,32-32s32,14.357,32,32
-                                                C426.667,241.643,412.309,256,394.667,256z"></path>
+                                                C426.667,241.643,412.309,256,394.667,256z"
+                    ></path>
                   </g>
                 </g>
                 <g>
                   <g>
-                    <path d="M97.515,170.667c-29.419,0-53.333,23.936-53.333,53.333s23.936,53.333,53.333,53.333s53.333-23.936,53.333-53.333
+                    <path
+                      d="M97.515,170.667c-29.419,0-53.333,23.936-53.333,53.333s23.936,53.333,53.333,53.333s53.333-23.936,53.333-53.333
                                                 S126.933,170.667,97.515,170.667z M97.515,256c-17.643,0-32-14.357-32-32c0-17.643,14.357-32,32-32c17.643,0,32,14.357,32,32
-                                                C129.515,241.643,115.157,256,97.515,256z"></path>
+                                                C129.515,241.643,115.157,256,97.515,256z"
+                    ></path>
                   </g>
                 </g>
                 <g>
@@ -134,8 +185,8 @@
                     <path
                       d="M245.333,256c-76.459,0-138.667,62.208-138.667,138.667c0,5.888,4.779,10.667,10.667,10.667S128,400.555,128,394.667
                                                 c0-64.704,52.629-117.333,117.333-117.333s117.333,52.629,117.333,117.333c0,5.888,4.779,10.667,10.667,10.667
-                                                c5.888,0,10.667-4.779,10.667-10.667C384,318.208,321.792,256,245.333,256z">
-                    </path>
+                                                c5.888,0,10.667-4.779,10.667-10.667C384,318.208,321.792,256,245.333,256z"
+                    ></path>
                   </g>
                 </g>
                 <g>
@@ -143,8 +194,8 @@
                     <path
                       d="M394.667,298.667c-17.557,0-34.752,4.8-49.728,13.867c-5.013,3.072-6.635,9.621-3.584,14.656
                                                 c3.093,5.035,9.621,6.635,14.656,3.584C367.637,323.712,380.992,320,394.667,320c41.173,0,74.667,33.493,74.667,74.667
-                                                c0,5.888,4.779,10.667,10.667,10.667c5.888,0,10.667-4.779,10.667-10.667C490.667,341.739,447.595,298.667,394.667,298.667z">
-                    </path>
+                                                c0,5.888,4.779,10.667,10.667,10.667c5.888,0,10.667-4.779,10.667-10.667C490.667,341.739,447.595,298.667,394.667,298.667z"
+                    ></path>
                   </g>
                 </g>
                 <g>
@@ -152,21 +203,32 @@
                     <path
                       d="M145.707,312.512c-14.955-9.045-32.149-13.845-49.707-13.845c-52.928,0-96,43.072-96,96
                                                 c0,5.888,4.779,10.667,10.667,10.667s10.667-4.779,10.667-10.667C21.333,353.493,54.827,320,96,320
-                                                c13.675,0,27.029,3.712,38.635,10.752c5.013,3.051,11.584,1.451,14.656-3.584C152.363,322.133,150.741,315.584,145.707,312.512z">
-                    </path>
+                                                c13.675,0,27.029,3.712,38.635,10.752c5.013,3.051,11.584,1.451,14.656-3.584C152.363,322.133,150.741,315.584,145.707,312.512z"
+                    ></path>
                   </g>
                 </g>
               </svg>
             </div>
             <h4 class="counter__title counter text-color-2 fs-35">0</h4>
             <p class="counter__meta">Total Students</p>
-          </div><!-- end counter-item -->
-        </div><!-- end col-lg-4 -->
+          </div>
+          <!-- end counter-item -->
+        </div>
+        <!-- end col-lg-4 -->
         <div class="col-lg-4 responsive-column-half">
           <div class="counter-item">
             <div class="counter__icon icon-element mb-3 shadow-sm">
-              <svg class="svg-icon-color-2" width="40" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
+              <svg
+                class="svg-icon-color-2"
+                width="40"
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                viewBox="0 0 512 512"
+                xml:space="preserve"
+              >
                 <g>
                   <g>
                     <path
@@ -184,61 +246,80 @@
                                                     c0.389-1.201,1.702-4.052,5.451-4.596l112.027-16.279c10.999-1.598,20.504-8.502,25.424-18.471l50.101-101.516
                                                     c1.677-3.397,4.793-3.764,6.056-3.764c1.261,0,4.377,0.366,6.055,3.764v0.001l50.101,101.516
                                                     c4.919,9.969,14.423,16.873,25.422,18.471l112.029,16.279c3.749,0.544,5.061,3.395,5.451,4.596
-                                                    c0.39,1.201,1.005,4.279-1.709,6.923l-81.065,79.019C364.329,269.149,360.7,280.321,362.579,291.276z">
-                    </path>
+                                                    c0.39,1.201,1.005,4.279-1.709,6.923l-81.065,79.019C364.329,269.149,360.7,280.321,362.579,291.276z"
+                    ></path>
                   </g>
                 </g>
                 <g>
                   <g>
-                    <path d="M413.783,22.625c-6.036-4.384-14.481-3.046-18.865,2.988l-14.337,19.732c-4.384,6.034-3.047,14.481,2.988,18.865
+                    <path
+                      d="M413.783,22.625c-6.036-4.384-14.481-3.046-18.865,2.988l-14.337,19.732c-4.384,6.034-3.047,14.481,2.988,18.865
                                                     c2.399,1.741,5.176,2.58,7.928,2.58c4.177,0,8.295-1.931,10.937-5.567l14.337-19.732
-                                                    C421.155,35.456,419.818,27.009,413.783,22.625z"></path>
+                                                    C421.155,35.456,419.818,27.009,413.783,22.625z"
+                    ></path>
                   </g>
                 </g>
                 <g>
                   <g>
-                    <path d="M131.36,45.265l-14.337-19.732c-4.383-6.032-12.829-7.37-18.865-2.988c-6.034,4.384-7.372,12.831-2.988,18.865
+                    <path
+                      d="M131.36,45.265l-14.337-19.732c-4.383-6.032-12.829-7.37-18.865-2.988c-6.034,4.384-7.372,12.831-2.988,18.865
                                                     l14.337,19.732c2.643,3.639,6.761,5.569,10.939,5.569c2.753,0,5.531-0.839,7.927-2.581C134.407,59.747,135.745,51.3,131.36,45.265
-                                                    z"></path>
+                                                    z"
+                    ></path>
                   </g>
                 </g>
                 <g>
                   <g>
-                    <path d="M49.552,306.829c-2.305-7.093-9.924-10.976-17.019-8.671l-23.197,7.538c-7.095,2.305-10.976,9.926-8.671,17.019
+                    <path
+                      d="M49.552,306.829c-2.305-7.093-9.924-10.976-17.019-8.671l-23.197,7.538c-7.095,2.305-10.976,9.926-8.671,17.019
                                                     c1.854,5.709,7.149,9.337,12.842,9.337c1.383,0,2.79-0.215,4.177-0.666l23.197-7.538
-                                                    C47.975,321.543,51.857,313.924,49.552,306.829z"></path>
+                                                    C47.975,321.543,51.857,313.924,49.552,306.829z"
+                    ></path>
                   </g>
                 </g>
                 <g>
                   <g>
                     <path
                       d="M256.005,456.786c-7.459,0-13.506,6.047-13.506,13.506v24.392c0,7.459,6.047,13.506,13.506,13.506
-                                                    c7.459,0,13.506-6.047,13.506-13.506v-24.392C269.511,462.832,263.465,456.786,256.005,456.786z">
-                    </path>
+                                                    c7.459,0,13.506-6.047,13.506-13.506v-24.392C269.511,462.832,263.465,456.786,256.005,456.786z"
+                    ></path>
                   </g>
                 </g>
                 <g>
                   <g>
-                    <path d="M502.664,305.715l-23.197-7.538c-7.092-2.303-14.714,1.577-17.019,8.672c-2.305,7.095,1.576,14.714,8.671,17.019
+                    <path
+                      d="M502.664,305.715l-23.197-7.538c-7.092-2.303-14.714,1.577-17.019,8.672c-2.305,7.095,1.576,14.714,8.671,17.019
                                                     l23.197,7.538c1.387,0.45,2.793,0.664,4.176,0.664c5.694,0,10.989-3.629,12.843-9.337
-                                                    C513.64,315.639,509.758,308.02,502.664,305.715z"></path>
+                                                    C513.64,315.639,509.758,308.02,502.664,305.715z"
+                    ></path>
                   </g>
                 </g>
               </svg>
             </div>
             <h4 class="counter__title counter text-color-3 fs-35">0</h4>
             <p class="counter__meta">Reviews</p>
-          </div><!-- end counter-item -->
-        </div><!-- end col-lg-4 -->
+          </div>
+          <!-- end counter-item -->
+        </div>
+        <!-- end col-lg-4 -->
         <div class="col-lg-4 responsive-column-half">
           <div class="counter-item">
             <div class="counter__icon icon-element mb-3 shadow-sm">
-              <svg class="svg-icon-color-3" width="40" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                viewBox="0 0 512 512" xml:space="preserve">
+              <svg
+                class="svg-icon-color-3"
+                width="40"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                viewBox="0 0 512 512"
+                xml:space="preserve"
+              >
                 <g>
                   <g>
                     <g>
-                      <path d="M405.333,42.667h-44.632c-4.418-12.389-16.147-21.333-30.035-21.333h-32.229C288.417,8.042,272.667,0,256,0
+                      <path
+                        d="M405.333,42.667h-44.632c-4.418-12.389-16.147-21.333-30.035-21.333h-32.229C288.417,8.042,272.667,0,256,0
                                                         s-32.417,8.042-42.438,21.333h-32.229c-13.888,0-25.617,8.944-30.035,21.333h-44.631C83.146,42.667,64,61.802,64,85.333v384
                                                         C64,492.865,83.146,512,106.667,512h298.667C428.854,512,448,492.865,448,469.333v-384C448,61.802,428.854,42.667,405.333,42.667
                                                         z M170.667,53.333c0-5.885,4.792-10.667,10.667-10.667h37.917c3.792,0,7.313-2.021,9.208-5.302
@@ -246,47 +327,55 @@
                                                         c5.875,0,10.667,4.781,10.667,10.667V64c0,11.76-9.563,21.333-21.333,21.333H192c-11.771,0-21.333-9.573-21.333-21.333V53.333z
                                                          M426.667,469.333c0,11.76-9.563,21.333-21.333,21.333H106.667c-11.771,0-21.333-9.573-21.333-21.333v-384
                                                         c0-11.76,9.563-21.333,21.333-21.333h42.667c0,23.531,19.146,42.667,42.667,42.667h128c23.521,0,42.667-19.135,42.667-42.667
-                                                        h42.667c11.771,0,21.333,9.573,21.333,21.333V469.333z"></path>
+                                                        h42.667c11.771,0,21.333,9.573,21.333,21.333V469.333z"
+                      ></path>
                       <path
                         d="M160,170.667c-17.646,0-32,14.354-32,32c0,17.646,14.354,32,32,32s32-14.354,32-32
                                                         C192,185.021,177.646,170.667,160,170.667z M160,213.333c-5.875,0-10.667-4.781-10.667-10.667
-                                                        c0-5.885,4.792-10.667,10.667-10.667s10.667,4.781,10.667,10.667C170.667,208.552,165.875,213.333,160,213.333z">
-                      </path>
+                                                        c0-5.885,4.792-10.667,10.667-10.667s10.667,4.781,10.667,10.667C170.667,208.552,165.875,213.333,160,213.333z"
+                      ></path>
                       <path
                         d="M160,277.333c-17.646,0-32,14.354-32,32c0,17.646,14.354,32,32,32s32-14.354,32-32
                                                         C192,291.688,177.646,277.333,160,277.333z M160,320c-5.875,0-10.667-4.781-10.667-10.667c0-5.885,4.792-10.667,10.667-10.667
-                                                        s10.667,4.781,10.667,10.667C170.667,315.219,165.875,320,160,320z">
-                      </path>
-                      <path d="M160,384c-17.646,0-32,14.354-32,32c0,17.646,14.354,32,32,32s32-14.354,32-32C192,398.354,177.646,384,160,384z
+                                                        s10.667,4.781,10.667,10.667C170.667,315.219,165.875,320,160,320z"
+                      ></path>
+                      <path
+                        d="M160,384c-17.646,0-32,14.354-32,32c0,17.646,14.354,32,32,32s32-14.354,32-32C192,398.354,177.646,384,160,384z
                                                          M160,426.667c-5.875,0-10.667-4.781-10.667-10.667c0-5.885,4.792-10.667,10.667-10.667s10.667,4.781,10.667,10.667
-                                                        C170.667,421.885,165.875,426.667,160,426.667z"></path>
+                                                        C170.667,421.885,165.875,426.667,160,426.667z"
+                      ></path>
                       <path
                         d="M373.333,192h-128c-5.896,0-10.667,4.771-10.667,10.667c0,5.896,4.771,10.667,10.667,10.667h128
-                                                        c5.896,0,10.667-4.771,10.667-10.667C384,196.771,379.229,192,373.333,192z">
-                      </path>
+                                                        c5.896,0,10.667-4.771,10.667-10.667C384,196.771,379.229,192,373.333,192z"
+                      ></path>
                       <path
                         d="M373.333,298.667h-128c-5.896,0-10.667,4.771-10.667,10.667c0,5.896,4.771,10.667,10.667,10.667h128
-                                                        c5.896,0,10.667-4.771,10.667-10.667C384,303.438,379.229,298.667,373.333,298.667z">
-                      </path>
+                                                        c5.896,0,10.667-4.771,10.667-10.667C384,303.438,379.229,298.667,373.333,298.667z"
+                      ></path>
                       <path
-                      d="M373.333,405.333h-128c-5.896,0-10.667,4.771-10.667,10.667c0,5.896,4.771,10.667,10.667,10.667h128
-                                                        c5.896,0,10.667-4.771,10.667-10.667C384,410.104,379.229,405.333,373.333,405.333z">
-                    </path>
+                        d="M373.333,405.333h-128c-5.896,0-10.667,4.771-10.667,10.667c0,5.896,4.771,10.667,10.667,10.667h128
+                                                        c5.896,0,10.667-4.771,10.667-10.667C384,410.104,379.229,405.333,373.333,405.333z"
+                      ></path>
+                    </g>
                   </g>
                 </g>
-              </g>
-            </svg>
+              </svg>
+            </div>
+            <h4 class="counter__title counter text-color-4 fs-35">{{tutor.courses_count}}</h4>
+            <p class="counter__meta">Courses</p>
           </div>
-          <h4 class="counter__title counter text-color-4 fs-35">0</h4>
-          <p class="counter__meta">Courses</p>
         </div>
       </div>
     </div>
-  </div>
-</section></template>
+  </section>
+</template>
 
 <script>
-import BreadCrumb from '../../components/layouts/BreadCrum.vue'
+import BreadCrumb from "../../components/layouts/BreadCrum.vue";
+import $http from "@/services/httpService";
+import $auth from "@/services/authService";
+import get from "lodash/get";
+import CONSTS from "@/Constants";
 
 export default {
   components: {
@@ -294,22 +383,59 @@ export default {
   },
   data() {
     return {
-      tutor: {
-        id: 1,
-        fullname: '',
-        rate: 3,
-        createdAt: '03/08/2023',
-        exp: 'Gia Sư Tiếng Anh IELTS 7.0 có 5 năm kinh nghiệm dạy online, offline học sinh cấp 1,2,3 và đại học',
-        description: 'Luôn luôn nhiệt tình và hết lòng đối với học sinh.',
-        sex: 'Nữ',
-        cost: '150000',
-        BoD: '20/12/1999',
-        education: 'Đại Học',
-        localtion: 'Hồ Chí Minh'
+      tutor: {},
+      is_loading: false,
+    };
+  },
+
+  async created() {
+    this.is_loading = true;
+    const tutor_id = this.$route.params.id;
+    const res = await $http.get("/user/" + tutor_id);
+    if (get(res, "data.result", false)) {
+      this.tutor = res.data.user;
     }
-    }
-  }
-}
+    this.is_loading = false;
+  },
+
+  methods: {
+    formatDate(inputDate) {
+      const date = new Date(inputDate);
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    },
+
+    listClasses(subject) {
+      const listClasses = [];
+      subject.teach_subject_classes.forEach((item, index) => {
+        if (index !== subject.teach_subject_classes.length - 1) {
+          listClasses.push(item.class.name + ", ");
+        } else {
+          listClasses.push(item.class.name);
+        }
+      });
+      return listClasses.join("");
+    },
+
+    listDistricts(province) {
+      const listClasses = [];
+      province.teach_place_districts.forEach((item, index) => {
+        if (index !== province.teach_place_districts.length - 1) {
+          listClasses.push(item.district.name + ", ");
+        } else {
+          listClasses.push(item.district.name);
+        }
+      });
+      return listClasses.join("");
+    },
+  },
+};
 </script>
 
-<style lang="scss"> @import "./_style.scss";</style>
+<style lang="scss">
+@import "./_style.scss";
+</style>

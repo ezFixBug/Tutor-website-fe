@@ -581,8 +581,8 @@ export default {
   
       this.dataTutor.teach_subjects.forEach(item => {
         const subjectName = item.subject.name;
-        const classesName = item.teach_subject_classes.map(teachSubject => teachSubject.classes.name);
-        const classesId = item.teach_subject_classes.map(teachSubject => teachSubject.classes.id);
+        const classesName = item.teach_subject_classes.map(teachSubject => teachSubject.class.name);
+        const classesId = item.teach_subject_classes.map(teachSubject => teachSubject.class.id);
         const subjectId = item.subject.id;
 
         this.dataTutor.listSubjectClasses.push({

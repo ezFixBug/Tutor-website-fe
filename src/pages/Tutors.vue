@@ -1,4 +1,5 @@
 <template>
+  <spinner :is_loading="is_loading" />
   <BreadCrumb :type="2" />
   <section class="team-member-area section-padding pt-5 mt-4">
     <div class="containter">
@@ -37,7 +38,8 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="subjects"
+                          v-model:value="params.subject_id"
                           size="large"
                           placeholder="--Chọn danh mục--"
                           class="w-85 mr-4"
@@ -58,7 +60,8 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="classes"
+                          v-model:value="params.class_id"
                           size="large"
                           placeholder="--Chọn cấp độ--"
                           class="w-85 mr-4"
@@ -79,9 +82,11 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="provinces"
+                          v-model:value="params.province_id"
+                          @change="onChangeProvinces"
                           size="large"
-                          placeholder="--Chọn địa điểm--"
+                          placeholder="--Chọn tỉnh/thành phố--"
                           class="w-85 mr-4"
                         />
                       </FormItem>
@@ -100,7 +105,8 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="districts"
+                          v-model:value="params.district_id"
                           size="large"
                           placeholder="--Chọn quận/huyện--"
                           class="w-85 mr-4"
@@ -121,7 +127,8 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="price_order"
+                          v-model:value="params.price_ỏder_type"
                           size="large"
                           placeholder="--Chọn theo giá--"
                           class="w-85 mr-4"
@@ -142,7 +149,8 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="jobs"
+                          v-model:value="params.job_current_id"
                           size="large"
                           placeholder="--Chọn kiểu gia sư--"
                           class="w-85 mr-4"
@@ -163,7 +171,8 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="sex"
+                          v-model:value="params.sex"
                           size="large"
                           placeholder="--Chọn giới tính--"
                           class="w-85 mr-4"
@@ -184,7 +193,8 @@
                       <FormItem>
                         <Select
                           show-search
-                          :options="listOptionCourses"
+                          :options="types"
+                          v-model:value="params.type_cd"
                           size="large"
                           placeholder="--Chọn kiểu dạy--"
                           class="w-85 mr-4"
@@ -199,43 +209,51 @@
               class="col-lg-12"
               style="display: flex; justify-content: flex-end"
             >
-              <a class="btn theme-btn mr-2" id="search-teacher" href="/gia-su">
+              <button class="btn theme-btn mr-2" @click="handelSearch">
                 Tìm kiếm <i class="fa-solid fa-arrow-right icon"></i>
-              </a>
-              <a class="btn theme-btn" href="/gia-su"
-                ><i class="fa-solid fa-rotate-right icon"></i
-              ></a>
+              </button>
+              <button class="btn theme-btn" @click="resetForm">
+                <i class="fa-solid fa-rotate-right icon"></i>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <ListTutors :listTutors="listTutors" />
       <div class="text-center pt-3">
-        <!-- <pagination /> -->
+        <pagination :pagination="pagination" />
       </div>
     </div>
   </section>
-  <section class="cta-area pt-60px pb-60px position-relative overflow-hidden bg-gray">
+  <section
+    class="cta-area pt-60px pb-60px position-relative overflow-hidden bg-gray"
+  >
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-9">
           <div class="cta-content-wrap media py-4 align-items-center">
             <div class="flex-shrink-0 mr-3">
-              <i class="fa-solid fa-chalkboard-user" style="font-size: 60px"></i>
+              <i
+                class="fa-solid fa-chalkboard-user"
+                style="font-size: 60px"
+              ></i>
             </div>
             <div class="media-body">
               <h2 class="fs-25 font-weight-bold mb-1">
                 Trở thành một giáo viên, chia sẻ kiến thức của bạn
               </h2>
               <p class="fs-17">
-                Tạo khóa học video trực tuyến và khóa học ngoại tuyến, tiếp cận học viên trên toàn cầu và kiếm tiền
+                Tạo khóa học video trực tuyến và khóa học ngoại tuyến, tiếp cận
+                học viên trên toàn cầu và kiếm tiền
               </p>
             </div>
           </div>
         </div>
         <div class="col-lg-3">
           <div class="cta-btn-box text-right">
-            <a href="/dang-ky" class="btn theme-btn"> Đăng ký trên Smart Edu <i class="fa-solid fa-arrow-right icon"></i></a>
+            <a href="/dang-ky" class="btn theme-btn">
+              Đăng ký trên Smart Edu <i class="fa-solid fa-arrow-right icon"></i
+            ></a>
           </div>
         </div>
       </div>
@@ -246,6 +264,11 @@
 import ListTutors from "@/components/layouts/ListTutors.vue";
 import BreadCrumb from "@/components/layouts/BreadCrum.vue";
 import { Select, FormItem, Form, Button } from "ant-design-vue";
+import cloneDeep from "lodash/cloneDeep";
+
+import $http from "@/services/httpService";
+import get from "lodash/get";
+
 export default {
   components: {
     ListTutors,
@@ -262,213 +285,110 @@ export default {
         { label: "Option 2", value: "option2" },
         { label: "Option 3", value: "option3" },
       ],
-      listTutors: [
+      subjects: [],
+      classes: [],
+      jobs: [],
+      provinces: [],
+      districts: [],
+      sex: [
         {
-          id: 1,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
+          value: 1,
+          label: "Nam",
         },
         {
-          id: 2,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 3,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 4,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 5,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar:
-            "https://play-lh.googleusercontent.com/0oO5sAneb9lJP6l8c6DH4aj6f85qNpplQVHmPmbbBxAukDnlO7DarDW0b-kEIHa8SQ=w240-h480-rw",
-        },
-        {
-          id: 6,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
-        },
-        {
-          id: 7,
-          fullname: "Tong Le Thang",
-          price: 100000,
-          subject: {
-            id: 1,
-            name: "Toán",
-            classes: [
-              {
-                id: 1,
-                name: "Lớp 1",
-              },
-              {
-                id: 2,
-                name: "Lớp 2",
-              },
-              {
-                id: 3,
-                name: "Lớp 3",
-              },
-            ],
-          },
-          address: {
-            city: "Ho Chi Minh",
-            district: "Quan 1",
-            ward: "Vo Chi Cong",
-          },
-          avatar: "https://smart-edu.vn/img/avatar.png",
+          value: 2,
+          label: "Nữ",
         },
       ],
+      types: [
+        {
+          value: 1,
+          label: "Học tại nhà",
+        },
+        {
+          value: 2,
+          label: "Học online",
+        },
+      ],
+      price_order: [
+        {
+          value: 1,
+          label: "Từ thấp đến cao",
+        },
+        {
+          value: 2,
+          label: "Từ cao đến thấp",
+        },
+      ],
+      params: {
+        subject_id: null,
+        class_id: null,
+        province_id: null,
+        district_id: null,
+        price_type_order: null,
+        job_current_id: null,
+        sex: null,
+        type_cd: null,
+      },
+      listTutors: [],
+      pagination: {},
+      is_loading: false,
     };
+  },
+
+  async created() {
+    this.getDataTutor();
+    this.subjects = await $http.getSubjects();
+    this.classes = await $http.getClasses();
+    this.provinces = await $http.getProvinces();
+  },
+
+  methods: {
+    async getDataTutor() {
+      this.is_loading = true;
+      let params = cloneDeep(this.params);
+      params["page"] = this.$route.query.page;
+      const res_tutors = await $http.get("/tutors", params);
+      if (get(res_tutors, "data.result", false)) {
+        this.listTutors = res_tutors.data.tutors;
+        this.pagination = res_tutors.data.paginate;
+      }
+      this.is_loading = false;
+    },
+
+    async onChangeProvinces() {
+      this.is_loading = true;
+      this.districts = await $http.getDistricts(this.params.province_id);
+      this.is_loading = false;
+    },
+
+    handelSearch() {
+      this.$router.push({ name: "tutor", query: { page: 1 } });
+      this.getDataTutor();
+    },
+
+    resetForm() {
+      this.$router.push({ name: "tutor" });
+      this.params = {
+        subject_id: null,
+        class_id: null,
+        province_id: null,
+        district_id: null,
+        price_type_order: null,
+        job_current_id: null,
+        sex: null,
+        type_cd: null,
+      };
+      this.getDataTutor();
+    },
+  },
+
+  watch: {
+    $route: {
+      handler: function () {
+        this.getDataTutor();
+      },
+    },
   },
 };
 </script>

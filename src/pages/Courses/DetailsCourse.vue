@@ -330,8 +330,16 @@
                   <div class="buy-course-btn-box">
                     <button
                       class="btn theme-btn mt-3 w-100 btn-register-course"
+                      @click="handleRegister"
+                      v-if="!course.is_register"
                     >
                       Đăng ký
+                    </button>
+                    <button
+                      class="btn theme-btn mt-3 w-100 btn-register-course"
+                      v-else
+                    >
+                      Đã đăng ký
                     </button>
                   </div>
                 </div>
@@ -485,6 +493,16 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import CONSTS from "@/Constants";
+import {
+  database,
+  ref,
+  push,
+  onValue,
+  child,
+  get as firebaseGet,
+  set,
+} from "@/services/firebaseService";
+import { createToast } from "mosha-vue-toastify";
 export default {
   created() {
     this.getDetailCourse();
@@ -542,6 +560,16 @@ export default {
           const current_user = this.hasLogin;
           current_user.likes_count = current_user.likes_count + 1;
           $auth.setUser(current_user);
+
+          push(ref(database, "notifications"), {
+            user_id: this.course.user_id,
+            object_id: this.course.id,
+            created_at: this.getDateTimeNow(),
+            type_cd: 1,
+            content: this.hasLogin.full_name + " đã yêu thích khóa học của bạn",
+            url: { name: "detail-course", params: { id: this.course.id } },
+            is_read: false,
+          });
         } else {
           this.course.likes_count = this.course.likes_count - 1;
           const current_user = this.hasLogin;
@@ -558,6 +586,50 @@ export default {
       );
       this.is_loading = false;
     },
+
+    async handleRegister() {
+      this.is_loading = true;
+      let params = {
+        user_id: this.hasLogin.id,
+        course_id: this.$route.params.id,
+      };
+      const res = await $http.post("/register/course", params);
+      if (get(res, "data.result", false)) {
+        createToast(
+          "Đã gửi yêu cầu đăng ký khóa học thành công. Vui lòng đợi gia sư duyệt!",
+          {
+            type: "success",
+            timeout: 6000,
+          }
+        );
+        push(ref(database, "notifications"), {
+          user_id: this.hasLogin.id,
+          object_id: this.course.id,
+          created_at: this.getDateTimeNow(),
+          type_cd: 1,
+          content: "Đã gửi yêu cầu đăng ký khóa học",
+          url: { name: "detail-course", params: { id: this.course.id } },
+          is_read: false,
+        });
+
+        push(ref(database, "notifications"), {
+          user_id: this.course.user_id,
+          object_id: this.course.id,
+          created_at: this.getDateTimeNow(),
+          type_cd: 1,
+          content:
+            this.hasLogin.full_name +
+            " đã gửi yêu cầu đăng ký khóa học của bạn",
+          url: {
+            name: "list-student-course",
+            params: { course_id: this.course.id },
+          },
+          is_read: false,
+        });
+      }
+      this.is_loading = false;
+    },
+
     formatDate(inputDate) {
       const date = new Date(inputDate);
 
@@ -567,13 +639,18 @@ export default {
 
       return `${year}-${month}-${day}`;
     },
-    // formattedPrice(price) {
-    //   const priceFormat = price.toLocaleString("vi-VN", {
-    //     style: "currency",
-    //     currency: "VND",
-    //   });
-    //   return priceFormat.replace(priceFormat.slice(-1), "VND");
-    // },
+    getDateTimeNow() {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
   },
 };
 </script>

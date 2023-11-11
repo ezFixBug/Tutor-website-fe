@@ -195,8 +195,7 @@
                     params: { request_id: request.id },
                   }"
                   class="fs-15 text-black"
-                  ><span class="fs-15 text-black" id="offerNumber_3025">1</span
-                  >/6 lời đề nghị</router-link
+                  >{{ request.offers_count }}/6 lời đề nghị</router-link
                 >
               </div>
               <div class="pl-4 col-md-2 col-sm-2 text-center">
@@ -214,8 +213,15 @@
                 <button
                   class="btn theme-btn theme-btn-sm btn-add-offer"
                   data-id="3025"
+                  @click="
+                    handleOfferRequest(
+                      request.id,
+                      request.is_requested,
+                      request.offers_count
+                    )
+                  "
                 >
-                  Đề nghị dạy
+                  {{ request.is_requested ? "Hủy đề nghị" : "Đề nghị dạy" }}
                 </button>
               </div>
             </div>
@@ -240,6 +246,8 @@
 
 <script>
 import $http from "@/services/httpService";
+import $auth from "@/services/authService";
+import { createToast } from "mosha-vue-toastify";
 import cloneDeep from "lodash/cloneDeep";
 import CONSTS from "@/Constants";
 import get from "lodash/get";
@@ -296,6 +304,58 @@ export default {
         course_type_cd: null,
       };
       this.getDataRequests();
+    },
+
+    async handleOfferRequest(request_id, is_requested, offers_count) {
+      this.is_loading = true;
+      if (offers_count === 6 && !is_requested) {
+        createToast("Số lượng yêu cầu đề nghị dạy đã đầy!", {
+          type: "warning",
+          timeout: 6000,
+        });
+        return;
+      }
+      const user = $auth.getUser;
+      if (user) {
+        if (user.role_cd === 2) {
+          let params = {
+            user_id: user.id,
+          };
+
+          if (is_requested) {
+            const res = await $http.delete(
+              "/cancel-offer/" + request_id,
+              params
+            );
+            if (get(res, "data.result", false)) {
+              createToast("Đã hủy yêu cầu đề nghị dạy!", {
+                type: "success",
+                timeout: 6000,
+              });
+
+              this.getDataRequests();
+            }
+          } else {
+            const res = await $http.post(
+              "/offer-request/" + request_id,
+              params
+            );
+            if (get(res, "data.result", false)) {
+              createToast("Đã gửi yêu cầu đề nghị dạy!", {
+                type: "success",
+                timeout: 6000,
+              });
+              this.getDataRequests();
+            }
+          }
+        } else {
+          this.$router.push({ name: "becomeTutor" });
+        }
+      } else {
+        this.$router.push({ name: "login" });
+      }
+
+      this.is_loading = false;
     },
 
     formatDate(inputDate) {
