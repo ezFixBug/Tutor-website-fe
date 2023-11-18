@@ -327,7 +327,7 @@
                       {{ course.price }}
                     </span>
                   </p>
-                  <div class="buy-course-btn-box">
+                  <div class="buy-course-btn-box" v-if="hasLogin && hasLogin.id !== course.user_id">
                     <button
                       class="btn theme-btn mt-3 w-100 btn-register-course"
                       @click="handleRegister"
@@ -589,6 +589,10 @@ export default {
 
     async handleRegister() {
       this.is_loading = true;
+      if (!this.hasLogin) {
+        this.$router.push({name: 'login'})
+        return;
+      }
       let params = {
         user_id: this.hasLogin.id,
         course_id: this.$route.params.id,
@@ -627,6 +631,7 @@ export default {
           is_read: false,
         });
       }
+      this.getDetailCourse();
       this.is_loading = false;
     },
 

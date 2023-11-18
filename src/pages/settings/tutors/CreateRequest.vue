@@ -805,6 +805,105 @@ Yêu cầu gia sư có kinh nghiệm dạy, nhiệt tình tận tâm"
               </div>
               <!-- end card-body -->
             </div>
+
+            <div class="card card-item" style="width: 100%" v-if="tutor_id">
+              <div class="card-body">
+                <h3 class="fs-22 font-weight-semi-bold pb-2">
+                  Thông tin gia sư đã mời
+                </h3>
+                <div class="divider"><span></span></div>
+                <div class="row">
+                  <div class="input-box col-lg-12">
+                    <section class="breadcrumb-area py-5 bg-white pattern-bg">
+                      <div class="container row">
+                        <div class="col-llg-6 col-md-6">
+                          <div class="breadcrumb-content">
+                            <div
+                              class="media media-card align-items-center pb-4"
+                            >
+                              <div
+                                class="media-img media--img media-img-md rounded-full"
+                              >
+                                <img
+                                  class="rounded-full"
+                                  :src="tutor.avatar"
+                                  alt="Student thumbnail image"
+                                />
+                              </div>
+                              <div class="media-body">
+                                <h2 class="section__title fs-30">
+                                  {{ tutor.full_name }}
+                                </h2>
+                                <!-- end rating-wrap -->
+                                <span class="d-block lh-18 pt-1 pb-2">{{
+                                  formatDate(tutor.created_at)
+                                }}</span>
+                                <p class="lh-18">{{ tutor.description }}</p>
+                              </div>
+                            </div>
+                            <!-- end media -->
+                          </div>
+                          <!-- end breadcrumb-content -->
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                          <p class="label-text font-weight-bold text-color-3">
+                            Giới tính:
+                          </p>
+                          <span class="fs-15" type="text">{{
+                            tutor.sex === 1 ? "Nam" : "Nữ"
+                          }}</span>
+
+                          <p class="label-text font-weight-bold text-color-3">
+                            Sinh nhật:
+                          </p>
+                          <span class="fs-15" type="text">{{
+                            tutor.birthday
+                          }}</span>
+
+                          <p class="label-text font-weight-bold text-color-3">
+                            Học vấn:
+                          </p>
+                          <span class="fs-15" type="text">{{
+                            tutor.education
+                          }}</span>
+                        </div>
+                        <!-- end input-box -->
+                        <div class="col-lg-3 col-md-3">
+                          <p class="label-text font-weight-bold text-color-3">
+                            Chi phí dạy/Giờ:
+                          </p>
+                          <span class="fs-15" type="text"
+                            >{{ tutor.price }} vnđ</span
+                          >
+                          <p class="label-text font-weight-bold text-color-3">
+                            Đang là:
+                          </p>
+                          <span class="fs-15" type="text">{{
+                            tutor.job ? tutor.job.name : null
+                          }}</span>
+
+                          <p class="label-text font-weight-bold text-color-3">
+                            Địa chỉ:
+                          </p>
+                          <span class="fs-15" type="text"
+                            >{{ tutor.province ? tutor.province.name : null }} -
+                            {{
+                              tutor.district ? tutor.district.name : null
+                            }}</span
+                          >
+                        </div>
+                        <!-- end input-box -->
+                      </div>
+                      <!-- end container -->
+                    </section>
+
+                    <!-- end breadcrumb-area -->
+                  </div>
+                  <!-- end input-box -->
+                </div>
+              </div>
+              <!-- end card-body -->
+            </div>
             <!-- end card -->
             <div class="btn-box col-lg-12">
               <button class="btn theme-btn" type="submit">
@@ -829,12 +928,22 @@ import cloneDeep from "lodash/cloneDeep";
 import get from "lodash/get";
 import { createToast } from "mosha-vue-toastify";
 import CONSTS from "@/Constants";
+import {
+  database,
+  ref,
+  push,
+  onValue,
+  child,
+  get as firebaseGet,
+  set,
+} from "@/services/firebaseService";
 export default {
   data() {
     return {
       is_loading: false,
       subjects: [],
       classes: [],
+      tutor: {},
       listType: CONSTS.CD_TYPE_CD_OF_COURSE,
       request: {
         title: null,
@@ -883,6 +992,13 @@ export default {
       }
     }
 
+    if (this.tutor_id) {
+      const res = await $http.get("/user/" + this.tutor_id);
+      if (get(res, "data.result", false)) {
+        this.tutor = res.data.user;
+      }
+    }
+
     this.is_loading = false;
   },
 
@@ -893,6 +1009,10 @@ export default {
 
     schedule() {
       return this.request.schedule;
+    },
+
+    tutor_id() {
+      return this.$route.params.tutor_id;
     },
   },
 
@@ -911,6 +1031,9 @@ export default {
       this.is_loading = true;
       let params = this.request;
       params.user_id = this.currentUser.id;
+      if (this.tutor_id) {
+        params.tutor_id = this.tutor_id;
+      }
 
       const res = await $http.post("/request-tutor", params);
       if (get(res, "data.result", false)) {
@@ -925,8 +1048,42 @@ export default {
             type: "success",
             timeout: 6000,
           });
+          if (this.tutor_id) {
+            const request_id = get(res, "data.request_id", false);
+            push(ref(database, "notifications"), {
+              user_id: this.tutor_id,
+              object_id: this.tutor_id,
+              created_at: this.getDateTimeNow(),
+              type_cd: 1,
+              content: this.currentUser.full_name + " đã gửi lời mời dạy!",
+              url: {
+                name: "detail-request",
+                params: { request_id: request_id },
+              },
+              is_read: false,
+            });
+
+            push(ref(database, "notifications"), {
+              user_id: this.currentUser.id,
+              object_id: this.tutor_id,
+              created_at: this.getDateTimeNow(),
+              type_cd: 1,
+              content: "Đã gửi lời mời dạy thành công!",
+              url: {
+                name: "detail-request",
+                params: { request_id: request_id },
+              },
+              is_read: false,
+            });
+
+            this.$router.push({
+              name: "detail-request",
+              params: { request_id: request_id },
+            });
+          } else {
+            this.$router.push({ name: "my-requests" });
+          }
         }
-        this.$router.push({ name: "my-requests" });
       } else {
         if (get(res, "data.status", {}) === 422) {
           this.dataErrors = get(res, "data.errors", {});
@@ -937,6 +1094,29 @@ export default {
 
     filterOption(input, option) {
       return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    },
+
+    formatDate(inputDate) {
+      const date = new Date(inputDate);
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    },
+
+    getDateTimeNow() {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
   },
 };

@@ -131,7 +131,7 @@
                   >{{ request.offers_count }} lời đề nghị
                 </li>
 
-                <li>
+                <li v-if="user && request.user_id !== user.id">
                   <button
                     class="btn theme-btn theme-btn-sm btn-add-offer"
                     data-id="3027"
@@ -545,6 +545,9 @@ export default {
     schedule() {
       return this.request.schedule;
     },
+    user() {
+      return $auth.getUser;
+    }
   },
 
   methods: {

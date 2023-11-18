@@ -8,7 +8,7 @@
           <div class="media-img media--img media-img-md rounded-full">
             <img
               class="rounded-full"
-              src="https://smart-edu.vn/img/avatar.png"
+              :src="tutor.avatar"
               alt="Student thumbnail image"
               height="100%"
               width="100%"
@@ -27,12 +27,13 @@
           </div>
         </div>
         <div class="nav-right-button d-flex align-items-center mt-2">
-          <a
+          <button
             class="btn btn-danger invite-teacher"
-            href="/dang-ky-tim-gia-su/fdb3b5e0-99e8-4898-5dc4-08db93f06c6a"
+            @click="handleRequestTeach"
             type="button"
-            >Mời dạy<i class="la la-arrow-right icon ml-1"></i
-          ></a>
+          >
+            Mời dạy<i class="la la-arrow-right icon ml-1"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -50,8 +51,8 @@
                 <img
                   class="mr-3 work"
                   id="outputTheBackCIC"
-                  :src="tutor.avatar"
-                  alt="avatar image"
+                  :src="tutor.certificate"
+                  alt=" image"
                 />
               </div>
             </div>
@@ -361,7 +362,9 @@
                 </g>
               </svg>
             </div>
-            <h4 class="counter__title counter text-color-4 fs-35">{{tutor.courses_count}}</h4>
+            <h4 class="counter__title counter text-color-4 fs-35">
+              {{ tutor.courses_count }}
+            </h4>
             <p class="counter__meta">Courses</p>
           </div>
         </div>
@@ -376,6 +379,7 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import CONSTS from "@/Constants";
+
 
 export default {
   components: {
@@ -396,6 +400,12 @@ export default {
       this.tutor = res.data.user;
     }
     this.is_loading = false;
+  },  
+  
+  computed: {
+    user() {
+      return $auth.getUser;
+    },
   },
 
   methods: {
@@ -432,6 +442,15 @@ export default {
       });
       return listClasses.join("");
     },
+
+    async handleRequestTeach() {
+      this.is_loading = true;
+      this.$router.push({name: 'register-request-tutor', params: {tutor_id: this.tutor.id}});
+
+      this.is_loading = false;
+    },
+
+
   },
 };
 </script>

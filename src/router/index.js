@@ -27,7 +27,7 @@ import CreateRequest from '../pages/settings/tutors/CreateRequest.vue'
 import MyRequests from '../pages/settings/tutors/MyRequests.vue'
 import DetailRequestUser from '../pages/settings/tutors/DetailRequestUser.vue'
 import DetailRequest from '../pages/requests/DetailRequest.vue'
-
+import CourseRegisted from '../pages/settings/CourseRegisted.vue'
 import { authGuard, authTutorGuard } from '@/services/authGuard';
 
 import Courses from '../pages/Courses/Courses.vue'
@@ -122,6 +122,11 @@ const routes = [
                 component: MyLikes
             },
             {
+                path: '/chi-tiet-nguoi-dung/:user_id',
+                name: 'detail-user',
+                component: CourseRegisted
+            },
+            {
                 path: '/cai-dat',
                 beforeEnter: (to, from, next) => {
                     authGuard(to, from, next);
@@ -202,7 +207,7 @@ const routes = [
                         component: ListStudentCourse
                     },
                     {
-                        path: '/dang-ky-tim-gia-su',
+                        path: '/dang-ky-tim-gia-su/:tutor_id?',
                         beforeEnter: (to, from, next) => {
                             authGuard(to, from, next);
                         },
