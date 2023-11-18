@@ -63,7 +63,11 @@
                       </a>
                       <ul class="dropdown-menu-item">
                         <li>
-                          <a href="#team-section">Tìm gia sư</a>
+                          <router-link
+                            :to="{ name: 'register-request-tutor' }"
+                            type="button"
+                            >Tìm gia sư</router-link
+                          >
                         </li>
                         <li>
                           <router-link :to="{ name: 'tutor' }"
@@ -286,7 +290,12 @@
                                   >
                                 </li>
                                 <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
+                                  <router-link
+                                    :to="{
+                                      name: 'detail-user',
+                                      params: { user_id: user.id },
+                                    }"
+                                  >
                                     <i
                                       class="fa-solid fa-square-check mr-1"
                                     ></i>
@@ -482,7 +491,9 @@
           >
         </li>
         <li>
-          <router-link :to="{ name: 'setting-basic' }">
+          <router-link
+            :to="{ name: 'detail-user', params: { user_id: user.id } }"
+          >
             Khóa học đã đăng ký</router-link
           >
         </li>

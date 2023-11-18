@@ -31,15 +31,12 @@
             <!-- {{ item.address.city }} - {{ item.address.district }} -
             {{ item.address.ward }} -->
           </p>
-          <div class="d-flex justify-content-between align-items-center pt-3">
+          <div class="d-flex justify-content-center salign-items-center pt-3">
             <router-link
               :to="{ name: 'detail-tutor', params: { id: item.id } }"
               class="btn theme-btn-sm theme-btn-transparent"
               >Xem hồ sơ</router-link
             >
-            <a href="#" class="btn theme-btn-sm theme-btn-transparent"
-              >Mời dạy <i class="fa-solid fa-arrow-right"></i
-            ></a>
           </div>
         </div>
       </div>
