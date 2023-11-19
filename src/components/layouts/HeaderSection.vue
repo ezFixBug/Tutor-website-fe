@@ -507,6 +507,12 @@
             Bài viết của tôi</router-link
           >
         </li>
+              <li>
+        <router-link :to="{ name: 'my-courses' }" class="logo" v-show="user && user.role_cd === 2">
+          <i class="fa-solid fa-book mr-2"></i>
+          Khóa học của tôi</router-link
+        >
+      </li>
         <li>
           <a href="#" class="open-menu"
             >Giao dịch<button class="sub-nav-toggler" type="button">

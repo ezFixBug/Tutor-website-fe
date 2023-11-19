@@ -72,12 +72,19 @@
   </div>
 </template>
 <script>
+import $auth from "@/services/authService";
 export default {
   props: {
     is_active: {
       default: false,
     },
   },
+
+  computed: {
+    user() {
+      return $auth.getUser;
+    }
+  }
 };
 </script>
 <style lang="scss">
