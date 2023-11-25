@@ -28,6 +28,8 @@ import MyRequests from '../pages/settings/tutors/MyRequests.vue'
 import DetailRequestUser from '../pages/settings/tutors/DetailRequestUser.vue'
 import DetailRequest from '../pages/requests/DetailRequest.vue'
 import CourseRegisted from '../pages/settings/CourseRegisted.vue'
+import RequestPayment from '../pages/Payment/RequestPayment.vue'
+
 import { authGuard, authTutorGuard } from '@/services/authGuard';
 
 import Courses from '../pages/Courses/Courses.vue'
@@ -240,7 +242,11 @@ const routes = [
                     },
                 ]
             },
-
+            {
+                path: '/yeu-cau-thanh-toan',
+                name: 'requestPayment',
+                component: RequestPayment
+            },
         ],
     },
 ];

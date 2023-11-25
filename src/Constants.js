@@ -12,7 +12,8 @@ export default Object.freeze({
     'becomeTutor': 'Trở thành gia sư',
     'my-likes': 'Danh sách yêu thích',
     'feedback': 'Liên hệ',
-    'requests': 'Yêu cầu gia sư'
+    'requests': 'Yêu cầu gia sư',
+    'requestPayment': 'Thanh Toán'
   },
 
   CD_TAGS: [
