@@ -59,9 +59,9 @@
                   <i class="la la-address-book fs-18 mr-2"></i>Địa chỉ:
                   {{ request.user ? request.user.street : null }}
                 </li>
-                <li class="mr-2 fs-18">
-                  {{ request.user ? request.user.district.name : null }} -
-                  {{ request.user ? request.user.province.name : null }}
+                <li class="mr-2 fs-18" v-if="request.user">
+                  {{ request.user.district ? request.user.district.name : null }} -
+                  {{ request.user.province ? request.user.province.name : null }}
                 </li>
               </ul>
             </div>
