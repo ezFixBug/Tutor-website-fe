@@ -150,7 +150,7 @@
                 >
                   <li class="mr-2 col-ms-12">
                     <a href="#" onclick="return false;">{{
-                      request.subject.name
+                      request.subject ? request.subject.name : null
                     }}</a>
                   </li>
                   <li class="mr-2 col-ms-12">
@@ -162,7 +162,7 @@
                   </li>
                   <li class="mr-2 col-ms-12">
                     <a href="#" onclick="return false;">{{
-                      request.user ? request.user.province.name : null
+                      request.user ? request.user.province ? request.user.province.name : null : null
                     }}</a>
                   </li>
                 </ul>
