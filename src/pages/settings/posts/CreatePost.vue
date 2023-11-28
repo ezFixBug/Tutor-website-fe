@@ -52,7 +52,7 @@
                   <img
                     class="mr-3"
                     id="output"
-                    :src=DEFAULT_IMAGE
+                    :src="post.image ?? DEFAULT_IMAGE"
                     alt="course image"
                   />
                 </div>
