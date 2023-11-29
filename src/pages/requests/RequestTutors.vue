@@ -4,23 +4,15 @@
   <section class="get-started-area pt-30px position-relative bg-gray pb-90px">
     <div class="container">
       <div class="filter-bar mb-4">
-        <div
-          class="filter-bar-inner d-flex flex-wrap align-items-center justify-content-between"
-        >
+        <div class="filter-bar-inner d-flex flex-wrap align-items-center justify-content-between">
           <p class="fs-14">
             Chúng tôi đã tìm thấy
             <span class="text-black">{{ pagination.total_count }}</span> yêu cầu
             đang chưa có gia sư
           </p>
           <div class="d-flex flex-wrap align-items-center">
-            <a
-              class="btn theme-btn theme-btn-sm theme-btn-white lh-28 collapse-btn"
-              data-toggle="collapse"
-              href="#collapseFilter"
-              role="button"
-              aria-expanded="false"
-              aria-controls="collapseFilter"
-            >
+            <a class="btn theme-btn theme-btn-sm theme-btn-white lh-28 collapse-btn" data-toggle="collapse"
+              href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter">
               Lọc
               <i class="fa-solid fa-chevron-down ml-1 collapse-btn-hide"></i>
               <i class="fa-solid fa-chevron-up ml-1 collapse-btn-show"></i>
@@ -34,18 +26,9 @@
               <FormItem>
                 <div class="form-group">
                   <div class="select-container w-auto">
-                    <div
-                      class="dropdown bootstrap-select select-container-select"
-                    >
-                      <Select
-                        show-search
-                        :options="subjects"
-                        size="large"
-                        :filter-option="filterOption"
-                        allow-clear
-                        v-model:value="params.subject_id"
-                        placeholder="---Chọn môn học---"
-                      />
+                    <div class="dropdown bootstrap-select select-container-select">
+                      <Select show-search :options="subjects" size="large" :filter-option="filterOption" allow-clear
+                        v-model:value="params.subject_id" placeholder="---Chọn môn học---" />
                     </div>
                   </div>
                 </div>
@@ -55,18 +38,9 @@
               <FormItem>
                 <div class="form-group">
                   <div class="select-container w-auto">
-                    <div
-                      class="dropdown bootstrap-select select-container-select"
-                    >
-                      <Select
-                        show-search
-                        :options="classes"
-                        size="large"
-                        :filter-option="filterOption"
-                        allow-clear
-                        v-model:value="params.class_id"
-                        placeholder="---Chọn cấp độ---"
-                      />
+                    <div class="dropdown bootstrap-select select-container-select">
+                      <Select show-search :options="classes" size="large" :filter-option="filterOption" allow-clear
+                        v-model:value="params.class_id" placeholder="---Chọn cấp độ---" />
                     </div>
                   </div>
                 </div>
@@ -76,32 +50,16 @@
               <FormItem>
                 <div class="form-group">
                   <div class="select-container w-auto">
-                    <div
-                      class="dropdown bootstrap-select select-container-select"
-                    >
-                      <Select
-                        show-search
-                        :options="types"
-                        size="large"
-                        :filter-option="filterOption"
-                        v-model:value="params.course_type_cd"
-                        allow-clear
-                        placeholder="---Chọn hình thức học---"
-                      />
+                    <div class="dropdown bootstrap-select select-container-select">
+                      <Select show-search :options="types" size="large" :filter-option="filterOption"
+                        v-model:value="params.course_type_cd" allow-clear placeholder="---Chọn hình thức học---" />
                     </div>
                   </div>
                 </div>
               </FormItem>
             </div>
-            <div
-              class="col-lg-12"
-              style="display: flex; justify-content: flex-end"
-            >
-              <button
-                class="btn theme-btn mr-2"
-                id="search-findteacher"
-                @click="getDataRequests"
-              >
+            <div class="col-lg-12" style="display: flex; justify-content: flex-end">
+              <button class="btn theme-btn mr-2" id="search-findteacher" @click="getDataRequests">
                 Tìm kiếm<i class="fa-solid fa-arrow-right ml-1"></i>
               </button>
               <button class="btn theme-btn" @click="handleRefresh">
@@ -118,36 +76,23 @@
         <div class="col-lg-12" v-for="request in requests" :key="request.id">
           <div class="card card-item hover-y">
             <div class="card-body d-flex align-items-center">
-              <div
-                class="flex-shrink-0 avatar-lg text-center col-md-2 col-sm-2"
-              >
-                <img
-                  :src="request.user.avatar"
-                  alt="card image"
-                  class="w-25 rounded-full shadow-sm"
-                  style="width: 40% !important"
-                />
+              <div class="flex-shrink-0 avatar-lg text-center col-md-2 col-sm-2">
+                <img :src="request.user.avatar" alt="card image" class="w-25 rounded-full shadow-sm"
+                  style="width: 40% !important" />
                 <p class="fs-15">{{ request.user.full_name }}</p>
                 <p class="fs-12">{{ formatDate(request.created_at) }}</p>
               </div>
               <div class="pl-4 col-md-6 col-sm-6 mt-3">
                 <h5 class="card-title">
-                  <router-link
-                    class="card-title pt-4 pb-2"
-                    :to="{
-                      name: 'detail-request',
-                      params: { request_id: request.id },
-                    }"
-                    ><i class="la la-check mr-1 text-color-5"></i
-                    >{{ request.title }}</router-link
-                  >
+                  <router-link class="card-title pt-4 pb-2" :to="{
+                    name: 'detail-request',
+                    params: { request_id: request.id },
+                  }"><i class="la la-check mr-1 text-color-5"></i>{{ request.title }}</router-link>
                 </h5>
                 <p class="card-text">
                   {{ request.description }}
                 </p>
-                <ul
-                  class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15"
-                >
+                <ul class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15">
                   <li class="mr-2 col-ms-12">
                     <a href="#" onclick="return false;">{{
                       request.subject ? request.subject.name : null
@@ -168,60 +113,43 @@
                 </ul>
               </div>
               <div class="pl-4 col-md-2 col-sm-2 text-center">
-                <router-link
-                  :to="{
+                <router-link :to="{
                     name: 'detail-request',
                     params: { request_id: request.id },
-                  }"
-                  class="fs-21 text-color"
-                >
+                  }" class="fs-21 text-color">
                   {{ formattedPrice(request.price) }}
-                  <span class="fs-15 text-color-3"
-                    >người/tháng</span
-                  ></router-link
-                ><br />
-                <router-link
-                  :to="{
-                    name: 'detail-request',
-                    params: { request_id: request.id },
-                  }"
-                  class="fs-18 text-color-5"
-                  >{{ request.num_student }} học viên</router-link
-                ><br />
+                  <span class="fs-15 text-color-3">người/tháng</span></router-link><br />
+                <router-link :to="{
+                  name: 'detail-request',
+                  params: { request_id: request.id },
+                }" class="fs-18 text-color-5">{{ request.num_student }} học viên</router-link><br />
 
-                <router-link
-                  :to="{
-                    name: 'detail-request',
-                    params: { request_id: request.id },
-                  }"
-                  class="fs-15 text-black"
-                  >{{ request.offers_count }}/6 lời đề nghị</router-link
-                >
+                <router-link :to="{
+                  name: 'detail-request',
+                  params: { request_id: request.id },
+                }" class="fs-15 text-black">{{ request.offers_count }}/6 lời đề nghị</router-link>
               </div>
               <div class="pl-4 col-md-2 col-sm-2 text-center">
                 <p class="fs-18 text-color">
                   Phí 0%:
                   <span class="fs-18 text-color-4">
-                    0 <span class="fs-13 text-color-4">vnđ</span></span
-                  >
+                    0 <span class="fs-13 text-color-4">vnđ</span></span>
                 </p>
-                <a href="#" onclick="return false;"
-                  ><span class="fs-11 text-black"
-                    >(Chỉ thu khi nhận được lớp)</span
-                  ></a
-                >
-                <button
-                  class="btn theme-btn theme-btn-sm btn-add-offer"
-                  data-id="3025"
-                  @click="
-                    handleOfferRequest(
-                      request.id,
-                      request.is_requested,
-                      request.offers_count
-                    )
-                  "
-                >
-                  {{ request.is_requested ? "Hủy đề nghị" : "Đề nghị dạy" }}
+                <a href="#" onclick="return false;"><span class="fs-11 text-black">(Chỉ thu khi nhận được lớp)</span></a>
+                <button class="btn theme-btn theme-btn-sm btn-add-offer" data-id="3025" @click="
+                  request.offer_request?.status != 2 && handleOfferRequest(
+                    request.id,
+                    request.is_requested,
+                    request.offers_count
+                  )
+                  ">
+                  {{
+                    request.offer_request && request.offer_request.status_cd == 1
+                    ? "Hủy đề nghị"
+                    : request.offer_request && request.offer_request.status_cd == 2
+                      ? 'Đã duyệt'
+                      : "Đề nghị dạy"
+                  }}
                 </button>
               </div>
             </div>

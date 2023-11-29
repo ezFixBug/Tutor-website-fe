@@ -26,8 +26,7 @@
               }}</i>
             </li>
             <li>
-              <i class="la la-clock fs-17 mr-2"></i
-              >{{ formatDate(request.created_at) }}
+              <i class="la la-clock fs-17 mr-2"></i>{{ formatDate(request.created_at) }}
             </li>
           </ul>
         </div>
@@ -74,8 +73,8 @@
                   <i class="la la-venus-mars fs-18 mr-2"></i>Tìm gia sư:
                   {{
                     request.sex == 0
-                      ? "Tất cả"
-                      : request.sex === 1
+                    ? "Tất cả"
+                    : request.sex === 1
                       ? "Nam"
                       : "Nữ"
                   }}
@@ -86,15 +85,11 @@
                 </li>
                 <li>
                   <i class="la la-money fs-18 mr-2"></i>Học phí:
-                  <span class="fs-18 text-color-3"
-                    >{{ request.price }} vnđ/người/tháng</span
-                  >
+                  <span class="fs-18 text-color-3">{{ request.price }} vnđ/người/tháng</span>
                 </li>
                 <li>
                   <i class="la la-calculator fs-18 mr-2"></i>Tổng:
-                  <span class="fs-18 text-color"
-                    >{{ request.num_student * request.price }} vnđ/tháng</span
-                  >
+                  <span class="fs-18 text-color">{{ request.num_student * request.price }} vnđ/tháng</span>
                 </li>
               </ul>
             </div>
@@ -104,41 +99,33 @@
             <div class="quiz-ans-content">
               <ul class="generic-list-item pt-3">
                 <li>
-                  <i class="la la-clock fs-18 mr-2"></i
-                  >{{ request.num_day_per_week }} buổi/tuần
+                  <i class="la la-clock fs-18 mr-2"></i>{{ request.num_day_per_week }} buổi/tuần
                 </li>
                 <li>
-                  <i class="la la-clock fs-18 mr-2"></i
-                  >{{ request.num_hour_per_day }}giờ/buổi:
+                  <i class="la la-clock fs-18 mr-2"></i>{{ request.num_hour_per_day }}giờ/buổi:
                 </li>
                 <li>
                   <i class="la la-money fs-18 mr-2"></i>Phí nhận lớp:
-                  <span class="fs-20 text-color-5 font-weight-semi-bold"
-                    >Miễn phí</span
-                  >
+                  <span class="fs-20 text-color-5 font-weight-semi-bold">Miễn phí</span>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    onclick="return false;"
-                    class="text-color-2 fs-14"
-                  >
-                    Trả phí sau khi nhận lớp</a
-                  >
+                  <a href="#" onclick="return false;" class="text-color-2 fs-14">
+                    Trả phí sau khi nhận lớp</a>
                 </li>
                 <li>
-                  <i class="la la-heart fs-18 mr-2"></i
-                  >{{ request.offers_count }} lời đề nghị
+                  <i class="la la-heart fs-18 mr-2"></i>{{ request.offers_count }} lời đề nghị
                 </li>
 
                 <li v-if="user && request.user_id !== user.id">
-                  <button
-                    class="btn theme-btn theme-btn-sm btn-add-offer"
-                    data-id="3027"
-                    v-if="$route.name !== 'detail-request-user'"
-                    @click="handleOfferRequest"
-                  >
-                    {{ request.is_requested ? "Hủy đề nghị" : "Đề nghị dạy" }}
+                  <button class="btn theme-btn theme-btn-sm btn-add-offer" data-id="3027"
+                    v-if="$route.name !== 'detail-request-user'" @click="handleOfferRequest">
+                    {{
+                      request.offer_request && request.offer_request.status_cd == 1
+                      ? "Hủy đề nghị"
+                      : request.offer_request && request.offer_request.status_cd == 2
+                        ? 'Đã duyệt'
+                        : "Đề nghị dạy"
+                    }}
                   </button>
                 </li>
               </ul>
@@ -159,10 +146,7 @@
     </div>
     <div class="container py-5">
       <div class="row justify-content-between">
-        <div
-          class="card card-item course-type course-onl-off"
-          style="width: 100%"
-        >
+        <div class="card card-item course-type course-onl-off" style="width: 100%">
           <div class="card-body">
             <h3 class="fs-22 font-weight-semi-bold pb-2">Thời khóa biểu</h3>
             <div class="divider"><span></span></div>
@@ -170,46 +154,31 @@
               <div class="course-onl-off-tkb">
                 <label class="label-text text-center w-100">Thứ 2</label>
                 <div class="d-flex flex-wrap align-items-center pb-4">
-                  <button
-                    class="btn flex-grow-1 mx-2 mb-2 monday"
-                    :class="{
-                      'choosed-schedule': schedule['Monday'].includes('1'),
-                    }"
-                    type="button"
-                    style="
+                  <button class="btn flex-grow-1 mx-2 mb-2 monday" :class="{
+                    'choosed-schedule': schedule['Monday'].includes('1'),
+                  }" type="button" style="
                       background-color: #fff;
                       border-color: #ec5252;
                       color: #ec5252;
-                    "
-                  >
+                    ">
                     Sáng
                   </button>
-                  <button
-                    class="btn flex-grow-1 mx-2 mb-2 monday"
-                    :class="{
-                      'choosed-schedule': schedule['Monday'].includes('2'),
-                    }"
-                    type="button"
-                    style="
+                  <button class="btn flex-grow-1 mx-2 mb-2 monday" :class="{
+                    'choosed-schedule': schedule['Monday'].includes('2'),
+                  }" type="button" style="
                       background-color: #fff;
                       border-color: #ec5252;
                       color: #ec5252;
-                    "
-                  >
+                    ">
                     Chiều
                   </button>
-                  <button
-                    class="btn flex-grow-1 mx-2 mb-2 monday"
-                    :class="{
-                      'choosed-schedule': schedule['Monday'].includes('3'),
-                    }"
-                    type="button"
-                    style="
+                  <button class="btn flex-grow-1 mx-2 mb-2 monday" :class="{
+                    'choosed-schedule': schedule['Monday'].includes('3'),
+                  }" type="button" style="
                       background-color: #fff;
                       border-color: #ec5252;
                       color: #ec5252;
-                    "
-                  >
+                    ">
                     Tối
                   </button>
                 </div>
@@ -219,46 +188,31 @@
                 <div class="form-group">
                   <label class="label-text text-center w-100">Thứ 3</label>
                   <div class="d-flex flex-wrap align-items-center pb-4">
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 tuesday"
-                      :class="{
-                        'choosed-schedule': schedule['Tuesday'].includes('1'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 tuesday" :class="{
+                      'choosed-schedule': schedule['Tuesday'].includes('1'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Sáng
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 tuesday"
-                      :class="{
-                        'choosed-schedule': schedule['Tuesday'].includes('2'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 tuesday" :class="{
+                      'choosed-schedule': schedule['Tuesday'].includes('2'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Chiều
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 tuesday"
-                      :class="{
-                        'choosed-schedule': schedule['Tuesday'].includes('3'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 tuesday" :class="{
+                      'choosed-schedule': schedule['Tuesday'].includes('3'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Tối
                     </button>
                   </div>
@@ -269,46 +223,31 @@
                 <div class="form-group">
                   <label class="label-text text-center w-100">Thứ 4</label>
                   <div class="d-flex flex-wrap align-items-center pb-4">
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 wednesday"
-                      :class="{
-                        'choosed-schedule': schedule['Wednesday'].includes('1'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 wednesday" :class="{
+                      'choosed-schedule': schedule['Wednesday'].includes('1'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Sáng
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 wednesday"
-                      :class="{
-                        'choosed-schedule': schedule['Wednesday'].includes('2'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 wednesday" :class="{
+                      'choosed-schedule': schedule['Wednesday'].includes('2'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Chiều
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 wednesday"
-                      :class="{
-                        'choosed-schedule': schedule['Wednesday'].includes('3'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 wednesday" :class="{
+                      'choosed-schedule': schedule['Wednesday'].includes('3'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Tối
                     </button>
                   </div>
@@ -319,46 +258,31 @@
                 <div class="form-group">
                   <label class="label-text text-center w-100">Thứ 5</label>
                   <div class="d-flex flex-wrap align-items-center pb-4">
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 thursday"
-                      :class="{
-                        'choosed-schedule': schedule['Thursday'].includes('1'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 thursday" :class="{
+                      'choosed-schedule': schedule['Thursday'].includes('1'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Sáng
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 thursday"
-                      :class="{
-                        'choosed-schedule': schedule['Thursday'].includes('2'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 thursday" :class="{
+                      'choosed-schedule': schedule['Thursday'].includes('2'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Chiều
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 thursday"
-                      :class="{
-                        'choosed-schedule': schedule['Thursday'].includes('3'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 thursday" :class="{
+                      'choosed-schedule': schedule['Thursday'].includes('3'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Tối
                     </button>
                   </div>
@@ -369,46 +293,31 @@
                 <div class="form-group">
                   <label class="label-text text-center w-100">Thứ 6</label>
                   <div class="d-flex flex-wrap align-items-center pb-4">
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 friday"
-                      :class="{
-                        'choosed-schedule': schedule['Friday'].includes('1'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 friday" :class="{
+                      'choosed-schedule': schedule['Friday'].includes('1'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Sáng
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 friday"
-                      :class="{
-                        'choosed-schedule': schedule['Friday'].includes('2'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 friday" :class="{
+                      'choosed-schedule': schedule['Friday'].includes('2'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Chiều
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 friday"
-                      :class="{
-                        'choosed-schedule': schedule['Friday'].includes('3'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 friday" :class="{
+                      'choosed-schedule': schedule['Friday'].includes('3'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Tối
                     </button>
                   </div>
@@ -419,46 +328,31 @@
                 <div class="form-group">
                   <label class="label-text text-center w-100">Thứ 7</label>
                   <div class="d-flex flex-wrap align-items-center pb-4">
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 saturday"
-                      :class="{
-                        'choosed-schedule': schedule['Saturday'].includes('1'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 saturday" :class="{
+                      'choosed-schedule': schedule['Saturday'].includes('1'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Sáng
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 saturday"
-                      :class="{
-                        'choosed-schedule': schedule['Saturday'].includes('2'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 saturday" :class="{
+                      'choosed-schedule': schedule['Saturday'].includes('2'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Chiều
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 saturday"
-                      :class="{
-                        'choosed-schedule': schedule['Saturday'].includes('3'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 saturday" :class="{
+                      'choosed-schedule': schedule['Saturday'].includes('3'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Tối
                     </button>
                   </div>
@@ -469,46 +363,31 @@
                 <div class="form-group">
                   <label class="label-text text-center w-100">Chủ nhật</label>
                   <div class="d-flex flex-wrap align-items-center pb-4">
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 sunday"
-                      :class="{
-                        'choosed-schedule': schedule['Sunday'].includes('1'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 sunday" :class="{
+                      'choosed-schedule': schedule['Sunday'].includes('1'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Sáng
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 sunday"
-                      :class="{
-                        'choosed-schedule': schedule['Sunday'].includes('2'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 sunday" :class="{
+                      'choosed-schedule': schedule['Sunday'].includes('2'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Chiều
                     </button>
-                    <button
-                      class="btn flex-grow-1 mx-2 mb-2 sunday"
-                      :class="{
-                        'choosed-schedule': schedule['Sunday'].includes('3'),
-                      }"
-                      type="button"
-                      style="
+                    <button class="btn flex-grow-1 mx-2 mb-2 sunday" :class="{
+                      'choosed-schedule': schedule['Sunday'].includes('3'),
+                    }" type="button" style="
                         background-color: #fff;
                         border-color: #ec5252;
                         color: #ec5252;
-                      "
-                    >
+                      ">
                       Tối
                     </button>
                   </div>
@@ -552,6 +431,8 @@ export default {
 
   methods: {
     async handleOfferRequest() {
+      if (this.request?.offer_request?.status_cd == 2) return;
+
       this.is_loading = true;
       if (this.request.offers_count === 6 && !this.request.is_requested) {
         createToast("Số lượng yêu cầu đề nghị dạy đã đầy!", {
