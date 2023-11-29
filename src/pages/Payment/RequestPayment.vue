@@ -47,8 +47,15 @@
                     </span>
                     <div class="media-body">
                       <h5 class="fs-15 pb-2">
-                        <router-link :to="{ name: 'detail-course', params: { id: course_id } }">{{ this.data_payment.name
-                        }}</router-link>
+                        <span v-if="course_id">
+                          <router-link :to="{ name: 'detail-course', params: { id: this.data_payment.id || '1' } }">{{
+                            this.data_payment.name }}</router-link>
+                        </span>
+                        <span v-else>
+                          <router-link
+                            :to="{ name: 'detail-request', params: { request_id: this.data_payment.id || '1' } }">{{
+                              this.data_payment.name }}</router-link>
+                        </span>
                       </h5>
                       <p class="text-black font-weight-semi lh-18">{{ getPrice }}</p>
                     </div>
@@ -70,7 +77,7 @@
               <ul class="generic-list-item generic-list-item-flash fs-15">
                 <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                   <span class="text-black">Nội dung:</span>
-                  <span>{{ data_payment.payment_type == 0 ? 'Mua Khoá Hoc' : 'Chấp nhận học viên' }}</span>
+                  <span>{{ data_payment.payment_type == 0 ? 'Mua Khoá Học' : 'Chấp nhận học viên' }}</span>
                 </li>
                 <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                   <span class="text-black">Ngày:</span>
@@ -119,20 +126,23 @@ export default {
   data() {
     return {
       data_payment: {
+        id: null,
         image: null,
         name: null,
         price: 0,
         total_amount: 0,
         payment_type: this.$route.query.payment_type
       },
-      course_id: this.$route.query.course_id,
+      course_id: this.$route.query.course_id || null,
+      offer_id: this.$route.query.offer_id || null,
+      request_id: null,
       user: $auth.getUser,
       is_loading: false,
     };
   },
 
   created() {
-    this.data_payment.payment_type == 0 && this.getDetailCourse();
+    this.data_payment.payment_type == 0 ? this.getDetailCourse() : this.getDetailOffer();
   },
 
   computed: {
@@ -157,12 +167,28 @@ export default {
       const res = await $http.get("/course/" + course_id);
       if (get(res, "data.result", false)) {
         const course = res.data.course;
+        this.data_payment.id = course.id
         this.data_payment.name = course.title
         this.data_payment.price = course.price,
           this.data_payment.image = course.image
       }
       const amount = 0.4 * this.data_payment.price;
-      console.log(Number(this.data_payment.price) + (this.data_payment.payment_type == 0 ? 0 : amount));
+      this.data_payment.total_amount = Number(this.data_payment.price) + (this.data_payment.payment_type == 0 ? 0 : amount);
+      this.is_loading = false;
+    },
+
+    async getDetailOffer() {
+      this.is_loading = true;
+      const offer_id = this.$route.query.offer_id;
+      const res = await $http.get("/offer-detail/" + offer_id);
+      if (get(res, "data.result", false)) {
+        const request = res.data.offer?.request;
+        this.request_id = request.id
+        this.data_payment.id = request.id
+        this.data_payment.name = request.title
+        this.data_payment.price = request.price
+      }
+      const amount = 0.4 * this.data_payment.price;
       this.data_payment.total_amount = Number(this.data_payment.price) + (this.data_payment.payment_type == 0 ? 0 : amount);
       this.is_loading = false;
     },
@@ -170,8 +196,9 @@ export default {
     async handlePayment() {
       const response = await $http.post("/vn-pay", {
         total_amount: this.data_payment.total_amount,
-        payment_type: 0,
-        course_id: this.course_id,
+        payment_type: this.data_payment.payment_type,
+        course_id: this.data_payment.id,
+        request_tutors_id: this.data_payment.id,
         user_id: this.user.id
       });
       window.location.href = response.data

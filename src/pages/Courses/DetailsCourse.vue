@@ -577,7 +577,7 @@ export default {
     },
 
     async saveDataPayment() {
-      createToast("Đã Mua Khoá Học thành công!", {
+      createToast("Đã Mua Khoá Học Thành Công!", {
         type: "success",
         timeout: 10000,
       })

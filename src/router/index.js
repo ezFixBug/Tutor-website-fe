@@ -244,7 +244,7 @@ const routes = [
             },
             {
                 path: '/yeu-cau-thanh-toan',
-                name: 'requestPayment',
+                name: 'request-payment',
                 component: RequestPayment
             },
         ],
