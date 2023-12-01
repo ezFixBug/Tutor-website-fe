@@ -9,7 +9,7 @@
         </div>
         <div class="media-body">
           <h2 class="section__title fs-30">
-            {{ dataUser.fullName }}
+            {{ dataUser.full_name }}
           </h2>
         </div>
       </div>
@@ -129,11 +129,7 @@ export default {
   },
   data() {
     return {
-      dataUser: {
-        id: 1,
-        fullName: "Le Thang",
-        avatar: "https://smart-edu.vn/img/avatar.png",
-      },
+      dataUser: JSON.parse(localStorage.getItem('user')),
       dataPassword: {
         oldPassword: null,
         newPassword: null,
@@ -142,6 +138,8 @@ export default {
       tab: 0,
       is_loading: false,
     };
+  },
+  created() {
   },
   methods: {
     async onFileChangeAvatar(event) {

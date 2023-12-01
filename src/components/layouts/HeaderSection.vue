@@ -316,26 +316,9 @@
                                     Bài viết của tôi</router-link
                                   >
                                 </li>
-                                <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
-                                    <i
-                                      class="fa-solid fa-money-bill-transfer mr-1"
-                                    ></i>
-                                    Thanh toán &amp; nhận lớp</router-link
-                                  >
-                                </li>
-
                                 <li><div class="section-block"></div></li>
                                 <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
-                                    <i
-                                      class="fa-solid fa-person-circle-plus mr-1"
-                                    ></i>
-                                    Thanh toán &amp; yêu cầu gia sư</router-link
-                                  >
-                                </li>
-                                <li>
-                                  <router-link :to="{ name: 'setting-basic' }">
+                                  <router-link :to="{ name: 'payment-histories' }">
                                     <i
                                       class="fa-solid fa-clock-rotate-left mr-1"
                                     ></i>
