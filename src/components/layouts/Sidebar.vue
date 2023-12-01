@@ -57,15 +57,9 @@
         >
       </li>
       <li>
-        <router-link :to="{ name: 'setting-basic' }" class="logo">
+        <router-link :to="{ name: 'payment-histories' }" class="logo">
           <i class="fa-solid fa-money-bill-transfer mr-2"></i>
           Lịch sử giao dịch</router-link
-        >
-      </li>
-      <li>
-        <router-link :to="{ name: 'setting-basic' }" class="logo">
-          <i class="fa-solid fa-right-from-bracket mr-2"></i>
-          Đăng xuất</router-link
         >
       </li>
     </ul>
@@ -84,6 +78,9 @@ export default {
     user() {
       return $auth.getUser;
     }
+  },
+  methods: {
+
   }
 };
 </script>
