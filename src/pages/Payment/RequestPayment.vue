@@ -194,6 +194,22 @@ export default {
     },
 
     async handlePayment() {
+      window.location.href = await this.getMomoPaymentUrl()
+    },
+
+    async getMomoPaymentUrl() {
+      const response = await $http.post("/momo-payment", {
+        total_amount: this.data_payment.total_amount,
+        payment_type: this.data_payment.payment_type,
+        course_id: this.data_payment.id,
+        request_tutors_id: this.data_payment.id,
+        user_id: this.user.id
+      });
+
+      return response.data
+    },
+
+    async getVnPayPaymentUrl() {
       const response = await $http.post("/vn-pay", {
         total_amount: this.data_payment.total_amount,
         payment_type: this.data_payment.payment_type,
@@ -201,7 +217,8 @@ export default {
         request_tutors_id: this.data_payment.id,
         user_id: this.user.id
       });
-      window.location.href = response.data
+
+      return response.data
     }
   }
 };

@@ -36,7 +36,7 @@ export default {
   async created() {
     this.getDataRequest();
     this.payment = this.$route.query;
-    this.$route.query.vnp_TransactionStatus == '00' && this.saveDataPayment()
+    this.$route.query?.vnp_TransactionStatus == '00' || this.$route.query?.resultCode == '0' && this.saveDataPayment()
   },
 
   computed: {
@@ -71,7 +71,7 @@ export default {
         timeout: 10000,
       })
       const request_id = this.$route.params.request_id;
-      this.$router.push({ path: this.$route.path });
+      // this.$router.push({ path: this.$route.path });
       this.getDataRequest();
 
       let params = {
