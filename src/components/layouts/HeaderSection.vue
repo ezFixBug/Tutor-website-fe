@@ -330,7 +330,7 @@
 
                                 <li><div class="section-block"></div></li>
                                 <li>
-                                  <a @click="handleLogout">
+                                  <a @click="handleLogout" style="cursor: pointer;">
                                     <i
                                       class="fa-solid fa-right-from-bracket mr-1"
                                     ></i>

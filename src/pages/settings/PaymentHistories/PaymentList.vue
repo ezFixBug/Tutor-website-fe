@@ -20,11 +20,13 @@
   <div class="nav generic-tab d-flex flex-column">
     <ul class="nav mb-30px">
       <li class="nav-item" @click="tab = 0">
-        <span class="nav-link" :class="{ active: tab === 0 }"> Thanh toán nhận học viên </span>
+        <span class="nav-link" :class="{ active: tab === 0 }">
+          Thanh toán mua khoá học
+        </span>
       </li>
       <li class="nav-item" @click="tab = 1">
         <span class="nav-link" :class="{ active: tab === 1 }">
-          Thanh toán mua khoá học
+          Thanh toán nhận học viên
         </span>
       </li>
     </ul>
@@ -37,7 +39,8 @@
                 <div class="col-lg-12">
                   <div class="card card-item">
                     <div class="card-body">
-
+                      <DataTable :columns="TableCoursePayments.columns" :data="TableCoursePayments.dataTable"
+                        :options="TableCoursePayments.options" class="display nowrap" />
                     </div>
                   </div><!-- end card -->
                 </div><!-- end col-lg-12 -->
@@ -69,22 +72,60 @@
 
 <script>
 import $http from "@/services/httpService";
+import dayjs from 'dayjs'
+
 export default {
   data() {
     return {
       user: JSON.parse(localStorage.getItem('user')),
-      tab: 0,
+      tab: null,
       is_loading: false,
+      TableCoursePayments: {
+        columns: [
+          { data: 'created_at', title: 'Ngày thanh toán' },
+          { data: 'course_title', title: 'Tên khoá học' },
+          { data: 'tutor_name', title: 'Gia sư' },
+          { data: 'course_price', title: 'Số tiền' },
+          { data: 'amount', title: 'Đã thanh toán' },
+          { data: 'status', title: 'Trạng thái' },
+        ],
+        options: {
+          responsive: true,
+        },
+        dataTable: []
+      }
     }
   },
   async created() {
-    const response = await $http.get("/payment/histories", {
-      user_id: "9a825892-c852-43e6-aaaa-66784c29d0da",
-      payment_type: 0
-    });
-    
-    const payments = response.data
-    console.log(payments.data.payment[0].register_course);
+    this.tab = 0;
   },
+  watch: {
+    tab: {
+      async handler(val) {
+        const response = await $http.get("/payment/histories", {
+          user_id: "9a825892-c852-43e6-aaaa-66784c29d0da",
+          payment_type: val
+        });
+        const payments = response.data.data.payment
+
+        payments.forEach((payment, index) => {
+          const course = payment?.register_course?.course ?? null;
+
+          this.TableCoursePayments.dataTable[index] = {
+            course_title: course?.title ?? null,
+            tutor_name: course.user.full_name,
+            course_price: `${Number(course.price).toLocaleString('vi-VN')} VND`,
+            amount: `${Number(payment.amount).toLocaleString('vi-VN')} VND`,
+            status: payment.status == 1 ? 'Đã Thanh Toán' : 'Chưa Thanh Toán',
+            created_at: dayjs(payment.created_at).format('DD/MM/YYYY HH:mm:ss'),
+          }
+        });
+      }
+
+    }
+  }
 }
 </script>
+<style>
+@import 'datatables.net-dt';
+</style>

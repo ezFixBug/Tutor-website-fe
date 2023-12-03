@@ -168,7 +168,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-4" v-for="course in courses" :key="course.id">
+        <div class="col-sm-4 mb-4" v-for="course in courses" :key="course.id">
           <Course :course="course" />
         </div>
       </div>
