@@ -8,6 +8,11 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import Spinner from '@/components/Spinner/Spinner.vue';
 import Pagination from '@/components/layouts/Pagination.vue';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import DataTable from 'datatables.net-vue3';
+import DataTablesCore from 'datatables.net';
+import 'datatables.net-responsive';
+import 'datatables.net-select';
+
 const app = createApp({
     render: () => h(App)
 });
@@ -31,5 +36,9 @@ app.component('Row', Row);
 app.component('pulse-loader', PulseLoader);
 app.component('spinner', Spinner);
 app.component('pagination', Pagination);
+
+app.component('DataTable', DataTable);
+DataTable.use(DataTablesCore);
+
 app.config.productionTip = false
 app.mount('#app');
