@@ -50,7 +50,7 @@ export default {
       this.is_loading = true;
       const request_id = this.$route.params.request_id;
 
-      const res = await $http.get("/detail-request/" + request_id);
+            const res = await $http.get("/detail-request/" + request_id);
       if (get(res, "data.result", false)) {
         const schedule = this.request.schedule;
         this.request = res.data.request;
@@ -66,12 +66,12 @@ export default {
     },
 
     async saveDataPayment() {
-      createToast("Đã Mua Thanh Toán Nhận Học Viên Thành Công!", {
+      createToast("Đã Thanh Toán Nhận Học Viên Thành Công!", {
         type: "success",
         timeout: 10000,
       })
       const request_id = this.$route.params.request_id;
-      // this.$router.push({ path: this.$route.path });
+      this.$router.push({ path: this.$route.path });
       this.getDataRequest();
 
       let params = {
