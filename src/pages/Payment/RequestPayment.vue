@@ -92,9 +92,24 @@
                   <span class="text-black">Giá nhận thông tin học viên:</span>
                   <span>{{ getFortyPercentPrice }}</span>
                 </li>
+                <li v-if="data_payment.discount" class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                  <span class="text-black">Khuyến mãi:</span>
+                  <div>
+                    <span>- {{ getDiscount }}</span>
+                    <span v-if="data_payment.discount" class="ml-2" tyle="cursor: pointer;"
+                      @click="() => { data_payment.discount && removeCoupon() }">
+                      <i class="fa-solid fa-trash" style="color: #dc0404;"></i>
+                    </span>
+                  </div>
+                </li>
                 <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                   <span class="text-black">Tổng tiền:</span>
                   <span>{{ getTotalAmount }}</span>
+                </li>
+                <li class="d-flex align-items-center justify-content-between">
+                  <input v-model="coupon_code" class="form-control form--control pl-3 mr-3" type="text"
+                    name="CodeDiscountApply" placeholder="Nhập code khuyến mãi">
+                  <div class="btn theme-btn" style="height: 40px" @click="coupon_code && getCoupon()">Áp dụng</div>
                 </li>
               </ul>
               <div class="btn-box border-top border-top-gray pt-3">
@@ -121,6 +136,7 @@
 import $http from "@/services/httpService";
 import get from "lodash/get";
 import $auth from "@/services/authService";
+import CONSTS from '@/Constants'
 
 export default {
   data() {
@@ -131,13 +147,15 @@ export default {
         name: null,
         price: 0,
         total_amount: 0,
-        payment_type: this.$route.query.payment_type
+        payment_type: this.$route.query.payment_type,
+        discount: 0,
       },
       course_id: this.$route.query.course_id || null,
       offer_id: this.$route.query.offer_id || null,
       request_id: null,
       user: $auth.getUser,
       is_loading: false,
+      coupon_code: null,
     };
   },
 
@@ -158,6 +176,11 @@ export default {
     getTotalAmount() {
       return `${Number(this.data_payment.total_amount).toLocaleString('vi-VN')} VND`;
     },
+
+    getDiscount() {
+      return `${Number(this.data_payment.discount).toLocaleString('vi-VN')} VND`;
+    },
+
   },
 
   methods: {
@@ -219,6 +242,26 @@ export default {
       });
 
       return response.data
+    },
+
+    async getCoupon() {
+      this.is_loading = true;
+      const res = await $http.get("/coupons/" + this.coupon_code);
+      if (get(res, "data.result", false)) {
+        const coupon = res.data.coupon;
+        if (coupon.type === CONSTS.CD_COUPON_TYPE.CASH) {
+          this.data_payment.discount = parseInt(coupon.discount)
+        } else {
+          this.data_payment.discount = parseInt((this.data_payment.total_amount * coupon.discount) / 100);
+        }
+        this.data_payment.total_amount -= this.data_payment.discount;
+      }
+      this.is_loading = false;
+    },
+
+    removeCoupon() {
+      this.data_payment.discount = 0;
+      this.coupon_code = null;
     }
   }
 };

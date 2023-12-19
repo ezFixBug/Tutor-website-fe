@@ -186,11 +186,12 @@
                     </div>
                     <div
                       class="input-group-append"
-                      style="width: 8%; height: 50px"
+                      style="width: 8%; height: 40px"
                     >
                       <button
                         class="btn theme-btn theme-btn-transparent toggle-password"
                         type="button"
+                        style="height: 100%;"
                         @click="isDisplayPassword = !isDisplayPassword"
                       >
                         <i
@@ -236,11 +237,12 @@
                     </div>
                     <div
                       class="input-group-append"
-                      style="width: 8%; height: 50px"
+                      style="width: 8%; height: 40px"
                     >
                       <button
                         class="btn theme-btn theme-btn-transparent toggle-password"
                         type="button"
+                        style="height: 100%;"
                         @click="isDisplayRePassword = !isDisplayRePassword"
                       >
                         <i

@@ -2,7 +2,7 @@ import router from "./router/index";
 import { createApp, h } from 'vue'
 import App from './App.vue'
 import BreadCrumb from "@/components/layouts/BreadCrum.vue";
-import { Select, FormItem, Form, Button, Card, Row } from "ant-design-vue";
+import { Select, FormItem, Form, Button, Card, Row, Modal } from "ant-design-vue";
 import Cloudinary from 'cloudinary-vue';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import Spinner from '@/components/Spinner/Spinner.vue';
@@ -36,6 +36,7 @@ app.component('Row', Row);
 app.component('pulse-loader', PulseLoader);
 app.component('spinner', Spinner);
 app.component('pagination', Pagination);
+app.component('Modal', Modal);
 
 app.component('DataTable', DataTable);
 DataTable.use(DataTablesCore);

@@ -4,13 +4,17 @@
     <div class="container">
       <div class="col-lg-8 mr-auto">
         <div class="breadcrumb-content">
-          <ul class="generic-list-item generic-list-item-arrow d-flex flex-wrap align-items-center">
+          <ul
+            class="generic-list-item generic-list-item-arrow d-flex flex-wrap align-items-center"
+          >
             <li><router-link :to="{ name: 'home' }">Trang chủ</router-link></li>
             <li>
               <router-link :to="{ name: 'courses' }">Khoá Học</router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'detail-course', params: { id: 1 } }">Chi tiết khóa học</router-link>
+              <router-link :to="{ name: 'detail-course', params: { id: 1 } }"
+                >Chi tiết khóa học</router-link
+              >
             </li>
           </ul>
           <div class="section-heading">
@@ -29,39 +33,66 @@
                 <span><i class="fa-regular fa-star"></i></span>
                 <span><i class="fa-regular fa-star"></i></span>
               </div>
-              <span class="rating-total pl-3">{{ count_comment }} đánh giá</span>
+              <span class="rating-total pl-3"
+                >{{ count_comment }} đánh giá</span
+              >
               <span class="rating-total pl-3">
-                {{ course.likes_count }} lượt thích</span>
+                {{ course.likes_count }} lượt thích</span
+              >
               <span class="rating-total pl-3">
-                {{ count_student }} học viên</span>
+                {{ count_student }} học viên</span
+              >
             </div>
           </div>
           <p>
             Thuộc danh mục:
-            <span class="text-color-5 hover-underline fs-14 mr-2" v-for="item in course.subjects" :key="item.id">
-              {{ item.name }}</span>
+            <span
+              class="text-color-5 hover-underline fs-14 mr-2"
+              v-for="item in course.subjects"
+              :key="item.id"
+            >
+              {{ item.name }}</span
+            >
           </p>
           <p>
             Tạo bởi
-            <router-link :to="{ name: 'detail-tutor', params: { id: course.user_id } }">
-              {{ user.full_name }}</router-link>
+            <router-link
+              :to="{ name: 'detail-tutor', params: { id: course.user_id } }"
+            >
+              {{ user.full_name }}</router-link
+            >
           </p>
           <div class="d-flex flex-wrap align-items-center">
             <p class="pr-3 d-flex align-items-center">
-              <svg class="svg-icon-color-gray mr-1" viewBox="0 0 24 24" width="16px">
+              <svg
+                class="svg-icon-color-gray mr-1"
+                viewBox="0 0 24 24"
+                width="16px"
+              >
                 <path
-                  d="M23 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L12 3 8.6 1.54 6.71 4.72l-3.61.81.34 3.68L1 12l2.44 2.78-.34 3.69 3.61.82 1.89 3.18L12 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L23 12zm-10 5h-2v-2h2v2zm0-4h-2V7h2v6z">
-                </path>
+                  d="M23 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L12 3 8.6 1.54 6.71 4.72l-3.61.81.34 3.68L1 12l2.44 2.78-.34 3.69 3.61.82 1.89 3.18L12 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L23 12zm-10 5h-2v-2h2v2zm0-4h-2V7h2v6z"
+                ></path>
               </svg>
               Ngày tạo {{ formatDate(course.created_at) }}
             </p>
           </div>
           <div class="bread-btn-box pt-3" v-if="hasLogin">
-            <button class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
-              @click="handleLike()" data-id="501">
+            <button
+              class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
+              @click="handleLike()"
+              data-id="501"
+            >
               <i v-if="isLike" class="fa-solid fa-heart text-color-1"></i>
               <i v-else class="fa-regular fa-heart text-color-1"></i>
               Thích
+            </button>
+            <button
+              class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
+              @click="handleVoteCourse()"
+              data-id="502"
+            >
+              <i class="fa-regular fa-star"></i>
+              Đánh Giá
             </button>
           </div>
         </div>
@@ -90,10 +121,20 @@
                   {{ course.description }}
                 </p>
               </div>
-              <a class="collapse-btn collapse--btn fs-15" data-toggle="collapse" href="#collapseMore" role="button"
-                aria-expanded="false" aria-controls="collapseMore">
-                <span class="collapse-btn-hide">Xem thêm <i class="fa-solid fa-angle-down"></i></span>
-                <span class="collapse-btn-show">Ẩn bớt <i class="fa-solid fa-angle-up"></i></span></a>
+              <a
+                class="collapse-btn collapse--btn fs-15"
+                data-toggle="collapse"
+                href="#collapseMore"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseMore"
+              >
+                <span class="collapse-btn-hide"
+                  >Xem thêm <i class="fa-solid fa-angle-down"></i
+                ></span>
+                <span class="collapse-btn-show"
+                  >Ẩn bớt <i class="fa-solid fa-angle-up"></i></span
+              ></a>
             </div>
             <div class="course-overview-card">
               <div class="d-flex justify-content-between">
@@ -108,10 +149,13 @@
               <div class="instructor-wrap">
                 <div class="media media-card">
                   <div class="instructor-img mr-5">
-                    <router-link :to="{
-                      name: 'detail-tutor',
-                      params: { id: course.user_id },
-                    }" class="media-img d-block">
+                    <router-link
+                      :to="{
+                        name: 'detail-tutor',
+                        params: { id: course.user_id },
+                      }"
+                      class="media-img d-block"
+                    >
                       <img :src="user.avatar" alt="Cart image" />
                     </router-link>
                     <ul class="generic-list-item pt-3">
@@ -120,24 +164,30 @@
                         {{ user.count_student }} học viên
                       </li>
                       <li>
-                        <i class="fa-regular fa-comment text-color-3 mr-2"></i>{{ user.count_comment }} đánh giá
+                        <i class="fa-regular fa-comment text-color-3 mr-2"></i
+                        >{{ user.count_comment }} đánh giá
                       </li>
                       <li>
                         <i class="fa-solid fa-book text-color-3 mr-2"></i>
                         {{ user.count_course }} khóa học
                       </li>
                       <li>
-                        <router-link :to="{ name: 'courses' }">Xem tất cả khóa học</router-link>
+                        <router-link :to="{ name: 'courses' }"
+                          >Xem tất cả khóa học</router-link
+                        >
                       </li>
                     </ul>
                   </div>
                   <div class="media-body">
                     <h5>
-                      <router-link :to="{
-                        name: 'detail-tutor',
-                        params: { id: user.id },
-                      }">
-                        {{ user.full_name }}</router-link>
+                      <router-link
+                        :to="{
+                          name: 'detail-tutor',
+                          params: { id: user.id },
+                        }"
+                      >
+                        {{ user.full_name }}</router-link
+                      >
                     </h5>
                     <span class="d-block lh-18 pt-2 pb-3">
                       Ngày tham gia: {{ formatDate(user.created_at) }}
@@ -180,7 +230,10 @@
                       <div class="review-bars__fill">
                         <div class="skillbar-box">
                           <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
+                            <div
+                              class="skillbar-bar bg-3"
+                              style="width: 0%"
+                            ></div>
                           </div>
                           <!-- End Skill Bar -->
                         </div>
@@ -194,7 +247,10 @@
                       <div class="review-bars__fill">
                         <div class="skillbar-box">
                           <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
+                            <div
+                              class="skillbar-bar bg-3"
+                              style="width: 0%"
+                            ></div>
                           </div>
                           <!-- End Skill Bar -->
                         </div>
@@ -208,7 +264,10 @@
                       <div class="review-bars__fill">
                         <div class="skillbar-box">
                           <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
+                            <div
+                              class="skillbar-bar bg-3"
+                              style="width: 0%"
+                            ></div>
                           </div>
                           <!-- End Skill Bar -->
                         </div>
@@ -222,7 +281,10 @@
                       <div class="review-bars__fill">
                         <div class="skillbar-box">
                           <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
+                            <div
+                              class="skillbar-bar bg-3"
+                              style="width: 0%"
+                            ></div>
                           </div>
                           <!-- End Skill Bar -->
                         </div>
@@ -236,7 +298,10 @@
                       <div class="review-bars__fill">
                         <div class="skillbar-box">
                           <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
+                            <div
+                              class="skillbar-bar bg-3"
+                              style="width: 0%"
+                            ></div>
                           </div>
                           <!-- End Skill Bar -->
                         </div>
@@ -257,21 +322,34 @@
             <div class="card card-item">
               <div class="card-body">
                 <div class="preview-course-video">
-                  <img :src="course.image" alt="Course image" class="w-100 rounded lazy"
-                    style="width: 239px; height: 160px" />
+                  <img
+                    :src="course.image"
+                    alt="Course image"
+                    class="w-100 rounded lazy"
+                    style="width: 239px; height: 160px"
+                  />
                 </div>
                 <div class="preview-course-feature-content pt-40px">
                   <p class="d-flex align-items-center pb-2">
                     <span class="fs-30 font-weight-semi-bold text-black">
-                      {{ course.price }}
+                      {{ Number(course.price).toLocaleString("vi-VN") }} VND
                     </span>
                   </p>
-                  <div class="buy-course-btn-box" v-if="hasLogin && hasLogin.id !== course.user_id">
-                    <button class="btn theme-btn mt-3 w-100 btn-register-course" @click="getToRequestPayment"
-                      v-if="!course.is_register">
+                  <div
+                    class="buy-course-btn-box"
+                    v-if="hasLogin && hasLogin.id !== course.user_id"
+                  >
+                    <button
+                      class="btn theme-btn mt-3 w-100 btn-register-course"
+                      @click="getToRequestPayment"
+                      v-if="!course.is_register"
+                    >
                       Mua khoá học
                     </button>
-                    <button class="btn theme-btn mt-3 w-100 btn-register-course" v-else>
+                    <button
+                      class="btn theme-btn mt-3 w-100 btn-register-course"
+                      v-else
+                    >
                       Đã mua
                     </button>
                   </div>
@@ -295,7 +373,8 @@
                   <li class="d-flex align-items-center justify-content-between">
                     <span>
                       <i class="fa-regular fa-eye mr-2 text-color"></i> Lượt
-                      xem</span>
+                      xem</span
+                    >
                     {{ course.view }}
                   </li>
                   <li class="d-flex align-items-center justify-content-between">
@@ -310,7 +389,12 @@
                       <i class="fa-regular fa-lightbulb mr-2 text-color"></i>
                       Cấp độ:
                       <span class="ml-2">
-                        <span v-for="item in course.classes" :key="item.id" class="ml-2">{{ item.name }}</span>
+                        <span
+                          v-for="item in course.classes"
+                          :key="item.id"
+                          class="ml-2"
+                          >{{ item.name }}</span
+                        >
                       </span>
                     </span>
                   </li>
@@ -330,9 +414,18 @@
                 <div class="divider">
                   <span></span>
                 </div>
-                <ul class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15">
-                  <li v-for="item in course.subjects" :key="item.id" class="mr-1">
-                    <router-link :to="{ name: 'courses', params: { subject_id: item.id } }">{{ item.name }}</router-link>
+                <ul
+                  class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15"
+                >
+                  <li
+                    v-for="item in course.subjects"
+                    :key="item.id"
+                    class="mr-1"
+                  >
+                    <router-link
+                      :to="{ name: 'courses', params: { subject_id: item.id } }"
+                      >{{ item.name }}</router-link
+                    >
                   </li>
                 </ul>
               </div>
@@ -342,7 +435,9 @@
               <div class="card-body">
                 <h3 class="card-title fs-18 pb-2">Thẻ khóa học</h3>
                 <div class="divider"><span></span></div>
-                <ul class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15">
+                <ul
+                  class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15"
+                >
                   <li class="mr-2" v-for="tag in list_tags" :key="tag">
                     <a href="#" onclick="return false;">{{ tag.label }}</a>
                   </li>
@@ -354,6 +449,7 @@
       </div>
     </div>
   </section>
+  <RatingModal :isOpen="isOpenRatingForm" @update:isOpen="updateOpen" />
   <!-- <section class="related-course-area bg-gray pt-60px pb-60px">
     <div class="container">
       <div class="related-course-wrap">
@@ -409,6 +505,7 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import CONSTS from "@/Constants";
+import RatingModal from "@/components/Modal/RatingModal.vue";
 import {
   database,
   ref,
@@ -420,6 +517,9 @@ import {
 } from "@/services/firebaseService";
 import { createToast } from "mosha-vue-toastify";
 export default {
+  components: {
+    RatingModal,
+  },
   data() {
     return {
       course: {
@@ -434,13 +534,14 @@ export default {
       course_id: this.$route.params.id,
       payment: null,
       register_course: null,
+      isOpenRatingForm: false,
     };
   },
 
   created() {
     this.getDetailCourse();
     this.payment = this.$route.query;
-    this.$route.query.vnp_TransactionStatus == '00' && this.saveDataPayment()
+    this.$route.query.vnp_TransactionStatus == "00" && this.saveDataPayment();
   },
 
   computed: {
@@ -532,9 +633,7 @@ export default {
           object_id: this.course.id,
           created_at: this.getDateTimeNow(),
           type_cd: 1,
-          content:
-            this.hasLogin.full_name +
-            " đã mua khóa học của bạn",
+          content: this.hasLogin.full_name + " đã mua khóa học của bạn",
           url: {
             name: "list-student-course",
             params: { course_id: this.course.id },
@@ -547,10 +646,11 @@ export default {
 
     getToRequestPayment() {
       this.$router.push({
-        path: "/yeu-cau-thanh-toan", query: {
+        path: "/yeu-cau-thanh-toan",
+        query: {
           payment_type: 0,
-          course_id: this.course.id
-        }
+          course_id: this.course.id,
+        },
       });
     },
 
@@ -580,7 +680,7 @@ export default {
       createToast("Đã Mua Khoá Học Thành Công!", {
         type: "success",
         timeout: 10000,
-      })
+      });
       this.$router.push({ path: this.$route.path });
       await this.handleRegister();
       this.getDetailCourse();
@@ -589,10 +689,18 @@ export default {
         user_id: this.hasLogin.id,
         register_course_id: this.register_course,
         payment: this.payment,
-        payment_type: 0
+        payment_type: 0,
       };
       await $http.post("/payment/create", params);
-    }
+    },
+
+    async handleVoteCourse() {
+      this.isOpenRatingForm = true;
+    },
+
+    updateOpen(value) {
+      this.isOpenRatingForm  = value;
+    },
   },
 };
 </script>
