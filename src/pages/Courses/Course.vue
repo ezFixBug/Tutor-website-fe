@@ -35,11 +35,8 @@ export default {
 
   methods: {
     formattedPrice (price) {
-      const priceFormat = price.toLocaleString("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      });
-      return priceFormat.replace(priceFormat.slice(-1), "VND");
+      const priceFormat = Number(price).toLocaleString("vi-VN");
+      return `${priceFormat} VND`;
     },
     
     goToDetailCourse() {

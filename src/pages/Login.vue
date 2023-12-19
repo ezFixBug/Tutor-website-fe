@@ -53,10 +53,11 @@
                     </div>
                     <div
                       class="input-group-append"
-                      style="width: 8%; height: 50px"
+                      style="width: 8%; height: 40px"
                     >
                       <button
                         class="btn theme-btn theme-btn-transparent toggle-password"
+                        style="height: 100%;"
                         type="button"
                         @click="isDisplayPassword = !isDisplayPassword"
                       >
