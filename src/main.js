@@ -12,6 +12,7 @@ import DataTable from 'datatables.net-vue3';
 import DataTablesCore from 'datatables.net';
 import 'datatables.net-responsive';
 import 'datatables.net-select';
+import StarRating from 'vue-star-rating'
 
 const app = createApp({
     render: () => h(App)
@@ -37,6 +38,7 @@ app.component('pulse-loader', PulseLoader);
 app.component('spinner', Spinner);
 app.component('pagination', Pagination);
 app.component('Modal', Modal);
+app.component('star-rating', StarRating);
 
 app.component('DataTable', DataTable);
 DataTable.use(DataTablesCore);
