@@ -354,7 +354,7 @@
     </div>
   </section>
   <RatingModal :isOpen="isOpenRatingForm" :courseId="course_id" @update:isOpen="updateOpen"
-    @createSuccess="updateOpen(false)" />
+    @createSuccess="handleRatingSuccessfully" />
   <!-- <section class="related-course-area bg-gray pt-60px pb-60px">
     <div class="container">
       <div class="related-course-wrap">
@@ -617,6 +617,11 @@ export default {
     updateOpen(value) {
       this.isOpenRatingForm = value;
     },
+
+    handleRatingSuccessfully() {
+      this.getDetailCourse()
+      this.isOpenRatingForm = false;
+    }
   },
 };
 </script>
