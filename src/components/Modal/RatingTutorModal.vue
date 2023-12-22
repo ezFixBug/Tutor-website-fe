@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Modal v-model:open="props.isOpen" title="Bạn đánh giá khoá học này như thế nào?" @ok="submitForm"
-      :maskClosable="false" :closable="false">
+    <Modal v-model:open="props.isOpen" title="Bạn đánh giá gia sư này như thế nào?" @ok="submitForm" :maskClosable="false"
+      :closable="false">
       <form class="modal-body text-center" name="ratingCourseForm">
         <div class="">
           <star-rating @update:rating="setRating" :star-size="30" :animate="true" :show-rating="false"></star-rating>
@@ -30,12 +30,13 @@ import $auth from "@/services/authService";
 
 const props = defineProps({
   isOpen: Boolean,
-  courseId: String,
+  tutorId: String,
 });
 
 const setRating = (rating) => {
   ratingData.rating = rating;
 }
+
 const emits = defineEmits(["update:isOpen", "createSuccess"]);
 const user = $auth.getUser;
 
@@ -46,7 +47,7 @@ const ratingData = reactive({
 });
 
 const submitForm = async () => {
-  const res = await $http.post(`/course/${props.courseId}/rating`, { ...ratingData })
+  const res = await $http.post(`/user/${props.tutorId}/rating`, { ...ratingData })
 
   if (get(res, 'data.result', false)) {
     createToast('Đánh giá khoá học thành công!', {

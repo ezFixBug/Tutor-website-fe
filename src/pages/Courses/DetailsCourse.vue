@@ -60,7 +60,7 @@
               <i v-else class="fa-regular fa-heart text-color-1"></i>
               Thích
             </button>
-            <button v-if="!isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
+            <button v-if="!isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent mr-2 mb-2 btn-add-wish"
               @click="handleVoteCourse()" data-id="502">
               <i class="fa-regular fa-star"></i>
               Đánh Giá
@@ -458,6 +458,10 @@ export default {
       return this.course.is_like;
     },
     isRating() {
+      if (!this.hasLogin) {
+        return false;
+      }
+
       this.course.rating &&
         this.course.rating.forEach((item) => {
           if (item.user_id == this.hasLogin.id) {
