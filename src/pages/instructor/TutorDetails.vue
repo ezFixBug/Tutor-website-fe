@@ -300,6 +300,11 @@
           </div>
         </div>
       </div>
+      <div class="row mt-50px">
+        <div class="col-lg-8 mb-5">
+          <CommentList :reviewList="tutor.rating" />
+        </div>
+      </div>
     </div>
     <RatingTutorModal :isOpen="isOpenRatingForm" :tutorId="tutor.id" @update:isOpen="updateOpen"
       @createSuccess="handleRatingSuccessfully" />
@@ -312,12 +317,13 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import RatingTutorModal from "@/components/Modal/RatingTutorModal.vue";
-
+import CommentList from "@/components/layouts/CommentList.vue";
 
 export default {
   components: {
     BreadCrumb,
     RatingTutorModal,
+    CommentList,
   },
   data() {
     return {
