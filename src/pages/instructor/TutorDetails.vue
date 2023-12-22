@@ -29,7 +29,7 @@
           <button class="btn btn-danger invite-teacher" @click="handleRequestTeach" type="button">
             Mời dạy<i class="la la-arrow-right icon ml-1"></i>
           </button>
-          <button v-if="!isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 invite-teacher ml-2"
+          <button v-if="tutor.is_register && !isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 invite-teacher ml-2"
             @click="handleRating()" type="button">
             <i class="fa-regular fa-star"></i> Đánh giá
           </button>
@@ -300,6 +300,11 @@
           </div>
         </div>
       </div>
+      <div class="row mt-50px">
+        <div class="col-lg-8 mb-5">
+          <CommentList :reviewList="tutor.rating" />
+        </div>
+      </div>
     </div>
     <RatingTutorModal :isOpen="isOpenRatingForm" :tutorId="tutor.id" @update:isOpen="updateOpen"
       @createSuccess="handleRatingSuccessfully" />
@@ -312,12 +317,13 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import RatingTutorModal from "@/components/Modal/RatingTutorModal.vue";
-
+import CommentList from "@/components/layouts/CommentList.vue";
 
 export default {
   components: {
     BreadCrumb,
     RatingTutorModal,
+    CommentList,
   },
   data() {
     return {

@@ -60,7 +60,8 @@
               <i v-else class="fa-regular fa-heart text-color-1"></i>
               Thích
             </button>
-            <button v-if="!isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
+            <button v-if="hasLogin && hasLogin.id !== course.user_id && !course.is_register && !isRating"
+              class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
               @click="handleVoteCourse()" data-id="502">
               <i class="fa-regular fa-star"></i>
               Đánh Giá
@@ -170,80 +171,9 @@
                       <span class="rating-total d-block">({{ course.rating ? course.rating.length : 0 }})</span>
                       <span>Đánh giá khóa học</span>
                     </div>
-                    <!-- end rating-wrap -->
                   </div>
-                  <!-- end review-rating-summary -->
                   <div class="media-body">
-                    <div class="review-bars d-flex align-items-center mb-2">
-                      <div class="review-bars__text">5 sao</div>
-                      <div class="review-bars__fill">
-                        <div class="skillbar-box">
-                          <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
-                          </div>
-                          <!-- End Skill Bar -->
-                        </div>
-                      </div>
-                      <!-- end review-bars__fill -->
-                      <div class="review-bars__percent">0%</div>
-                    </div>
-                    <!-- end review-bars -->
-                    <div class="review-bars d-flex align-items-center mb-2">
-                      <div class="review-bars__text">4 sao</div>
-                      <div class="review-bars__fill">
-                        <div class="skillbar-box">
-                          <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
-                          </div>
-                          <!-- End Skill Bar -->
-                        </div>
-                      </div>
-                      <!-- end review-bars__fill -->
-                      <div class="review-bars__percent">0%</div>
-                    </div>
-                    <!-- end review-bars -->
-                    <div class="review-bars d-flex align-items-center mb-2">
-                      <div class="review-bars__text">3 sao</div>
-                      <div class="review-bars__fill">
-                        <div class="skillbar-box">
-                          <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
-                          </div>
-                          <!-- End Skill Bar -->
-                        </div>
-                      </div>
-                      <!-- end review-bars__fill -->
-                      <div class="review-bars__percent">0%</div>
-                    </div>
-                    <!-- end review-bars -->
-                    <div class="review-bars d-flex align-items-center mb-2">
-                      <div class="review-bars__text">2 sao</div>
-                      <div class="review-bars__fill">
-                        <div class="skillbar-box">
-                          <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
-                          </div>
-                          <!-- End Skill Bar -->
-                        </div>
-                      </div>
-                      <!-- end review-bars__fill -->
-                      <div class="review-bars__percent">0%</div>
-                    </div>
-                    <!-- end review-bars -->
-                    <div class="review-bars d-flex align-items-center mb-2">
-                      <div class="review-bars__text">1 sao</div>
-                      <div class="review-bars__fill">
-                        <div class="skillbar-box">
-                          <div class="skillbar" data-percent="0%">
-                            <div class="skillbar-bar bg-3" style="width: 0%"></div>
-                          </div>
-                          <!-- End Skill Bar -->
-                        </div>
-                      </div>
-                      <!-- end review-bars__fill -->
-                      <div class="review-bars__percent">0%</div>
-                    </div>
-                    <!-- end review-bars -->
+                    <CommentList :reviewList="course.rating" />
                   </div>
                   <!-- end media-body -->
                 </div>
@@ -355,55 +285,6 @@
   </section>
   <RatingModal :isOpen="isOpenRatingForm" :courseId="course_id" @update:isOpen="updateOpen"
     @createSuccess="handleRatingSuccessfully" />
-  <!-- <section class="related-course-area bg-gray pt-60px pb-60px">
-    <div class="container">
-      <div class="related-course-wrap">
-        <h3 class="fs-28 font-weight-semi-bold pb-35px">
-          Một số khóa học khác của
-          <router-link
-            :to="{
-              name: 'detail-tutor',
-              params: { id: user.id },
-            }"
-          >
-            {{ user.name }}</router-link
-          >
-        </h3>
-        <div
-          class="view-more-carousel-2 owl-action-styled owl-loaded owl-carousel"
-        >
-          <div class="owl-stage-outer">
-            <div
-              class="owl-stage"
-              style="
-                transform: translate3d(-45045px, 0px, 0px);
-                transition: all 0.5s ease 0s;
-                width: 178920px;
-              "
-            >
-              <div
-                class="owl-item active"
-                v-for="item in courses"
-                :key="item.id"
-              >
-                <div class="card card-item"> 
-                  <div class="card-image">
-                    <router-link
-                      :to="{ name: 'detail-course', params: { id: item.id} }"
-                      class="d-block"
-                      >
-                      <img :src="item.image" alt="Image" class="card-img-top"> 
-                      </router-link
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
 </template>
 <script>
 import $http from "@/services/httpService";
@@ -421,9 +302,11 @@ import {
   set,
 } from "@/services/firebaseService";
 import { createToast } from "mosha-vue-toastify";
+import CommentList from "@/components/layouts/CommentList.vue";
 export default {
   components: {
     RatingModal,
+    CommentList
   },
   data() {
     return {
@@ -447,7 +330,7 @@ export default {
   created() {
     this.getDetailCourse();
     this.payment = this.$route.query;
-    this.$route.query.vnp_TransactionStatus == "00" && this.saveDataPayment();
+    this.$route.query.partnerCode && this.saveDataPayment();
   },
 
   computed: {
@@ -564,14 +447,19 @@ export default {
       this.getDetailCourse();
     },
 
-    getToRequestPayment() {
-      this.$router.push({
-        path: "/yeu-cau-thanh-toan",
-        query: {
-          payment_type: 0,
-          course_id: this.course.id,
-        },
-      });
+    async getToRequestPayment() {
+      if (this.course.price > 0) {
+        this.$router.push({
+          path: "/yeu-cau-thanh-toan",
+          query: {
+            payment_type: 0,
+            course_id: this.course.id,
+          },
+        });
+      } else {
+        await this.handleRegister();
+      }
+
     },
 
     formatDate(inputDate) {

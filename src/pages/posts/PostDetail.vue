@@ -200,8 +200,6 @@
                   </div>
                 </div>
               </div>
-              <!-- end media -->
-              <!-- end media -->
             </div>
             <div
               class="load-more-btn-box text-center pt-3 pb-5"
