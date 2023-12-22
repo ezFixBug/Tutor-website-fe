@@ -29,7 +29,7 @@
           <button class="btn btn-danger invite-teacher" @click="handleRequestTeach" type="button">
             Mời dạy<i class="la la-arrow-right icon ml-1"></i>
           </button>
-          <button v-if="!isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 invite-teacher ml-2"
+          <button v-if="tutor.is_register && !isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 invite-teacher ml-2"
             @click="handleRating()" type="button">
             <i class="fa-regular fa-star"></i> Đánh giá
           </button>

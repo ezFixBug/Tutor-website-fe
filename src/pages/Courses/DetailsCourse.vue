@@ -60,7 +60,8 @@
               <i v-else class="fa-regular fa-heart text-color-1"></i>
               Thích
             </button>
-            <button v-if="!isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
+            <button v-if="hasLogin && hasLogin.id !== course.user_id && !course.is_register && !isRating"
+              class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
               @click="handleVoteCourse()" data-id="502">
               <i class="fa-regular fa-star"></i>
               Đánh Giá
@@ -295,6 +296,10 @@ import {
   database,
   ref,
   push,
+  onValue,
+  child,
+  get as firebaseGet,
+  set,
 } from "@/services/firebaseService";
 import { createToast } from "mosha-vue-toastify";
 import CommentList from "@/components/layouts/CommentList.vue";
@@ -325,7 +330,7 @@ export default {
   created() {
     this.getDetailCourse();
     this.payment = this.$route.query;
-    this.$route.query.vnp_TransactionStatus == "00" && this.saveDataPayment();
+    this.$route.query.partnerCode && this.saveDataPayment();
   },
 
   computed: {
@@ -442,14 +447,19 @@ export default {
       this.getDetailCourse();
     },
 
-    getToRequestPayment() {
-      this.$router.push({
-        path: "/yeu-cau-thanh-toan",
-        query: {
-          payment_type: 0,
-          course_id: this.course.id,
-        },
-      });
+    async getToRequestPayment() {
+      if (this.course.price > 0) {
+        this.$router.push({
+          path: "/yeu-cau-thanh-toan",
+          query: {
+            payment_type: 0,
+            course_id: this.course.id,
+          },
+        });
+      } else {
+        await this.handleRegister();
+      }
+
     },
 
     formatDate(inputDate) {
