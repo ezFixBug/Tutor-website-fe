@@ -458,6 +458,10 @@ export default {
       return this.course.is_like;
     },
     isRating() {
+      if (!this.hasLogin) {
+        return false;
+      }
+
       this.course.rating &&
         this.course.rating.forEach((item) => {
           if (item.user_id == this.hasLogin.id) {
