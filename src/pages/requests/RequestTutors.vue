@@ -105,14 +105,9 @@
                       ).label
                     }}</a>
                   </li>
-                  <li class="mr-2 col-ms-12">
-                    <a href="#" onclick="return false;">{{
-                      request.user ? request.user.province ? request.user.province.name : null : null
-                    }}</a>
-                  </li>
                 </ul>
               </div>
-              <div class="pl-4 col-md-2 col-sm-2 text-center">
+              <div class="pl-4 col-md-2 col-sm-2 text-center" style="max-width: 22.666667%">
                 <router-link :to="{
                     name: 'detail-request',
                     params: { request_id: request.id },

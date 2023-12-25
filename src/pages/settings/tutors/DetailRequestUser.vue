@@ -131,6 +131,7 @@ export default {
             type: "warning",
             timeout: 6000,
           });
+          return;
         }
       });
 

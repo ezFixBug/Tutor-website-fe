@@ -44,7 +44,7 @@
                         Dành cho gia sư <i class="fa-solid fa-chevron-down"></i>
                       </a>
                       <ul class="dropdown-menu-item">
-                        <li v-show="userStatusCd !== 2">
+                        <li v-show="user && user.role_cd === 1">
                           <router-link :to="{ name: 'becomeTutor' }"
                             >Trở thành gia sư</router-link
                           >
@@ -281,7 +281,7 @@
                                   >
                                 </li>
                                 <li><div class="section-block"></div></li>
-                                <li v-if="userStatusCd === 2">
+                                <li v-if="user && user.role_cd === 2 && user.status_cd === 1">
                                   <router-link :to="{ name: 'my-courses' }">
                                     <i
                                       class="fa-solid fa-file-circle-plus mr-1"
@@ -306,6 +306,14 @@
                                   <router-link :to="{ name: 'my-requests' }">
                                     <i class="fa-solid fa-user-plus mr-1"></i>
                                     Yêu cầu gia sư</router-link
+                                  >
+                                </li>
+                                <li v-if="user && user.role_cd === 2 && user.status_cd === 1">
+                                  <router-link :to="{ name: 'student-offers' }">
+                                    <i
+                                      class="fa-solid fa-clock-rotate-left mr-1"
+                                    ></i>
+                                    Lời mời dạy</router-link
                                   >
                                 </li>
                                 <li>
@@ -390,7 +398,7 @@
             </button>
           </a>
           <ul class="collapse" id="tutor">
-            <li v-show="userStatusCd !== 2">
+            <li v-if="user && user.role_cd === 1 && user.status_cd === 1">
               <router-link
                 @click="is_active = false"
                 :to="{ name: 'becomeTutor' }"
@@ -651,7 +659,12 @@ export default {
       set(ref(database, "notifications/" + noti.id), {
         ...notify,
       });
-
+      if (noti && noti.type_cd == 4) {
+        const user = this.user;
+        user.role_cd = 2;
+        user.status_cd = 1;
+        $auth.setUser(user);
+      }
       this.$router.push(notify.url);
     },
   },

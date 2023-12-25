@@ -60,7 +60,7 @@
               <i v-else class="fa-regular fa-heart text-color-1"></i>
               Thích
             </button>
-            <button v-if="hasLogin && hasLogin.id !== course.user_id && !course.is_register && !isRating"
+            <button v-if="hasLogin && hasLogin.id !== course.user_id && course.is_register && !isRating"
               class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
               @click="handleVoteCourse()" data-id="502">
               <i class="fa-regular fa-star"></i>
@@ -317,7 +317,7 @@ export default {
       user: {},
       list_tags: [],
       count_comment: 10,
-      count_student: 50,
+      count_student: 3,
       is_loading: false,
       course_id: this.$route.params.id,
       payment: null,

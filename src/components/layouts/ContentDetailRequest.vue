@@ -412,6 +412,15 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import { createToast } from "mosha-vue-toastify";
 import get from "lodash/get";
+import {
+  database,
+  ref,
+  push,
+  onValue,
+  child,
+  get as firebaseGet,
+  set,
+} from "@/services/firebaseService";
 export default {
   props: {
     request: {
@@ -471,6 +480,15 @@ export default {
                 type: "success",
                 timeout: 6000,
               });
+              push(ref(database, "notifications"), {
+                user_id: this.request.user_id,
+                object_id: null,
+                created_at: this.getDateTimeNow(),
+                type_cd: 1,
+                content: this.user.full_name + " đã đề nghị dạy yêu cầu tìm gia sư của bạn!",
+                url: { name: "detail-request-user", params: { request_id: this.request.id } },
+                is_read: false,
+              });
               this.$emit('getDataRequest');
             }
           }
@@ -503,6 +521,18 @@ export default {
         return type.label;
       }
       return null;
+    },
+    getDateTimeNow() {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
   },
 };

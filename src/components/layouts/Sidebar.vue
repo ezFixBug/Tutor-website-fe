@@ -18,12 +18,6 @@
       class="generic-list-item off-canvas-menu-list off--canvas-menu-list pt-35px"
     >
       <li>
-        <router-link :to="{ path: '/' }" class="logo">
-          <i class="fa-solid fa-sliders mr-2"></i>
-          Bảng điều khiển</router-link
-        >
-      </li>
-      <li>
         <router-link :to="{ name: 'setting-basic' }" class="logo">
           <i class="fa-solid fa-gears mr-2"></i>
           Thông tin người dùng</router-link

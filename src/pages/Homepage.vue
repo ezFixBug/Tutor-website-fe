@@ -100,10 +100,10 @@ export default {
   data() {
     return {
       is_loading: false,
-      quantityTutor: 215,
-      quantityCoure: 215,
-      quantityStudent: 215,
-      quantityRequest: 215,
+      quantityTutor: 5,
+      quantityCoure: 4,
+      quantityStudent: 10,
+      quantityRequest: 9,
       listReviews: [],
       subjects: [],
       listTutors: [],
@@ -127,7 +127,7 @@ export default {
 
     const res_tutors = await $http.get("/tutors");
     if (get(res_tutors, "data.result", false)) {
-      this.listTutors = res_tutors.data.tutors.slice(0, 8);
+      this.listTutors = res_tutors.data.tutors.slice(0, 4);
     }
     this.is_loading = false;
   },

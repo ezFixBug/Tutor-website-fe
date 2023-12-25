@@ -125,7 +125,7 @@
                 <div class="media-img mr-4 rounded-full">
                   <img
                     class="rounded-full lazy"
-                    :src="comment.user.avatar"
+                    :src="currentUser.avatar"
                     alt="User image"
                     style="
                       border-radius: 50% !important;
@@ -139,7 +139,7 @@
                     class="pb-2 fs-15 mr-2"
                     style="width: fit-content; float: left"
                   >
-                    {{ comment.user.full_name }}
+                    {{ currentUser.full_name }}
                   </h5>
                   <span class="d-block lh-18 pb-2 fs-12">{{
                     formatDate(comment.created_at)

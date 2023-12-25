@@ -49,7 +49,7 @@ const submitForm = async () => {
   const res = await $http.post(`/course/${props.courseId}/rating`, { ...ratingData })
 
   if (get(res, 'data.result', false)) {
-    createToast('Đánh giá khoá học thành công!', {
+    createToast('Đánh giá thành công!', {
       type: 'success',
       timeout: 3000
     })

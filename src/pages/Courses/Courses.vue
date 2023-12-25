@@ -73,7 +73,7 @@
                 </div>
               </div>
             </FormItem>
-            <FormItem class="input-box col-lg-3">
+            <!-- <FormItem class="input-box col-lg-3">
               <div class="form-group">
                 <div class="select-container w-auto">
                   <div
@@ -91,7 +91,7 @@
                   </div>
                 </div>
               </div>
-            </FormItem>
+            </FormItem> -->
             <FormItem class="input-box col-lg-3">
               <div class="form-group">
                 <div class="select-container w-auto">

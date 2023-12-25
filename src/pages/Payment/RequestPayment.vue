@@ -7,7 +7,7 @@
         <div class="col-lg-7">
           <div class="card card-item">
             <div class="card-body">
-              <h3 class="card-title fs-22 pb-3">Thông tin học viên</h3>
+              <h3 class="card-title fs-22 pb-3">Thông tin</h3>
               <div class="divider"><span></span></div>
               <div class="payment-option-wrap">
                 <div class="order-details-lists">
@@ -83,13 +83,9 @@
                   <span class="text-black">Ngày:</span>
                   <span>{{ (new Date()).toLocaleDateString('en-GB') }}</span>
                 </li>
-                <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                  <span class="text-black">Giá yêu cầu:</span>
-                  <span>{{ getPrice }}</span>
-                </li>
                 <li class="d-flex align-items-center justify-content-between font-weight-semi-bold"
                   v-if="data_payment.payment_type == 1">
-                  <span class="text-black">Giá nhận thông tin học viên:</span>
+                  <span class="text-black">Phí nhận học viên:</span>
                   <span>{{ getFortyPercentPrice }}</span>
                 </li>
                 <li v-if="data_payment.discount" class="d-flex align-items-center justify-content-between font-weight-semi-bold">
@@ -117,9 +113,7 @@
                   <i>
                     <span style="color: #ff5a00; font-weight: bold; text-decoration: underline;">Lưu ý:</span>
                     Đối với <span class="fs-15 text-color-3">yêu cầu tìm kiếm gia sư</span>, bạn
-                    phải thanh toán <span class="fs-15 text-color-3">10%/giá trị yêu cầu </span> để nhận được thông tin
-                    học
-                    viên.
+                    phải thanh toán <span class="fs-15 text-color-3">10%/giá trị yêu cầu </span> 
                   </i>
                 </p>
                 <button type="button" class="btn theme-btn w-100" @click="handlePayment">Thanh toán <i
@@ -169,7 +163,7 @@ export default {
     },
 
     getFortyPercentPrice() {
-      const amount = 0.4 * this.data_payment.price;
+      const amount = 0.1 * this.data_payment.price;
       return `${Number(amount).toLocaleString('vi-VN')} VND`;
     },
 
@@ -195,7 +189,7 @@ export default {
         this.data_payment.price = course.price,
           this.data_payment.image = course.image
       }
-      const amount = 0.4 * this.data_payment.price;
+      const amount = 0.1 * this.data_payment.price;
       this.data_payment.total_amount = Number(this.data_payment.price) + (this.data_payment.payment_type == 0 ? 0 : amount);
       this.is_loading = false;
     },
@@ -211,8 +205,8 @@ export default {
         this.data_payment.name = request.title
         this.data_payment.price = request.price
       }
-      const amount = 0.4 * this.data_payment.price;
-      this.data_payment.total_amount = Number(this.data_payment.price) + (this.data_payment.payment_type == 0 ? 0 : amount);
+      const amount = 0.1 * this.data_payment.price;
+      this.data_payment.total_amount = (this.data_payment.payment_type == 0 ? 0 : amount);
       this.is_loading = false;
     },
 

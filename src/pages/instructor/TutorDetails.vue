@@ -26,8 +26,11 @@
           </div>
         </div>
         <div class="nav-right-button d-flex align-items-center">
-          <button class="btn btn-danger invite-teacher" @click="handleRequestTeach" type="button">
+          <button class="btn btn-danger invite-teacher" @click="handleRequestTeach" type="button" v-if="!tutor.is_register">
             Mời dạy<i class="la la-arrow-right icon ml-1"></i>
+          </button>
+          <button class="btn btn-danger invite-teacher" type="button" v-else>
+            Đã mời dạy<i class="la la-arrow-right icon ml-1"></i>
           </button>
           <button v-if="tutor.is_register && !isRating" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 invite-teacher ml-2"
             @click="handleRating()" type="button">
@@ -64,6 +67,8 @@
 
             <p class="label-text font-weight-bold text-color-3">Học vấn:</p>
             <span class="fs-15" type="text">{{ tutor.education }}</span>
+            <p class="label-text font-weight-bold text-color-3">Số điện thoại:</p>
+            <span class="fs-15" type="text">{{ tutor.phone_number }}</span>
           </div>
           <div class="col-lg-3 col-md-3">
             <p class="label-text font-weight-bold text-color-3">
@@ -76,8 +81,12 @@
             }}</span>
 
             <p class="label-text font-weight-bold text-color-3">Địa chỉ:</p>
-            <span class="fs-15" type="text">{{ tutor.province ? tutor.province.name : null }} -
-              {{ tutor.district ? tutor.district.name : null }}</span>
+            <span class="fs-15" type="text"
+              >{{ tutor.province ? tutor.province.name : null }} -
+              {{ tutor.district ? tutor.district.name : null }}</span
+            >
+            <p class="label-text font-weight-bold text-color-3">Email:</p>
+            <span class="fs-15" type="text">{{ tutor.email }}</span>
           </div>
           <div class="col-lg-12 col-md-12">
             <span class="label-text font-weight-bold text-color-3">Môn dạy:

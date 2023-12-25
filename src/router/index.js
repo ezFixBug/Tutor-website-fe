@@ -30,6 +30,7 @@ import DetailRequest from '../pages/requests/DetailRequest.vue'
 import CourseRegisted from '../pages/settings/CourseRegisted.vue'
 import RequestPayment from '../pages/Payment/RequestPayment.vue'
 import PaymentList from '../pages/settings/PaymentHistories/PaymentList.vue'
+import ListStudent from '../pages/settings/student/ListStudent.vue'
 
 import { authGuard, authTutorGuard } from '@/services/authGuard';
 
@@ -244,10 +245,18 @@ const routes = [
                     {
                         path: '/lich-su-giao-dich',
                         beforeEnter: (to, from, next) => {
-                            authTutorGuard(to, from, next);
+                            authGuard(to, from, next);
                         },
                         name: 'payment-histories',
                         component: PaymentList
+                    },
+                    {
+                        path: '/student/offers',
+                        beforeEnter: (to, from, next) => {
+                            authGuard(to, from, next);
+                        },
+                        name: 'student-offers',
+                        component: ListStudent
                     },
                 ]
             },
