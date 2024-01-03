@@ -17,9 +17,9 @@
             >
           </h5>
           <h6 class="card-title text-color-5 fs-14">
-            {{ item.price }} vnđ/giờ
+            {{ Number(item.price).toLocaleString('vi-VN') }} VND/giờ
           </h6>
-          <p class="card-text">
+          <p class="card-text" v-if="teach_subjects">
             {{
               item.teach_subjects[0]
                 ? item.teach_subjects[0].subject.name

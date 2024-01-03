@@ -128,7 +128,7 @@
                         <Select
                           show-search
                           :options="price_order"
-                          v-model:value="params.price_ỏder_type"
+                          v-model:value="params.price_order_type"
                           size="large"
                           placeholder="--Chọn theo giá--"
                           class="w-85 mr-4"
