@@ -2,7 +2,8 @@ import router from "./router/index";
 import { createApp, h } from 'vue'
 import App from './App.vue'
 import BreadCrumb from "@/components/layouts/BreadCrum.vue";
-import { Select, FormItem, Form, Button, Card, Row, Modal } from "ant-design-vue";
+import { message, Select, FormItem, Form, Button, Card, Row, Modal } from "ant-design-vue";
+import Antd from 'ant-design-vue';
 import Cloudinary from 'cloudinary-vue';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import Spinner from '@/components/Spinner/Spinner.vue';
@@ -13,6 +14,7 @@ import DataTablesCore from 'datatables.net';
 import 'datatables.net-responsive';
 import 'datatables.net-select';
 import StarRating from 'vue-star-rating'
+import 'ant-design-vue/dist/reset.css';
 
 const app = createApp({
     render: () => h(App)
@@ -26,6 +28,7 @@ app.use(Cloudinary, {
     },
 })
 app.use(CKEditor);
+app.use(Antd);
 app.component('App', App);
 app.component('BreadCrumb', BreadCrumb);
 app.component('Select', Select);
@@ -45,3 +48,5 @@ DataTable.use(DataTablesCore);
 
 app.config.productionTip = false
 app.mount('#app');
+
+app.config.globalProperties.$message = message;
