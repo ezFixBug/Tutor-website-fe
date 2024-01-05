@@ -116,6 +116,30 @@
               <h3 class="fs-22 font-weight-semi-bold">Bình luận</h3>
               <span class="ribbon ribbon-lg">{{ comments.total_count }}</span>
             </div>
+            <div v-if="currentUser" class="add-comment-wrap pb-2">
+              <div class="row">
+                <div class="input-box col-lg-12">
+                  <div class="form-group">
+                    <textarea
+                      class="form-control"
+                      placeholder="Viết bình luận của bạn"
+                      data-val="true"
+                      v-model="comment_content"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="btn-box col-lg-12 d-flex justify-content-end">
+                  <button
+                    class="btn theme-btn"
+                    @click="handleAddComment"
+                    type="button"
+                    data-val="true"
+                  >
+                    Gửi bình luận
+                  </button>
+                </div>
+              </div>
+            </div>
             <div class="comment-list">
               <div
                 class="media media-card border-bottom border-bottom-gray pb-4 mb-4"
@@ -125,7 +149,7 @@
                 <div class="media-img mr-4 rounded-full">
                   <img
                     class="rounded-full lazy"
-                    :src="currentUser.avatar"
+                    :src="comment.user.avatar"
                     alt="User image"
                     style="
                       border-radius: 50% !important;
@@ -139,13 +163,14 @@
                     class="pb-2 fs-15 mr-2"
                     style="width: fit-content; float: left"
                   >
-                    {{ currentUser.full_name }}
+                    {{ comment.user.full_name }}
                   </h5>
                   <span class="d-block lh-18 pb-2 fs-12">{{
                     formatDate(comment.created_at)
                   }}</span>
                   <p class="pb-3">{{ comment.content }}</p>
                   <div
+                    v-if="currentUser"
                     class="helpful-action d-flex align-items-center justify-content-between"
                   >
                     <a
@@ -223,36 +248,6 @@
             </div>
           </div>
           <div class="section-block"></div>
-          <div class="add-comment-wrap pt-5">
-            <form action="" class="row">
-              <div class="input-box col-lg-12">
-                <label class="label-text">Nội dung</label>
-                <div class="form-group">
-                  <!-- <input type="number" data-val="true" data-val-required="The Id field is required."> -->
-                  <textarea
-                    class="form-control form--control pl-3"
-                    rows="4"
-                    placeholder="Write your response..."
-                    data-val="true"
-                    data-val-required="The Cmt field is required."
-                    style="height: 109px"
-                    required
-                    v-model="comment_content"
-                  ></textarea>
-                </div>
-              </div>
-              <div class="btn-box col-lg-12">
-                <button
-                  class="btn theme-btn"
-                  @click="handleAddComment"
-                  type="button"
-                  data-val="true"
-                >
-                  Gửi bình luận
-                </button>
-              </div>
-            </form>
-          </div>
         </div>
         <div class="col-lg-4">
           <div class="sidebar">
@@ -392,6 +387,7 @@ import $http from "@/services/httpService";
 import $auth from "@/services/authService";
 import get from "lodash/get";
 import CONSTS from "@/Constants";
+import dayjs from "dayjs";
 
 import {
   database,
@@ -552,28 +548,24 @@ export default {
         this.getComments(this.post.id);
         this.comment_replay_content = "";
 
-        push(ref(database, "notifications"), {
-          user_id: this.post.user_id,
-          object_id: this.post.id,
-          created_at: this.getDateTimeNow(),
-          type_cd: 2,
-          content:
-            this.currentUser.full_name + " đã bình luận về bài viết của bạn",
-          url: { name: "detail-post", params: { id: this.post.id } },
-          is_read: false,
-        });
+        if(this.post.user_id !== this.currentUser.id){
+          push(ref(database, "notifications"), {
+            user_id: this.post.user_id,
+            object_id: this.post.id,
+            created_at: this.getDateTimeNow(),
+            type_cd: 2,
+            content:
+              this.currentUser.full_name + " đã bình luận về bài viết của bạn",
+            url: { name: "detail-post", params: { id: this.post.id } },
+            is_read: false,
+          });
+        }
       }
       this.is_loading = false;
     },
 
     formatDate(inputDate) {
-      const date = new Date(inputDate);
-
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-
-      return `${year}-${month}-${day}`;
+      return dayjs(inputDate).format("DD/MM/YYYY HH:mm:ss");
     },
 
     getDateTimeNow() {
