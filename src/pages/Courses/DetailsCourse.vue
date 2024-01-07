@@ -105,8 +105,7 @@
             <button
               v-if="
                 hasLogin &&
-                hasLogin.id !== course.user_id &&
-                !isRating
+                hasLogin.id !== course.user_id
               "
               class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
               @click="handleReportCourse"
