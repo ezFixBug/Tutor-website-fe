@@ -143,6 +143,7 @@ export default {
         total_amount: 0,
         payment_type: this.$route.query.payment_type,
         discount: 0,
+        quantity: 1,
       },
       course_id: this.$route.query.course_id || null,
       offer_id: this.$route.query.offer_id || null,
@@ -203,7 +204,7 @@ export default {
         this.request_id = request.id
         this.data_payment.id = request.id
         this.data_payment.name = request.title
-        this.data_payment.price = request.price
+        this.data_payment.price = request.price * request.num_student
       }
       const amount = 0.1 * this.data_payment.price;
       this.data_payment.total_amount = (this.data_payment.payment_type == 0 ? 0 : amount);

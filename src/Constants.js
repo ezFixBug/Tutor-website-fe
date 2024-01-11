@@ -12,7 +12,7 @@ export default Object.freeze({
     "my-likes": "Danh sách yêu thích",
     feedback: "Liên hệ",
     requests: "Yêu cầu gia sư",
-    requestPayment: "Thanh Toán",
+    "request-payment": "Thanh Toán",
   },
 
   CD_TAGS: [
