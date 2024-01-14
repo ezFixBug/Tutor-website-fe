@@ -21,7 +21,7 @@
     <!-- end media -->
   </div>
   <div class="section-block mb-5"></div>
-  <div class="dashboard-heading mb-5">
+  <div class="dashboard-heading">
     <div class="row">
       <div class="col-lg-4 card card-item dashboard-info-card mr-5">
         <div class="card-body d-flex align-items-center">
@@ -31,7 +31,11 @@
           <div class="pl-4">
             <p class="card-text fs-18">Tổng thu</p>
             <h5 class="card-title pt-2 fs-26">
-              {{ `${Number(this.statistic?.total_revenue ?? 0).toLocaleString("vi-VN")} VND` }}
+              {{
+                `${Number(this.statistic?.total_revenue ?? 0).toLocaleString(
+                  "vi-VN"
+                )} VND`
+              }}
             </h5>
           </div>
         </div>
@@ -44,14 +48,39 @@
           <div class="pl-4">
             <p class="card-text fs-18">Tổng chi</p>
             <h5 class="card-title pt-2 fs-26">
-              {{ `${Number(this.statistic?.amount_spent ?? 0).toLocaleString("vi-VN")} VND` }}
+              {{
+                `${Number(this.statistic?.amount_spent ?? 0).toLocaleString(
+                  "vi-VN"
+                )} VND`
+              }}
             </h5>
           </div>
         </div>
       </div>
     </div>
-
-    <h3 class="fs-22 font-weight-semi-bold">Lịch Sử Thanh Toán - Giao Dịch</h3>
+  </div>
+  <div class="row">
+    <h3 class="fs-22 font-weight-semi-bold col-10">
+      Lịch Sử Thanh Toán - Giao Dịch
+    </h3>
+    <div class="col-2 d-flex justify-content-around">
+      <div class="">
+        <label for="filter_year">Năm</label>
+        <select id="filter_year" v-model="filter.year" @change="handleFilter">
+          <option v-for="year in filterYear" :key="year" :value="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+      <div class="">
+        <label for="filter_month">Tháng</label>
+        <select id="filter_month" v-model="filter.month" @change="handleFilter">
+          <option v-for="month in filterMonth" :key="month" :value="month">
+            {{ month }}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
   <div class="nav generic-tab d-flex flex-column">
     <ul class="nav mb-30px">
@@ -208,75 +237,107 @@ export default {
       },
       total_amount: 0,
       statistic: null,
+      filter: {
+        year: 2024,
+        month: 1,
+      },
+      filterYear: [2024, 2023, 2022, 2021],
+      filterMonth: [null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     };
   },
   async created() {
     this.tab = 0;
+    this.filter.year = this.filterYear[0];
+    this.filter.month = this.filterMonth[0];
     this.statistics();
   },
   methods: {
     async statistics() {
       const response = await $http.get("/payment/statistics", {
-          user_id: this.user.id,
-        });
-        this.statistic = response.data.data;
-    }
+        user_id: this.user.id,
+        year: this.filter.year,
+        month: this.filter.month,
+      });
+      this.statistic = response.data.data;
+    },
+
+    async getPaymentHistories() {
+      const response = await $http.get("/payment/histories", {
+        user_id: this.user.id,
+        payment_type: this.tab,
+        year: this.filter.year,
+        month: this.filter.month,
+      });
+      const payments = response.data.data.payment;
+
+      this.total_amount = response.data.data.total_amount;
+
+      if (this.total_amount == 0) {
+        this.table_request_tutor_payments.dataTable = [];
+        this.table_course_payments.dataTable = [];
+        return;
+      }
+      payments.forEach((payment, index) => {
+        const course = payment?.register_course?.course ?? null;
+        const offer_request_tutor = payment?.register_offer ?? null;
+
+        const payment_course = 0;
+        const payment_request_tutor = 1;
+
+        switch (payment.payment_type) {
+          case payment_course:
+            this.table_course_payments.dataTable[index] = {
+              course_title: course?.title ?? null,
+              tutor_name: course.user.full_name,
+              course_price: `${Number(course.price).toLocaleString(
+                "vi-VN"
+              )} VND`,
+              amount: `${Number(payment.amount).toLocaleString("vi-VN")} VND`,
+              status: payment.status == 1 ? "Đã Thanh Toán" : "Chưa Thanh Toán",
+              created_at: dayjs(payment.created_at).format(
+                "DD/MM/YYYY HH:mm:ss"
+              ),
+            };
+            break;
+          case payment_request_tutor: {
+            const request = offer_request_tutor.request;
+
+            this.table_request_tutor_payments.dataTable[index] = {
+              request_tutor_title: request.title,
+              request_price: `${Number(
+                request.price * request.num_student
+              ).toLocaleString("vi-VN")} VND`,
+              amount: `${Number(payment.amount).toLocaleString("vi-VN")} VND`,
+              status: payment.status == 1 ? "Đã Thanh Toán" : "Chưa Thanh Toán",
+              created_at: dayjs(payment.created_at).format(
+                "DD/MM/YYYY HH:mm:ss"
+              ),
+            };
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+      });
+    },
   },
   watch: {
     tab: {
-      async handler(val) {
-        const response = await $http.get("/payment/histories", {
-          user_id: this.user.id,
-          payment_type: val,
-        });
-        const payments = response.data.data.payment;
-
-        this.total_amount = response.data.data.total_amount;
-
-        payments.forEach((payment, index) => {
-          const course = payment?.register_course?.course ?? null;
-          const offer_request_tutor = payment?.register_offer ?? null;
-
-          const payment_course = 0;
-          const payment_request_tutor = 1;
-
-          switch (payment.payment_type) {
-            case payment_course:
-              this.table_course_payments.dataTable[index] = {
-                course_title: course?.title ?? null,
-                tutor_name: course.user.full_name,
-                course_price: `${Number(course.price).toLocaleString(
-                  "vi-VN"
-                )} VND`,
-                amount: `${Number(payment.amount).toLocaleString("vi-VN")} VND`,
-                status:
-                  payment.status == 1 ? "Đã Thanh Toán" : "Chưa Thanh Toán",
-                created_at: dayjs(payment.created_at).format(
-                  "DD/MM/YYYY HH:mm:ss"
-                ),
-              };
-              break;
-            case payment_request_tutor: {
-              const request = offer_request_tutor.request;
-
-              this.table_request_tutor_payments.dataTable[index] = {
-                request_tutor_title: request.title,
-                request_price: `${Number(
-                  request.price * request.num_student
-                ).toLocaleString("vi-VN")} VND`,
-                amount: `${Number(payment.amount).toLocaleString("vi-VN")} VND`,
-                status:
-                  payment.status == 1 ? "Đã Thanh Toán" : "Chưa Thanh Toán",
-                created_at: dayjs(payment.created_at).format(
-                  "DD/MM/YYYY HH:mm:ss"
-                ),
-              };
-              break;
-            }
-            default:
-              break;
-          }
-        });
+      async handler() {
+        this.getPaymentHistories();
+      },
+    },
+    "filter.year": {
+      async handler() {
+        this.statistics();
+        this.getPaymentHistories();
+      },
+    },
+    "filter.month": {
+      async handler() {
+        this.statistics();
+        this.getPaymentHistories();
       },
     },
   },
