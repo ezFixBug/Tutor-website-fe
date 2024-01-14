@@ -417,7 +417,7 @@
           >
             <div class="form-group">
               <label class="label-text"
-                >Link học online<span class="text-color fs-14">*</span></label
+                >Link giới thiệu khoá học<span class="text-color fs-14">*</span></label
               >
               <div
                 v-for="(error, index) in errors.link"
@@ -430,7 +430,7 @@
                 class="form-control form--control pl-3"
                 required=""
                 type="text"
-                placeholder="Nhập link học online"
+                placeholder="Nhập link giới thiệu khoá học"
                 v-model="course.link"
               />
             </div>
@@ -907,12 +907,20 @@
       :to="{ name: 'my-courses' }"
       >Trở về</router-link
     >
-    <button class="btn theme-btn" type="button" @click="handleCreateCourse">
+    <button v-if="course.type_cd === 2" class="btn theme-btn" type="button" @click="handleCreateLessonCourse">
+      Thêm bài học
+    </button>
+    <button v-else class="btn theme-btn" type="button" @click="handleCreateCourse">
       Tạo khóa học
     </button>
 
     <!-- end row -->
   </div>
+  <LessonCourseModal
+    :isOpen="isOpenLessonCourseModal"
+    @update:isOpen="updateIsOpenLessonCourseForm"
+    @createSuccess="()=>{}"
+  />
 </template>
 <script>
 import $auth from "@/services/authService";
@@ -922,8 +930,13 @@ import cloneDeep from "lodash/cloneDeep";
 import get from "lodash/get";
 import { createToast } from "mosha-vue-toastify";
 import CONSTS from "@/Constants";
+import LessonCourseModal from '@/components/Modal/LessonCourseModal.vue'
 
 export default {
+  components: {
+    LessonCourseModal
+  },
+
   async created() {
     this.is_loading = true;
     this.listOptionProvinces = await $http.getProvinces();
@@ -949,7 +962,7 @@ export default {
       },
       course: {
         image: null,
-        type_cd: 1,
+        type_cd: 2,
         title: null,
         province_id: null,
         subjects: [],
@@ -968,6 +981,7 @@ export default {
       },
       listType: CONSTS.CD_TYPE_CD_OF_COURSE,
       errors: {},
+      isOpenLessonCourseModal: true,
     };
   },
 
@@ -1032,6 +1046,15 @@ export default {
 
     filterOption(input, option) {
       return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    },
+
+    async handleCreateLessonCourse() {
+      this.updateIsOpenLessonCourseForm(true)
+    },
+
+    async updateIsOpenLessonCourseForm(value) {
+      this.isOpenLessonCourseModal = value;
+      console.log(this.isOpenLessonCourseModal);
     },
   },
 };
