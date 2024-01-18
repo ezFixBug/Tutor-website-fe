@@ -57,18 +57,14 @@
             <i class="fa-regular fa-star"></i> Đánh giá
           </button>
           <button
-              v-if="
-                user &&
-                user.id !== tutor.id &&
-                tutor.is_register
-              "
+            v-if="user && user.id !== tutor.id && tutor.is_register"
             class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 invite-teacher ml-2"
-              @click="handleReportCourse"
-              data-id="502"
-            >
-              <i class="fa-solid fa-font-awesome"></i>
-              Báo cáo
-            </button>
+            @click="handleReportCourse"
+            data-id="502"
+          >
+            <i class="fa-solid fa-font-awesome"></i>
+            khiếu Nại
+          </button>
         </div>
       </div>
     </div>
@@ -418,11 +414,11 @@
       @createSuccess="handleRatingSuccessfully"
     />
     <ReportModal
-    :isOpen="isOpenReportForm"
-    :relationId="tutor_id"
-    @update:isOpen="updateIsOpenReportCourseForm"
-    @createSuccess="()=>{}"
-  />
+      :isOpen="isOpenReportForm"
+      :relationId="tutor_id"
+      @update:isOpen="updateIsOpenReportCourseForm"
+      @createSuccess="() => {}"
+    />
   </section>
 </template>
 
@@ -484,7 +480,7 @@ export default {
       if (get(res, "data.result", false)) {
         this.tutor = res.data.user;
       }
-      console.log( this.tutor );
+      console.log(this.tutor);
       this.is_loading = false;
     },
     formatDate(inputDate) {

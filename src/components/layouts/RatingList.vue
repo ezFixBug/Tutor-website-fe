@@ -14,7 +14,7 @@
           " />
 			</div>
 			<div class="media-body">
-				<h5 class="pb-2 fs-15 mr-2" style="width: fit-content; float: left">
+				<h5 class="	fs-15 mr-2" style="width: fit-content; float: left">
 					{{ rating.user.full_name }}
 				</h5>
 				<span class="d-block lh-18 pb-2 fs-12">{{

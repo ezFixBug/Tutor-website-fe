@@ -907,7 +907,7 @@
       :to="{ name: 'my-courses' }"
       >Trở về</router-link
     >
-    <button v-if="course.type_cd === 2" class="btn theme-btn" type="button" @click="handleCreateLessonCourse">
+    <button v-if="course.type_cd === 2" class="btn theme-btn" type="button" @click="handleOpenModalLessonCourse">
       Thêm bài học
     </button>
     <button v-else class="btn theme-btn" type="button" @click="handleCreateCourse">
@@ -919,7 +919,7 @@
   <LessonCourseModal
     :isOpen="isOpenLessonCourseModal"
     @update:isOpen="updateIsOpenLessonCourseForm"
-    @createSuccess="()=>{}"
+    @create-lesson-course="handleCreateLessonCourse"
   />
 </template>
 <script>
@@ -978,10 +978,11 @@ export default {
         },
         content: "",
         tags: [],
+        lesson: []
       },
       listType: CONSTS.CD_TYPE_CD_OF_COURSE,
       errors: {},
-      isOpenLessonCourseModal: true,
+      isOpenLessonCourseModal: false,
     };
   },
 
@@ -1048,14 +1049,19 @@ export default {
       return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     },
 
-    async handleCreateLessonCourse() {
+    async handleOpenModalLessonCourse() {
       this.updateIsOpenLessonCourseForm(true)
     },
 
     async updateIsOpenLessonCourseForm(value) {
       this.isOpenLessonCourseModal = value;
-      console.log(this.isOpenLessonCourseModal);
     },
+
+    async handleCreateLessonCourse(data) {
+      this.updateIsOpenLessonCourseForm(false);
+      this.course.lesson = data
+      this.handleCreateCourse()
+    }
   },
 };
 </script>
