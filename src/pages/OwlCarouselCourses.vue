@@ -1,5 +1,5 @@
 <template>
-  <section class="course-area section--padding position-relative overflow-hidden">
+  <section class="course-area section--padding position-relative overflow-hidden pt-0">
     <div class="course-wrapper">
       <div class="container">
         <div class="section-heading text-center">

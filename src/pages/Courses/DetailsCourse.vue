@@ -21,7 +21,6 @@
             <h2 class="section__title">
               {{ course.title }}
             </h2>
-            <p class="section__desc pt-2 lh-30"></p>
           </div>
           <div class="d-flex flex-wrap align-items-center pt-3">
             <div class="rating-wrap d-flex flex-wrap align-items-center">
@@ -104,15 +103,14 @@
             </button>
             <button
               v-if="
-                hasLogin &&
-                hasLogin.id !== course.user_id
+                hasLogin && hasLogin.id !== course.user_id && course.is_register
               "
               class="btn theme-btn theme-btn-sm theme-btn-transparent lh-28 mr-2 mb-2 btn-add-wish"
               @click="handleReportCourse"
               data-id="502"
             >
               <i class="fa-solid fa-font-awesome"></i>
-              Báo cáo
+              Khiếu nại
             </button>
           </div>
         </div>
@@ -161,6 +159,28 @@
                 <h3 class="fs-24 font-weight-semi-bold pb-3">
                   Nội dung khóa học
                 </h3>
+              </div>
+              <div
+                class="mb-3"
+                v-if="
+                  hasLogin &&
+                  hasLogin.id !== course.user_id &&
+                  course.is_register
+                "
+              >
+                <a-collapse v-model:activeKey="activeKey">
+                  <template #expandIcon="{ isActive }">
+                    <caret-right-outlined :rotate="isActive ? 90 : 0" />
+                  </template>
+                  <a-collapse-panel
+                    v-for="(lesson, index) in course.lessons"
+                    :key="index"
+                    :header="lesson.title"
+                    :show-arrow="true"
+                  >
+                    <a :href="lesson.url" target="_blank">{{ lesson.url }}</a>
+                  </a-collapse-panel>
+                </a-collapse>
               </div>
               <div v-html="course.content"></div>
             </div>
@@ -362,7 +382,7 @@
                               </div>
                               <div class="media-body">
                                 <h5
-                                  class="pb-2 fs-15 mr-2"
+                                  class="pb-2 mb-0 mr-2"
                                   style="width: fit-content; float: left"
                                 >
                                   {{ comment.user.full_name }}
@@ -370,7 +390,7 @@
                                 <span class="d-block lh-18 pb-2 fs-12">{{
                                   formatDate(comment.created_at)
                                 }}</span>
-                                <p class="pb-3">{{ comment.content }}</p>
+                                <p>{{ comment.content }}</p>
                                 <div
                                   v-if="hasLogin"
                                   class="helpful-action d-flex align-items-center justify-content-between"
@@ -601,7 +621,7 @@
     :isOpen="isOpenReportForm"
     :relationId="course_id"
     @update:isOpen="updateIsOpenReportCourseForm"
-    @createSuccess="()=>{}"
+    @createSuccess="() => {}"
   />
   <div
     class="modal fade modal-container"
@@ -682,6 +702,7 @@ import get from "lodash/get";
 import CONSTS from "@/Constants";
 import RatingModal from "@/components/Modal/RatingModal.vue";
 import ReportModal from "@/components/Modal/ReportModal.vue";
+import { StarOutlined, StarFilled, StarTwoTone } from "@ant-design/icons-vue";
 
 import {
   database,
@@ -700,6 +721,7 @@ export default {
     RatingModal,
     RatingList,
     ReportModal,
+    StarOutlined,
   },
   data() {
     return {
@@ -724,6 +746,7 @@ export default {
       quantity_comment: 3,
       comment_replay_id: null,
       comment_replay_content: null,
+      activeKey: 0,
     };
   },
 
@@ -817,6 +840,7 @@ export default {
       let params = {
         user_id: this.hasLogin.id,
         course_id: this.$route.params.id,
+        
       };
       const res = await $http.post("/register/course", params);
       if (get(res, "data.result", false)) {

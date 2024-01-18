@@ -30,7 +30,7 @@
       <template #footer>
         <div>
           <Button @click="handleClose">Hủy</Button>
-          <Button type="primary" @click="submitForm"> Báo cáo </Button>
+          <Button type="primary" @click="submitForm"> Khiếu Nại </Button>
         </div>
       </template>
     </Modal>
