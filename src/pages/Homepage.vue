@@ -34,7 +34,7 @@
       </div>
     </div>
   </section>
-  <Reviews :listReviews="listReviews" />
+  <!-- <Reviews :listReviews="listReviews" /> -->
 </template>
 <script>
 import Hero from "../components/layouts/Hero.vue";

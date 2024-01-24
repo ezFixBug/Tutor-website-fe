@@ -52,8 +52,8 @@
 .card-image {
   position: relative;
   .card-img-top {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    height: 100%;
+    width: 100%;
   }
   .course-badge-labels {
     position: absolute;

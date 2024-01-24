@@ -402,8 +402,13 @@
         </div>
       </div>
       <div class="row mt-50px">
-        <div class="col-lg-8 mb-5">
+        <div class="col-lg-12 mb-5">
           <RatingList :reviewList="tutor.rating" />
+        </div>
+      </div>
+      <div class="row mt-50px">
+        <div class="col-lg-12 mb-5">
+          <OwlCarouselCourses :courses="courses" />
         </div>
       </div>
     </div>
@@ -430,6 +435,7 @@ import get from "lodash/get";
 import RatingTutorModal from "@/components/Modal/RatingTutorModal.vue";
 import RatingList from "@/components/layouts/RatingList.vue";
 import ReportModal from "@/components/Modal/ReportModal.vue";
+import OwlCarouselCourses from "@/pages/OwlCarouselCourses.vue";
 
 export default {
   components: {
@@ -437,6 +443,7 @@ export default {
     RatingTutorModal,
     RatingList,
     ReportModal,
+    OwlCarouselCourses,
   },
   data() {
     return {
@@ -446,11 +453,13 @@ export default {
       isOpenRatingForm: false,
       isOpenReportForm: false,
       ratingOfUser: 0,
+      courses: [],
     };
   },
 
   async created() {
     this.getTutorDetail();
+    this.getCoursesByUser();
   },
 
   computed: {
@@ -546,6 +555,15 @@ export default {
 
     async updateIsOpenReportCourseForm(value) {
       this.isOpenReportForm = value;
+    },
+    async getCoursesByUser() {
+      this.is_loading = true;
+      const res = await $http.get("/courses/" + this.$route.params.id);
+      this.is_loading = false;
+      if (get(res, "data.result", false)) {
+        this.courses = res.data.courses;
+      }
+      this.is_loading = false;
     },
   },
 };

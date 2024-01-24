@@ -31,7 +31,7 @@
                 >
               </h5>
               <ul
-                class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center flex-wrap fs-14 pt-2"
+                class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center flex-wrap pt-2 mb-0"
               >
                 <li class="d-flex align-items-center">
                   Tác giả:
@@ -44,7 +44,7 @@
                 </li>
               </ul>
               <ul
-                class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center flex-wrap fs-14 pt-2"
+                class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center flex-wrap pt-2 mb-0"
               >
                 <li class="d-flex align-items-center">
                   <a href="#"> {{ post.view }} Views</a>

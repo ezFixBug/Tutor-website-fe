@@ -42,11 +42,11 @@
       <div class="row">
         <div class="col-lg-8 mb-5">
           <div class="card card-item" style="max-height: none">
-            <div class="card-body">
+            <div class="card-body" style="overflow: hidden;">
               <div class="row pb-3">
                 <div class="col-lg-12">
                   <div class="card-text pb-3">
-                    <div v-html="post.content"></div>
+                    <div v-html="post.content" class="post_content"></div>
                   </div>
                 </div>
               </div>
@@ -160,7 +160,7 @@
                 </div>
                 <div class="media-body">
                   <h5
-                    class="pb-2 fs-15 mr-2"
+                    class="fs-15 mr-2"
                     style="width: fit-content; float: left"
                   >
                     {{ comment.user.full_name }}
@@ -212,7 +212,7 @@
                     </div>
                     <div class="media-body">
                       <h5
-                        class="pb-2 fs-15 mr-2"
+                        class="fs-15 mr-2"
                         style="width: fit-content; float: left"
                       >
                         {{ children_comment.user.full_name }}
@@ -510,7 +510,7 @@ export default {
     async handleAddComment() {
       this.is_loading = true;
       let params = {
-        user_id: this.user.id,
+        user_id: this.currentUser.id,
         relation_id: this.post.id,
         content: this.comment_content,
       };
@@ -537,7 +537,7 @@ export default {
     async handelReplayComment() {
       this.is_loading = true;
       let params = {
-        user_id: this.user.id,
+        user_id: this.currentUser.id,
         relation_id: this.post.id,
         content: this.comment_replay_content,
         parent_id: this.comment_replay_id,
@@ -591,3 +591,8 @@ export default {
   },
 };
 </script>
+<style>
+.post_content img {
+  width: 100%;
+}
+</style>

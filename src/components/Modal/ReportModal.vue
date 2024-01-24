@@ -2,7 +2,7 @@
   <div>
     <Modal
       :open="props.isOpen"
-      title="Vui lòng chọn 1 lý do báo cáo?"
+      title="Vui lòng chọn 1 lý do khiếu nại?"
       @ok="submitForm"
       :maskClosable="false"
       :closable="false"

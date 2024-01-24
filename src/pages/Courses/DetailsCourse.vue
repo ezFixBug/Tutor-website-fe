@@ -434,7 +434,7 @@
                                   </div>
                                   <div class="media-body">
                                     <h5
-                                      class="pb-2 fs-15 mr-2"
+                                      class="fs-15 mr-2"
                                       style="width: fit-content; float: left"
                                     >
                                       {{ children_comment.user.full_name }}
